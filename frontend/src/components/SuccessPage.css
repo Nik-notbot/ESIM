@@ -1,0 +1,181 @@
+.success-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.success-card,
+.loading-card,
+.error-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+}
+
+.success-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+}
+
+.error-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+}
+
+.success-card h1 {
+  font-size: 2rem;
+  color: #2d3748;
+  margin-bottom: 10px;
+}
+
+.success-subtitle {
+  color: #718096;
+  margin-bottom: 30px;
+}
+
+.qr-code-section {
+  margin: 30px 0;
+}
+
+.qr-code-image {
+  max-width: 300px;
+  width: 100%;
+  height: auto;
+  border: 4px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  background: white;
+}
+
+.qr-instruction {
+  margin-top: 20px;
+  color: #4a5568;
+}
+
+.button-group {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin: 30px 0;
+}
+
+.action-button {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.action-button.primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.action-button.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.action-button.secondary {
+  background: #f7fafc;
+  color: #667eea;
+  border: 2px solid #667eea;
+}
+
+.action-button.secondary:hover {
+  background: #667eea;
+  color: white;
+}
+
+.activation-steps {
+  text-align: left;
+  background: #f7fafc;
+  padding: 30px;
+  border-radius: 12px;
+  margin: 30px 0;
+}
+
+.activation-steps h3 {
+  margin-bottom: 20px;
+  color: #2d3748;
+}
+
+.activation-steps ol {
+  padding-left: 20px;
+  color: #4a5568;
+  line-height: 1.8;
+}
+
+.activation-steps li {
+  margin-bottom: 15px;
+}
+
+.activation-steps strong {
+  color: #2d3748;
+}
+
+.email-notice {
+  background: #e6fffa;
+  color: #234e52;
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+/* Loading State */
+.spinner {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 20px;
+  border: 4px solid #f3f4f6;
+  border-top: 4px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-card h2,
+.error-card h2 {
+  color: #2d3748;
+  margin-bottom: 10px;
+}
+
+.loading-card p,
+.error-card p {
+  color: #718096;
+}
+
+@media (max-width: 640px) {
+  .button-group {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .action-button {
+    width: 100%;
+  }
+  
+  .success-card,
+  .loading-card,
+  .error-card {
+    padding: 30px 20px;
+  }
+  
+  .qr-code-image {
+    max-width: 250px;
+  }
+}
