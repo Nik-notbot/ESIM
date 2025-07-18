@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEY, ESIM! - Быстрый интернет по всему миру</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">HEY, ESIM!</div>
+                <div class="nav-links">
+                    <a href="#plans">Тарифы</a>
+                    <a href="#how-it-works">Как это работает</a>
+                    <a href="#contact">Контакты</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <h1 class="hero-title">Путешествуйте без границ с <span class="gradient-text">HEY, ESIM!</span></h1>
+            <p class="hero-subtitle">Мгновенное подключение к интернету в любой точке мира. Без роуминга, без переплат.</p>
+            <a href="#plans" class="cta-button">Выбрать тариф</a>
+            <div class="hero-features">
+                <div class="feature">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+                    </svg>
+                    <span>Безопасное подключение</span>
+                </div>
+                <div class="feature">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                    </svg>
+                    <span>Мгновенная активация</span>
+                </div>
+                <div class="feature">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                    </svg>
+                    <span>Работает по всему миру</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="plans" class="plans">
+        <div class="container">
+            <h2 class="section-title">Выберите ваш тариф</h2>
+            <p class="section-subtitle">Простые и прозрачные цены без скрытых платежей</p>
+            
+            <div class="plans-grid">
+                <div class="plan-card">
+                    <div class="plan-header">
+                        <h3 class="plan-name">Старт</h3>
+                        <div class="plan-price">
+                            <span class="price-amount">₽599</span>
+                            <span class="price-period">/ 30 дней</span>
+                        </div>
+                    </div>
+                    <div class="plan-features">
+                        <div class="plan-feature">
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <span><strong>8 ГБ</strong> высокоскоростного интернета</span>
+                        </div>
+                        <div class="plan-feature">
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <span>Доступ в 150+ странах</span>
+                        </div>
+                        <div class="plan-feature">
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <span>4G/LTE скорость</span>
+                        </div>
+                        <div class="plan-feature">
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <span>Мгновенная активация</span>
+                        </div>
+                    </div>
+                    <button class="plan-button" onclick="selectPlan('start')">Выбрать тариф</button>
+                </div>
+
+                <div class="plan-card featured">
+                    <div class="plan-badge">Популярный выбор</div>
+                    <div class="plan-header">
+                        <h3 class="plan-name">Премиум</h3>
+                        <div class="plan-price">
+                            <span class="price-amount">₽1299</span>
+                            <span class="price-period">/ 30 дней</span>
+                        </div>
+                    </div>
+                    <div class="plan-features">
+                        <div class="plan-feature">
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <span><strong>25 ГБ</strong> высокоскоростного интернета</span>
+                        </div>
+                        <div class="plan-feature">
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <span>Доступ в 150+ странах</span>
+                        </div>
+                        <div class="plan-feature">
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <span>5G скорость (где доступно)</span>
+                        </div>
+                        <div class="plan-feature">
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <span>Приоритетная поддержка</span>
+                        </div>
+                    </div>
+                    <button class="plan-button featured-button" onclick="selectPlan('premium')">Выбрать тариф</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">Как это работает?</h2>
+            <p class="section-subtitle">Три простых шага к безграничному интернету</p>
+            
+            <div class="steps-grid">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Выберите тариф</h3>
+                    <p class="step-description">Определитесь с объемом трафика и оформите заказ</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">Получите QR-код</h3>
+                    <p class="step-description">После оплаты вы мгновенно получите QR-код для активации eSIM</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Активируйте eSIM</h3>
+                    <p class="step-description">Отсканируйте QR-код на вашем устройстве и наслаждайтесь интернетом</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="cta-title">Готовы к путешествию?</h2>
+            <p class="cta-subtitle">Подключайтесь к интернету в любой точке мира за считанные минуты</p>
+            <a href="#plans" class="cta-button">Начать сейчас</a>
+        </div>
+    </section>
+
+    <footer id="contact" class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">HEY, ESIM!</div>
+                    <p class="footer-tagline">Ваш надежный спутник в путешествиях</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Информация</h4>
+                    <a href="#plans">Тарифы</a>
+                    <a href="#how-it-works">Как это работает</a>
+                    <a href="#">FAQ</a>
+                </div>
+                <div class="footer-contact">
+                    <h4>Контакты</h4>
+                    <p>Email: hello@heyesim.com</p>
+                    <p>Telegram: @heyesim</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 HEY, ESIM! Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal for checkout -->
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Оформление заказа</h2>
+            <div id="selectedPlanInfo"></div>
+            <form id="checkoutForm">
+                <div class="form-group">
+                    <label for="email">Email для получения eSIM:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Телефон:</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <button type="submit" class="submit-button">Перейти к оплате</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

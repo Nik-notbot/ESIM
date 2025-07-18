@@ -1,1 +1,14 @@
-/index.html
+# Временные файлы
+*.tmp
+*.log
+
+# Системные файлы
+.DS_Store
+Thumbs.db
+
+# Node modules (если будете использовать в будущем)
+node_modules/
+
+# Файлы IDE
+.vscode/
+.idea/
