@@ -2,6 +2,8 @@
 
 Полноценное приложение для продажи eSIM, оптимизированное для развертывания на Netlify с использованием Netlify Functions, React и Supabase.
 
+⚠️ **ВАЖНО**: Перед деплоем обязательно прочитайте файл `DEPLOY_INSTRUCTIONS.md` для пошаговой инструкции!
+
 ## 🚀 Технологии
 
 - **Frontend**: React, React Router, React Hook Form

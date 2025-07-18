@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import crypto from 'crypto';
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
@@ -6,26 +7,40 @@ const supabase = createClient(
 );
 
 export const handler = async (event, context) => {
+  // Enable CORS
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS'
+  };
+
+  // Handle preflight
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 200, headers };
+  }
+
   // Only allow POST
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
+      headers,
       body: JSON.stringify({ error: 'Method not allowed' }),
     };
   }
 
-  // Parse request body
-  const { email, phone, plan } = JSON.parse(event.body);
-
-  // Validate input
-  if (!email || !phone || !plan) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({ error: 'Email, phone and plan are required' }),
-    };
-  }
-
   try {
+    // Parse request body
+    const { email, phone, plan } = JSON.parse(event.body);
+
+    // Validate input
+    if (!email || !phone || !plan) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ error: 'Email, phone and plan are required' }),
+      };
+    }
+
     // Get available QR code from database
     const { data: availableQR, error: qrError } = await supabase
       .from('qr_codes')
@@ -38,6 +53,7 @@ export const handler = async (event, context) => {
       console.error('QR Error:', qrError);
       return {
         statusCode: 404,
+        headers,
         body: JSON.stringify({ error: 'No available eSIM codes at the moment' }),
       };
     }
@@ -52,49 +68,69 @@ export const handler = async (event, context) => {
     // Get site URL from Netlify context
     const siteUrl = process.env.URL || 'http://localhost:8888';
 
+    // Generate MD5 hash for Morune API
+    // According to docs: MD5(secret_key + amount + additional_key)
+    const md5Hash = crypto
+      .createHash('md5')
+      .update(process.env.MORUNE_API_KEY + amount + process.env.MORUNE_ADDITIONAL_KEY)
+      .digest('hex');
+
     // Create invoice with Morune API
     const morunePayload = {
       amount: amount,
-      currency: 'RUB',
       description: `eSIM ${plan === 'premium' ? 'Premium 25GB' : 'Start 8GB'}`,
-      customer_email: email,
-      customer_phone: phone,
-      metadata: {
+      callback_url: `${siteUrl}/.netlify/functions/morune-webhook`,
+      redirect_url: `${siteUrl}/success?email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}`,
+      extra_data: JSON.stringify({
         qr_code_id: availableQR.id,
-        plan: plan
-      },
-      success_url: `${siteUrl}/success?email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}`,
-      cancel_url: `${siteUrl}/`,
-      webhook_url: `${siteUrl}/.netlify/functions/morune-webhook`
+        plan: plan,
+        email: email,
+        phone: phone
+      }),
+      key: md5Hash
     };
 
+    console.log('Morune request payload:', { ...morunePayload, key: 'hidden' });
+
     const moruneResponse = await fetch(
-      `${process.env.MORUNE_API_URL}/create-invoice`,
+      `${process.env.MORUNE_API_URL}/create`,
       {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${process.env.MORUNE_API_KEY}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(morunePayload)
       }
     );
 
+    const responseText = await moruneResponse.text();
+    console.log('Morune response:', responseText);
+
     if (!moruneResponse.ok) {
-      const errorData = await moruneResponse.text();
-      console.error('Morune API error:', errorData);
+      console.error('Morune API error:', responseText);
       throw new Error(`Morune API error: ${moruneResponse.status}`);
     }
 
-    const invoiceData = await moruneResponse.json();
+    let invoiceData;
+    try {
+      invoiceData = JSON.parse(responseText);
+    } catch (e) {
+      console.error('Failed to parse Morune response:', e);
+      throw new Error('Invalid response from payment provider');
+    }
 
-    // Update QR code record with customer info (but not status yet)
+    // Check if invoice was created successfully
+    if (!invoiceData.status || !invoiceData.link) {
+      throw new Error('Failed to create invoice');
+    }
+
+    // Update QR code record with customer info and invoice ID
     const { error: updateError } = await supabase
       .from('qr_codes')
       .update({ 
         email: email, 
         phone: phone,
-        invoice_id: invoiceData.invoice_id 
+        invoice_id: invoiceData.uuid || invoiceData.id
       })
       .eq('id', availableQR.id);
 
@@ -105,13 +141,11 @@ export const handler = async (event, context) => {
     // Return invoice URL to frontend
     return {
       statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
       body: JSON.stringify({
         success: true,
-        invoice_url: invoiceData.invoice_url,
-        invoice_id: invoiceData.invoice_id
+        invoice_url: invoiceData.link,
+        invoice_id: invoiceData.uuid || invoiceData.id
       }),
     };
 
@@ -119,6 +153,7 @@ export const handler = async (event, context) => {
     console.error('Create invoice error:', error);
     return {
       statusCode: 500,
+      headers,
       body: JSON.stringify({ 
         error: 'Failed to create invoice',
         details: error.message
