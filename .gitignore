@@ -1,14 +1,31 @@
-# Временные файлы
-*.tmp
-*.log
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# Системные файлы
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
 .DS_Store
-Thumbs.db
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# Node modules (если будете использовать в будущем)
-node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# Файлы IDE
+# Netlify
+.netlify
+
+# IDE
 .vscode/
 .idea/
