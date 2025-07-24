@@ -88,6 +88,23 @@ body {
     color: var(--primary-color);
 }
 
+.tg-channel-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--gradient-1);
+    color: white !important;
+    padding: 8px 16px;
+    border-radius: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tg-channel-link:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    color: white !important;
+}
+
 /* Герой секция */
 .hero {
     margin-top: 80px;
@@ -171,6 +188,7 @@ body {
     display: flex;
     gap: 3px;
     margin-bottom: 20px;
+    align-items: flex-end;
 }
 
 .signal-bars span {
@@ -180,14 +198,24 @@ body {
     animation: pulse 1.5s ease-in-out infinite;
 }
 
-.signal-bars span:nth-child(1) { height: 10px; animation-delay: 0s; }
-.signal-bars span:nth-child(2) { height: 15px; animation-delay: 0.1s; }
-.signal-bars span:nth-child(3) { height: 20px; animation-delay: 0.2s; }
-.signal-bars span:nth-child(4) { height: 25px; animation-delay: 0.3s; }
+.signal-bars span:nth-child(1) { height: 25px; animation-delay: 0s; }
+.signal-bars span:nth-child(2) { height: 20px; animation-delay: 0.1s; }
+.signal-bars span:nth-child(3) { height: 15px; animation-delay: 0.2s; }
+.signal-bars span:nth-child(4) { height: 10px; animation-delay: 0.3s; }
 
 @keyframes pulse {
     0%, 100% { opacity: 0.3; }
     50% { opacity: 1; }
+}
+
+.phone-main-text {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 20px 0;
 }
 
 .connection-text {
@@ -453,6 +481,28 @@ body {
 
 .support-link:hover {
     color: #8b5cf6;
+}
+
+.social-links {
+    margin-top: 1.5rem;
+}
+
+.tg-channel-footer {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--gradient-1);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tg-channel-footer:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    color: white;
 }
 
 .footer-bottom {
