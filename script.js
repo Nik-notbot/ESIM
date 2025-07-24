@@ -75,16 +75,19 @@ window.addEventListener('scroll', () => {
     lastScroll = currentScroll;
 });
 
-// Эффект параллакса для hero секции
+// Эффект параллакса для hero секции (только для hero, не для features)
 window.addEventListener('scroll', () => {
     const scrolled = window.pageYOffset;
     const hero = document.querySelector('.hero');
     const heroContent = document.querySelector('.hero-content');
+    const heroRect = hero ? hero.getBoundingClientRect() : null;
     
-    if (hero && heroContent) {
-        hero.style.transform = `translateY(${scrolled * 0.5}px)`;
-        heroContent.style.transform = `translateY(${scrolled * 0.2}px)`;
-        heroContent.style.opacity = 1 - (scrolled * 0.001);
+    // Применяем параллакс только если hero секция видна
+    if (hero && heroContent && heroRect && heroRect.bottom > 0) {
+        const heroScrolled = Math.max(0, scrolled);
+        hero.style.transform = `translateY(${heroScrolled * 0.5}px)`;
+        heroContent.style.transform = `translateY(${heroScrolled * 0.2}px)`;
+        heroContent.style.opacity = Math.max(0.3, 1 - (heroScrolled * 0.001));
     }
 });
 
