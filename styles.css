@@ -49,18 +49,20 @@ body {
     backdrop-filter: blur(10px);
     box-shadow: var(--shadow-sm);
     z-index: 1000;
-    padding: 1rem 0;
+    padding: 0.75rem 0;
 }
 
 .nav-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 60px;
 }
 
 .logo {
     display: flex;
     align-items: center;
+    height: 100%;
 }
 
 .logo-text {
@@ -70,11 +72,16 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    height: 40px;
 }
 
 .nav-links {
     display: flex;
     gap: 2rem;
+    align-items: center;
 }
 
 .nav-links a {
@@ -82,10 +89,16 @@ body {
     color: var(--text-dark);
     font-weight: 500;
     transition: color 0.3s ease;
+    padding: 8px 16px;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    height: 40px;
 }
 
 .nav-links a:hover {
     color: var(--primary-color);
+    background: rgba(99, 102, 241, 0.1);
 }
 
 .tg-channel-link {
@@ -94,15 +107,17 @@ body {
     gap: 8px;
     background: var(--gradient-1);
     color: white !important;
-    padding: 8px 16px;
+    padding: 8px 16px !important;
     border-radius: 25px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 40px;
 }
 
 .tg-channel-link:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
     color: white !important;
+    background: var(--gradient-1) !important;
 }
 
 /* Герой секция */
@@ -516,6 +531,14 @@ body {
 @media (max-width: 768px) {
     .nav-links {
         display: none;
+    }
+    
+    .navbar {
+        padding: 1rem 0;
+    }
+    
+    .nav-content {
+        height: auto;
     }
     
     .hero .container {
