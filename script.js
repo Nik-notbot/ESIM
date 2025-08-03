@@ -55,6 +55,15 @@ document.addEventListener('DOMContentLoaded', () => {
         step.style.transition = `all 0.6s ease ${index * 0.15}s`;
         observer.observe(step);
     });
+    
+    // Анимация для карточек отзывов
+    const reviewCards = document.querySelectorAll('.review-card');
+    reviewCards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = `all 0.6s ease ${index * 0.1}s`;
+        observer.observe(card);
+    });
 });
 
 // Добавляем класс при скролле для навбара

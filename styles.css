@@ -670,6 +670,107 @@ body {
     color: #9ca3af;
 }
 
+/* Секция отзывов */
+.reviews {
+    padding: 5rem 0;
+    background: var(--bg-light);
+}
+
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.review-card {
+    background: var(--bg-white);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.review-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.review-author {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.review-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--gradient-1);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.review-info h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.25rem;
+}
+
+.review-date {
+    font-size: 0.875rem;
+    color: var(--text-light);
+}
+
+.review-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f3f4f6;
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.review-link:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: scale(1.1);
+}
+
+.review-content p {
+    color: var(--text-dark);
+    line-height: 1.7;
+    font-size: 1rem;
+    font-style: italic;
+}
+
+.review-rating {
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 0.25rem;
+}
+
+.review-rating .star {
+    color: #fbbf24;
+    font-size: 1.25rem;
+}
+
 /* Адаптивность */
 @media (max-width: 768px) {
     .nav-links {
@@ -712,5 +813,27 @@ body {
     
     .step-arrow {
         transform: rotate(90deg);
+    }
+    
+    .reviews-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .review-card {
+        padding: 1.5rem;
+    }
+    
+    .review-header {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .review-info h4 {
+        font-size: 1rem;
+    }
+    
+    .review-content p {
+        font-size: 0.95rem;
     }
 }
