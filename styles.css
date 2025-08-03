@@ -676,25 +676,35 @@ body {
     background: var(--bg-light);
 }
 
-.reviews-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-    margin-top: 3rem;
+.reviews-container {
+    max-width: 800px;
+    margin: 3rem auto 0;
+    position: relative;
+}
+
+.reviews-slider {
+    position: relative;
+    overflow: hidden;
+    min-height: 280px;
 }
 
 .review-card {
     background: var(--bg-white);
     border-radius: 16px;
-    padding: 2rem;
+    padding: 2.5rem;
     box-shadow: var(--shadow-sm);
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
     border: 1px solid var(--border-color);
+    position: absolute;
+    width: 100%;
+    opacity: 0;
+    transform: translateX(100%);
 }
 
-.review-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-lg);
+.review-card.active {
+    opacity: 1;
+    transform: translateX(0);
+    position: relative;
 }
 
 .review-header {
@@ -771,6 +781,64 @@ body {
     font-size: 1.25rem;
 }
 
+/* Навигация отзывов */
+.reviews-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2.5rem;
+}
+
+.review-nav-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid var(--border-color);
+    background: var(--bg-white);
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.review-nav-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    transform: scale(1.1);
+}
+
+.review-nav-btn:active {
+    transform: scale(0.95);
+}
+
+.review-dots {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dot.active {
+    background: var(--primary-color);
+    width: 24px;
+    border-radius: 5px;
+}
+
+.dot:hover {
+    background: var(--primary-dark);
+}
+
 /* Адаптивность */
 @media (max-width: 768px) {
     .nav-links {
@@ -815,13 +883,25 @@ body {
         transform: rotate(90deg);
     }
     
-    .reviews-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
+    .reviews-container {
+        padding: 0 1rem;
     }
     
     .review-card {
         padding: 1.5rem;
+    }
+    
+    .reviews-navigation {
+        gap: 1rem;
+    }
+    
+    .review-nav-btn {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .review-dots {
+        gap: 0.5rem;
     }
     
     .review-header {

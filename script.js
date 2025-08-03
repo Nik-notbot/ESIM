@@ -56,14 +56,14 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(step);
     });
     
-    // Анимация для карточек отзывов
-    const reviewCards = document.querySelectorAll('.review-card');
-    reviewCards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(30px)';
-        card.style.transition = `all 0.6s ease ${index * 0.1}s`;
-        observer.observe(card);
-    });
+    // Анимация для контейнера отзывов
+    const reviewsContainer = document.querySelector('.reviews-container');
+    if (reviewsContainer) {
+        reviewsContainer.style.opacity = '0';
+        reviewsContainer.style.transform = 'translateY(30px)';
+        reviewsContainer.style.transition = 'all 0.6s ease';
+        observer.observe(reviewsContainer);
+    }
 });
 
 // Добавляем класс при скролле для навбара
@@ -167,3 +167,89 @@ document.querySelectorAll('.buy-button, .cta-button').forEach(button => {
         }, 500);
     });
 });
+
+// Слайдер отзывов
+let currentReview = 1;
+const totalReviews = 5;
+
+function showReview(reviewNumber) {
+    // Скрываем все отзывы
+    document.querySelectorAll('.review-card').forEach(card => {
+        card.classList.remove('active');
+    });
+    
+    // Убираем активный класс у всех точек
+    document.querySelectorAll('.dot').forEach(dot => {
+        dot.classList.remove('active');
+    });
+    
+    // Показываем выбранный отзыв
+    const selectedReview = document.querySelector(`[data-review="${reviewNumber}"]`);
+    if (selectedReview) {
+        selectedReview.classList.add('active');
+    }
+    
+    // Активируем соответствующую точку
+    const dots = document.querySelectorAll('.dot');
+    if (dots[reviewNumber - 1]) {
+        dots[reviewNumber - 1].classList.add('active');
+    }
+    
+    currentReview = reviewNumber;
+}
+
+function changeReview(direction) {
+    let newReview = currentReview + direction;
+    
+    // Циклический переход
+    if (newReview > totalReviews) {
+        newReview = 1;
+    } else if (newReview < 1) {
+        newReview = totalReviews;
+    }
+    
+    showReview(newReview);
+}
+
+function goToReview(reviewNumber) {
+    showReview(reviewNumber);
+}
+
+// Автоматическая смена отзывов каждые 5 секунд
+let autoplayInterval = setInterval(() => {
+    changeReview(1);
+}, 5000);
+
+// Останавливаем автопрокрутку при взаимодействии
+document.querySelector('.reviews-container').addEventListener('mouseenter', () => {
+    clearInterval(autoplayInterval);
+});
+
+// Возобновляем автопрокрутку после ухода курсора
+document.querySelector('.reviews-container').addEventListener('mouseleave', () => {
+    autoplayInterval = setInterval(() => {
+        changeReview(1);
+    }, 5000);
+});
+
+// Поддержка свайпов на мобильных устройствах
+let touchStartX = 0;
+let touchEndX = 0;
+
+document.querySelector('.reviews-slider').addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+});
+
+document.querySelector('.reviews-slider').addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+});
+
+function handleSwipe() {
+    if (touchEndX < touchStartX - 50) {
+        changeReview(1); // Свайп влево - следующий отзыв
+    }
+    if (touchEndX > touchStartX + 50) {
+        changeReview(-1); // Свайп вправо - предыдущий отзыв
+    }
+}
