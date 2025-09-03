@@ -253,3 +253,120 @@ function handleSwipe() {
         changeReview(-1); // Свайп вправо - предыдущий отзыв
     }
 }
+
+// ========== ИНТЕГРАЦИЯ С ПЛАТЕЖНОЙ СИСТЕМОЙ ==========
+
+// Инициализация Supabase (если доступен)
+let supabase = null;
+if (typeof window.supabase !== 'undefined' && typeof config !== 'undefined') {
+    try {
+        supabase = window.supabase.createClient(config.supabase.url, config.supabase.anonKey);
+    } catch (error) {
+        console.warn('Supabase initialization failed:', error);
+    }
+}
+
+// Загрузка и настройка тарифов
+async function setupPlans() {
+    if (!supabase) {
+        console.warn('Supabase not initialized. Using demo mode.');
+        setupBuyButtonsDemo();
+        return;
+    }
+    
+    try {
+        const { data: plans, error } = await supabase
+            .from('plans')
+            .select('*')
+            .order('data_amount', { ascending: true });
+            
+        if (error) throw error;
+        
+        const planCards = document.querySelectorAll('.plan-card');
+        planCards.forEach((card, index) => {
+            if (plans[index]) {
+                const buyButton = card.querySelector('.buy-button');
+                if (buyButton) {
+                    buyButton.setAttribute('data-plan-id', plans[index].id);
+                    buyButton.setAttribute('data-plan-name', plans[index].name);
+                    buyButton.setAttribute('data-plan-amount', plans[index].data_amount);
+                    buyButton.setAttribute('data-plan-price', plans[index].price_rub);
+                }
+            }
+        });
+        
+    } catch (error) {
+        console.error('Error loading plans:', error);
+        setupBuyButtonsDemo();
+        return;
+    }
+    
+    setupBuyButtons();
+}
+
+// Настройка кнопок покупки в демо-режиме
+function setupBuyButtonsDemo() {
+    const planCards = document.querySelectorAll('.plan-card');
+    planCards.forEach((card, index) => {
+        const buyButton = card.querySelector('.buy-button');
+        if (buyButton) {
+            const planName = card.querySelector('.plan-name')?.textContent || 'План';
+            const dataAmount = card.querySelector('.data-amount')?.textContent || '0';
+            buyButton.setAttribute('data-plan-id', `demo-${index + 1}`);
+            buyButton.setAttribute('data-plan-name', planName);
+            buyButton.setAttribute('data-plan-amount', dataAmount);
+        }
+    });
+    setupBuyButtons();
+}
+
+// Настройка обработчиков кнопок покупки
+function setupBuyButtons() {
+    document.querySelectorAll('.buy-button').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const planId = this.getAttribute('data-plan-id');
+            const planName = this.getAttribute('data-plan-name');
+            const planAmount = this.getAttribute('data-plan-amount');
+            const planPrice = this.getAttribute('data-plan-price');
+            
+            if (planId) {
+                // Переходим на страницу оплаты с параметрами
+                const params = new URLSearchParams({
+                    plan: planId,
+                    name: planName || '',
+                    amount: planAmount || '',
+                    price: planPrice || ''
+                });
+                window.location.href = `/payment.html?${params.toString()}`;
+            }
+        });
+    });
+    
+    // Обработка кнопки CTA в hero секции
+    document.querySelectorAll('.cta-button[href="#plans"]').forEach(button => {
+        // Кнопка уже имеет плавную прокрутку, дополнительная логика не нужна
+    });
+}
+
+// Запускаем настройку планов при загрузке страницы
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupPlans);
+} else {
+    setupPlans();
+}
+
+// Добавляем загрузку Supabase SDK, если его еще нет
+if (typeof window.supabase === 'undefined') {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+    script.onload = function() {
+        // Перезапускаем настройку после загрузки SDK
+        if (typeof config !== 'undefined') {
+            supabase = window.supabase.createClient(config.supabase.url, config.supabase.anonKey);
+            setupPlans();
+        }
+    };
+    document.head.appendChild(script);
+}

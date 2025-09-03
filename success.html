@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Успешная оплата - eSIM Store</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .success-container {
+            max-width: 600px;
+            margin: 80px auto;
+            padding: 40px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            backdrop-filter: blur(20px);
+        }
+        
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .success-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .success-subtitle {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 40px;
+        }
+        
+        .qr-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .qr-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        
+        .qr-code-container {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto 20px;
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .qr-code-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .qr-loading {
+            color: #667eea;
+            font-size: 18px;
+        }
+        
+        .instructions {
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        
+        .instructions-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        
+        .instructions-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .instructions-list li {
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 15px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+        
+        .instructions-list li:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .instructions-list li:nth-child(1):before { content: '1'; }
+        .instructions-list li:nth-child(2):before { content: '2'; }
+        .instructions-list li:nth-child(3):before { content: '3'; }
+        .instructions-list li:nth-child(4):before { content: '4'; }
+        
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .download-button, .support-button {
+            padding: 14px 30px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .download-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            border: none;
+        }
+        
+        .download-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        .support-button {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+        
+        .support-button:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .error-state {
+            display: none;
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            border-radius: 16px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+        
+        .error-state h3 {
+            color: #ff6b6b;
+            margin-bottom: 10px;
+        }
+        
+        .order-info {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success-container">
+            <div class="success-icon">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
+                    <path d="M20 6L9 17L4 12"></path>
+                </svg>
+            </div>
+            
+            <h1 class="success-title">Оплата прошла успешно!</h1>
+            <p class="success-subtitle">Ваша eSIM готова к использованию</p>
+            
+            <div class="qr-section" id="qrSection">
+                <h3 class="qr-title">QR-код для активации eSIM</h3>
+                <div class="qr-code-container">
+                    <div class="qr-loading" id="qrLoading">Загрузка QR-кода...</div>
+                    <img class="qr-code-image" id="qrImage" style="display: none;" alt="QR код для активации eSIM">
+                </div>
+                <p style="color: rgba(255, 255, 255, 0.6); font-size: 14px;">
+                    Сохраните этот QR-код, он понадобится для активации
+                </p>
+            </div>
+            
+            <div class="instructions">
+                <h3 class="instructions-title">Как активировать eSIM:</h3>
+                <ol class="instructions-list">
+                    <li>Откройте настройки телефона и перейдите в раздел "Сотовая связь"</li>
+                    <li>Выберите "Добавить eSIM" или "Добавить тарифный план"</li>
+                    <li>Отсканируйте QR-код с помощью камеры телефона</li>
+                    <li>Следуйте инструкциям на экране для завершения настройки</li>
+                </ol>
+            </div>
+            
+            <div class="action-buttons">
+                <a href="#" class="download-button" id="downloadButton" style="display: none;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Скачать QR-код
+                </a>
+                <a href="https://t.me/HEYKYCSTORE" target="_blank" class="support-button">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+                    </svg>
+                    Поддержка
+                </a>
+            </div>
+            
+            <div class="error-state" id="errorState">
+                <h3>Ошибка загрузки QR-кода</h3>
+                <p>Пожалуйста, обратитесь в поддержку с номером вашего заказа</p>
+            </div>
+            
+            <div class="order-info">
+                <p>Номер заказа: <span id="orderId">-</span></p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="success.js"></script>
+</body>
+</html>
