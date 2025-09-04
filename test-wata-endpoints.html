@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест всех endpoints Wata API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        h1 { color: #333; }
+        .info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 16px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover { background: #1976D2; }
+        .results {
+            margin-top: 20px;
+        }
+        .endpoint {
+            margin: 10px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        .success { 
+            background: #e8f5e9;
+            border-color: #4caf50;
+        }
+        .error { 
+            background: #ffebee;
+            border-color: #f44336;
+        }
+        .method {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-weight: bold;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+        .method.get { background: #4CAF50; color: white; }
+        .method.post { background: #2196F3; color: white; }
+        .status {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-weight: bold;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        .status.ok { background: #4CAF50; color: white; }
+        .status.error { background: #f44336; color: white; }
+        pre {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 3px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+        details {
+            margin-top: 10px;
+        }
+        summary {
+            cursor: pointer;
+            color: #1976D2;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #2196F3;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <h1>Тестирование всех возможных endpoints Wata API</h1>
+    
+    <div class="info">
+        <p><strong>Цель:</strong> Найти правильный endpoint для создания платежей</p>
+        <p>Эта страница протестирует различные варианты endpoints через серверную функцию Netlify</p>
+    </div>
+    
+    <button onclick="testAllEndpoints()">Запустить полное тестирование</button>
+    
+    <div id="results" class="results"></div>
+
+    <script>
+        async function testAllEndpoints() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Тестируем все возможные endpoints...</p>
+                </div>
+            `;
+            
+            try {
+                const response = await fetch('/.netlify/functions/wata-test-endpoints');
+                const data = await response.json();
+                
+                let html = `<h2>Результаты тестирования (${data.timestamp})</h2>`;
+                
+                // Сначала показываем успешные
+                const successful = data.results.filter(r => r.success);
+                const failed = data.results.filter(r => !r.success);
+                
+                if (successful.length > 0) {
+                    html += '<h3>✅ Работающие endpoints:</h3>';
+                    successful.forEach(result => {
+                        html += renderEndpoint(result);
+                    });
+                }
+                
+                if (failed.length > 0) {
+                    html += '<h3>❌ Неработающие endpoints:</h3>';
+                    failed.forEach(result => {
+                        html += renderEndpoint(result);
+                    });
+                }
+                
+                // Анализ результатов
+                html += analyzeResults(data.results);
+                
+                resultsDiv.innerHTML = html;
+                
+            } catch (error) {
+                resultsDiv.innerHTML = `<div class="endpoint error">
+                    <p><strong>Ошибка:</strong> ${error.message}</p>
+                </div>`;
+            }
+        }
+        
+        function renderEndpoint(result) {
+            const statusClass = result.success ? 'success' : 'error';
+            const methodClass = result.method.toLowerCase();
+            const statusCodeClass = result.status >= 200 && result.status < 300 ? 'ok' : 'error';
+            
+            let html = `<div class="endpoint ${statusClass}">
+                <p>
+                    <span class="method ${methodClass}">${result.method}</span>
+                    <strong>${result.endpoint}</strong>
+                    ${result.status ? `<span class="status ${statusCodeClass}">${result.status} ${result.statusText}</span>` : ''}
+                </p>
+                <p><code>${result.url}</code></p>`;
+            
+            if (result.error) {
+                html += `<p style="color: red;">Ошибка: ${result.error}</p>`;
+            }
+            
+            if (result.body) {
+                html += `<details>
+                    <summary>Ответ сервера</summary>
+                    <pre>${typeof result.body === 'string' ? result.body : JSON.stringify(result.body, null, 2)}</pre>
+                </details>`;
+            }
+            
+            if (result.headers && Object.keys(result.headers).length > 0) {
+                html += `<details>
+                    <summary>Заголовки ответа</summary>
+                    <pre>${JSON.stringify(result.headers, null, 2)}</pre>
+                </details>`;
+            }
+            
+            html += '</div>';
+            return html;
+        }
+        
+        function analyzeResults(results) {
+            let html = '<div class="info" style="margin-top: 30px;">';
+            html += '<h3>📊 Анализ результатов:</h3>';
+            
+            const workingEndpoints = results.filter(r => r.success && r.method === 'POST');
+            
+            if (workingEndpoints.length > 0) {
+                html += '<p><strong>Найдены работающие POST endpoints:</strong></p>';
+                html += '<ul>';
+                workingEndpoints.forEach(endpoint => {
+                    html += `<li><code>${endpoint.url}</code> - используйте этот endpoint для создания платежей</li>`;
+                });
+                html += '</ul>';
+            } else {
+                html += '<p><strong>⚠️ Не найдено работающих POST endpoints для создания платежей</strong></p>';
+                html += '<p>Возможные причины:</p>';
+                html += '<ul>';
+                html += '<li>Неправильный формат запроса</li>';
+                html += '<li>Требуются дополнительные параметры</li>';
+                html += '<li>API изменился или требует другой аутентификации</li>';
+                html += '</ul>';
+            }
+            
+            html += '</div>';
+            return html;
+        }
+    </script>
+</body>
+</html>
