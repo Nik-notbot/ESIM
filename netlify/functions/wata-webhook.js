@@ -1,0 +1,129 @@
+// Netlify Function для обработки вебхуков от Wata
+// Эта функция будет вызываться когда пользователь завершит оплату
+
+// Конфигурация - ЗАМЕНИТЕ НА ВАШИ ЗНАЧЕНИЯ!
+const SUPABASE_URL = process.env.SUPABASE_URL || 'https://YOUR-PROJECT-ID.supabase.co';
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY || 'YOUR-SERVICE-KEY'; // service_role key, НЕ anon!
+
+// Получаем fetch для Node.js
+const fetch = globalThis.fetch || require('node-fetch');
+
+exports.handler = async (event, context) => {
+    // Только POST запросы
+    if (event.httpMethod !== 'POST') {
+        return {
+            statusCode: 405,
+            body: JSON.stringify({ error: 'Method not allowed' })
+        };
+    }
+    
+    try {
+        // Парсим данные вебхука
+        const webhookData = JSON.parse(event.body);
+        console.log('Получен вебхук:', webhookData);
+        
+        // Извлекаем данные платежа
+        const { 
+            orderId,
+            paymentId,
+            status,
+            amount,
+            currency
+        } = webhookData;
+        
+        if (!orderId || !status) {
+            return {
+                statusCode: 400,
+                body: JSON.stringify({ error: 'Missing required fields' })
+            };
+        }
+        
+        // Определяем статус для нашей БД
+        let orderStatus = 'pending';
+        if (status === 'Success' || status === 'Succeeded') {
+            orderStatus = 'paid';
+        } else if (status === 'Failed' || status === 'Declined') {
+            orderStatus = 'failed';
+        }
+        
+        console.log(`Обновляем заказ ${orderId} - статус: ${orderStatus}`);
+        
+        // Обновляем статус заказа в Supabase
+        const updateResponse = await fetch(
+            `${SUPABASE_URL}/rest/v1/orders?id=eq.${orderId}`,
+            {
+                method: 'PATCH',
+                headers: {
+                    'apikey': SUPABASE_SERVICE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+                    'Content-Type': 'application/json',
+                    'Prefer': 'return=representation'
+                },
+                body: JSON.stringify({
+                    status: orderStatus,
+                    payment_id: paymentId,
+                    updated_at: new Date().toISOString()
+                })
+            }
+        );
+        
+        if (!updateResponse.ok) {
+            const error = await updateResponse.text();
+            console.error('Ошибка обновления заказа:', error);
+            throw new Error('Failed to update order');
+        }
+        
+        const updatedOrder = await updateResponse.json();
+        console.log('Заказ обновлен:', updatedOrder);
+        
+        // Если оплата успешна и нет QR-кода, пытаемся назначить
+        if (orderStatus === 'paid' && updatedOrder.length > 0 && !updatedOrder[0].qr_code_id) {
+            console.log('Назначаем QR-код для заказа...');
+            
+            // Вызываем функцию назначения QR-кода
+            const qrResponse = await fetch(
+                `${SUPABASE_URL}/rest/v1/rpc/get_available_qr_code`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'apikey': SUPABASE_SERVICE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        p_plan_id: updatedOrder[0].plan_id,
+                        p_order_id: orderId
+                    })
+                }
+            );
+            
+            if (qrResponse.ok) {
+                console.log('QR-код успешно назначен');
+            } else {
+                console.log('Не удалось назначить QR-код:', await qrResponse.text());
+            }
+        }
+        
+        // Возвращаем успешный ответ
+        return {
+            statusCode: 200,
+            body: JSON.stringify({ 
+                success: true,
+                message: 'Webhook processed successfully',
+                orderId: orderId,
+                status: orderStatus
+            })
+        };
+        
+    } catch (error) {
+        console.error('Ошибка обработки вебхука:', error);
+        
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ 
+                error: 'Internal server error',
+                message: error.message 
+            })
+        };
+    }
+};
