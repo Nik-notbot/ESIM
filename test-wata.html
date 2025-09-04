@@ -47,7 +47,7 @@
     </div>
 
     <script>
-        const WATA_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJQdWJsaWNJZCI6IjNhMWJmOTYxLThjYmMtYmIwZC1iMmRjLTNmMTQ1YjVmYjdlOCIsIlRva2VuVmVyc2lvbiI6IjEiLCJleHAiOjE3NTk0MTAxMjMsImlzcyI6Imh0dHBzOi8vYXBpLndhdGEucHJvIiwiYXVkIjoiaHR0cHM6Ly9hcGkud2F0YS5wcm8vYXBpL2gyaCJ9.593TE4q83LRidOJmCbJhn3B-EhGMWOK_yZmsVDMhY6U';
+        const WATA_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJQdWJsaWNJZCI6IjNhMWJmOTYxLThjYmMtYmIwZC1iMmRjLTNmMTQ1YjVmYjdlOCIsIlRva2VuVmVyc2lvbiI6IjIiLCJleHAiOjE3NTk1Njk0NjcsImlzcyI6Imh0dHBzOi8vYXBpLndhdGEucHJvIiwiYXVkIjoiaHR0cHM6Ly9hcGkud2F0YS5wcm8vYXBpL2gyaCJ9.AxHi2wXqNJrDQa3RIbB1QXcA5MIzWZbDiyrr2GMtjmU';
         const WATA_API_URL = 'https://api.wata.pro/api/h2h';
         
         async function testWataAPI() {
@@ -99,13 +99,13 @@
             result.innerHTML = '<p>Создаем тестовый платеж...</p>';
             
             const testPayment = {
-                Amount: 100.00,
-                Currency: 'RUB',
-                Description: 'Test payment',
-                OrderId: 'test_' + Date.now(),
-                CustomerEmail: 'test@example.com',
-                SuccessUrl: window.location.origin + '/success.html',
-                FailUrl: window.location.origin + '/payment.html'
+                amount: 100.00,
+                currency: 'RUB',
+                description: 'Test payment',
+                orderId: 'test_' + Date.now(),
+                customerEmail: 'test@example.com',
+                successUrl: window.location.origin + '/success.html',
+                failUrl: window.location.origin + '/payment.html'
             };
             
             try {
@@ -129,9 +129,10 @@
                     try {
                         const data = JSON.parse(responseText);
                         result.innerHTML += `<p class="success">✓ Платеж создан!</p>`;
-                        if (data.PaymentUrl || data.Url || data.paymentUrl) {
-                            result.innerHTML += `<p>URL: <a href="${data.PaymentUrl || data.Url || data.paymentUrl}" target="_blank">Открыть платежную страницу</a></p>`;
+                        if (data.paymentUrl || data.url) {
+                            result.innerHTML += `<p>URL: <a href="${data.paymentUrl || data.url}" target="_blank">Открыть платежную страницу</a></p>`;
                         }
+                        result.innerHTML += `<details><summary>Полный ответ</summary><pre>${JSON.stringify(data, null, 2)}</pre></details>`;
                     } catch {
                         result.innerHTML += `<p>Не удалось распарсить JSON</p>`;
                     }

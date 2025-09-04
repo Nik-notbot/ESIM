@@ -1,5 +1,5 @@
 // Payment с использованием прокси для Supabase
-const WATA_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJQdWJsaWNJZCI6IjNhMWJmOTYxLThjYmMtYmIwZC1iMmRjLTNmMTQ1YjVmYjdlOCIsIlRva2VuVmVyc2lvbiI6IjEiLCJleHAiOjE3NTk0MTAxMjMsImlzcyI6Imh0dHBzOi8vYXBpLndhdGEucHJvIiwiYXVkIjoiaHR0cHM6Ly9hcGkud2F0YS5wcm8vYXBpL2gyaCJ9.593TE4q83LRidOJmCbJhn3B-EhGMWOK_yZmsVDMhY6U';
+const WATA_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJQdWJsaWNJZCI6IjNhMWJmOTYxLThjYmMtYmIwZC1iMmRjLTNmMTQ1YjVmYjdlOCIsIlRva2VuVmVyc2lvbiI6IjIiLCJleHAiOjE3NTk1Njk0NjcsImlzcyI6Imh0dHBzOi8vYXBpLndhdGEucHJvIiwiYXVkIjoiaHR0cHM6Ly9hcGkud2F0YS5wcm8vYXBpL2gyaCJ9.AxHi2wXqNJrDQa3RIbB1QXcA5MIzWZbDiyrr2GMtjmU';
 const WATA_API_URL = 'https://api.wata.pro/api/h2h';
 
 // Получаем параметры из URL
@@ -87,13 +87,13 @@ document.getElementById('paymentForm').addEventListener('submit', async (e) => {
         
         // 2. Создаем платеж в Wata
         const paymentData = {
-            Amount: parseFloat(planPrice),
-            Currency: 'RUB',
-            Description: `eSIM ${planName} - ${planData} ГБ`,
-            OrderId: orderId,
-            CustomerEmail: email,
-            SuccessUrl: `${window.location.origin}/success.html?order=${orderId}`,
-            FailUrl: `${window.location.origin}/payment.html?plan=${planId}&name=${planName}&data=${planData}&price=${planPrice}&error=1`
+            amount: parseFloat(planPrice),
+            currency: 'RUB',
+            description: `eSIM ${planName} - ${planData} ГБ`,
+            orderId: orderId,
+            customerEmail: email,
+            successUrl: `${window.location.origin}/success.html?order=${orderId}`,
+            failUrl: `${window.location.origin}/payment.html?plan=${planId}&name=${planName}&data=${planData}&price=${planPrice}&error=1`
         };
         
         console.log('Создаем платеж в Wata:', paymentData);
@@ -118,13 +118,13 @@ document.getElementById('paymentForm').addEventListener('submit', async (e) => {
         
         // Сохраняем данные платежа
         localStorage.setItem(`payment_${orderId}`, JSON.stringify({
-            paymentId: payment.PaymentId || payment.Id,
-            paymentUrl: payment.PaymentUrl || payment.Url,
+            paymentId: payment.paymentId || payment.id,
+            paymentUrl: payment.paymentUrl || payment.url,
             created_at: new Date().toISOString()
         }));
         
         // 3. Перенаправляем на страницу оплаты Wata
-        const redirectUrl = payment.PaymentUrl || payment.Url || payment.paymentUrl;
+        const redirectUrl = payment.paymentUrl || payment.url;
         if (redirectUrl) {
             window.location.href = redirectUrl;
         } else {

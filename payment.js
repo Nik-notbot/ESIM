@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 // API ключ Wata
-const WATA_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJQdWJsaWNJZCI6IjNhMWJmOTYxLThjYmMtYmIwZC1iMmRjLTNmMTQ1YjVmYjdlOCIsIlRva2VuVmVyc2lvbiI6IjEiLCJleHAiOjE3NTk0MTAxMjMsImlzcyI6Imh0dHBzOi8vYXBpLndhdGEucHJvIiwiYXVkIjoiaHR0cHM6Ly9hcGkud2F0YS5wcm8vYXBpL2gyaCJ9.593TE4q83LRidOJmCbJhn3B-EhGMWOK_yZmsVDMhY6U';
+const WATA_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJQdWJsaWNJZCI6IjNhMWJmOTYxLThjYmMtYmIwZC1iMmRjLTNmMTQ1YjVmYjdlOCIsIlRva2VuVmVyc2lvbiI6IjIiLCJleHAiOjE3NTk1Njk0NjcsImlzcyI6Imh0dHBzOi8vYXBpLndhdGEucHJvIiwiYXVkIjoiaHR0cHM6Ly9hcGkud2F0YS5wcm8vYXBpL2gyaCJ9.AxHi2wXqNJrDQa3RIbB1QXcA5MIzWZbDiyrr2GMtjmU';
 const WATA_API_URL = 'https://api.wata.pro/api/h2h';
 
 // Получаем параметры из URL
@@ -88,13 +88,13 @@ document.getElementById('paymentForm').addEventListener('submit', async (e) => {
         
         // 2. Создаем платеж в Wata
         const paymentData = {
-            Amount: parseFloat(planPrice),
-            Currency: 'RUB',
-            Description: `eSIM ${planName} - ${planData} ГБ`,
-            OrderId: order.id,
-            CustomerEmail: email,
-            SuccessUrl: `${window.location.origin}/success.html?order=${order.id}`,
-            FailUrl: `${window.location.origin}/payment.html?plan=${planId}&name=${planName}&data=${planData}&price=${planPrice}&error=1`
+            amount: parseFloat(planPrice),
+            currency: 'RUB',
+            description: `eSIM ${planName} - ${planData} ГБ`,
+            orderId: order.id,
+            customerEmail: email,
+            successUrl: `${window.location.origin}/success.html?order=${order.id}`,
+            failUrl: `${window.location.origin}/payment.html?plan=${planId}&name=${planName}&data=${planData}&price=${planPrice}&error=1`
         };
         
         const paymentResponse = await fetch(`${WATA_API_URL}/payments`, {
@@ -117,8 +117,8 @@ document.getElementById('paymentForm').addEventListener('submit', async (e) => {
         const { error: updateError } = await supabase
             .from('orders')
             .update({
-                payment_id: payment.PaymentId,
-                payment_url: payment.PaymentUrl,
+                payment_id: payment.paymentId || payment.id,
+                payment_url: payment.paymentUrl || payment.url,
                 status: 'processing'
             })
             .eq('id', order.id);
@@ -135,7 +135,7 @@ document.getElementById('paymentForm').addEventListener('submit', async (e) => {
             });
         
         // 5. Перенаправляем на страницу оплаты Wata
-        window.location.href = payment.PaymentUrl;
+        window.location.href = payment.paymentUrl || payment.url;
         
     } catch (error) {
         console.error('Ошибка:', error);
