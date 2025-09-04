@@ -17,18 +17,31 @@ exports.handler = async (event, context) => {
     const paymentData = JSON.parse(event.body);
     
     console.log('Creating payment:', paymentData);
+    console.log('Using Wata API URL:', WATA_API_URL);
     
     const response = await fetch(`${WATA_API_URL}/payments`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${WATA_API_KEY}`,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       },
       body: JSON.stringify(paymentData)
     });
 
     const responseText = await response.text();
-    console.log('Wata response:', response.status, responseText);
+    console.log('Wata response status:', response.status);
+    console.log('Wata response body:', responseText);
+
+    // Проверяем, является ли ответ JSON
+    let responseBody = responseText;
+    try {
+      const jsonResponse = JSON.parse(responseText);
+      responseBody = JSON.stringify(jsonResponse);
+    } catch (e) {
+      // Если не JSON, возвращаем как есть
+      console.log('Response is not JSON:', e.message);
+    }
 
     return {
       statusCode: response.status,
@@ -36,7 +49,7 @@ exports.handler = async (event, context) => {
         ...headers,
         'Content-Type': 'application/json'
       },
-      body: responseText
+      body: responseBody
     };
 
   } catch (error) {
