@@ -3,6 +3,26 @@ const SUPABASE_URL = 'https://nwcleyhnbzxetcqtlim.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im53Y2xleWhubmJ6eGV0Y3F0bGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDczODEzODUsImV4cCI6MjA2Mjk1NzM4NX0.3ss3IMHLlhipHY1u8610mCX6TBG4e3doZULjvoQ1Ijg';
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+// Проверка подключения при загрузке страницы
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        const { data, error } = await supabase
+            .from('esim_plans')
+            .select('count')
+            .single();
+            
+        if (error) {
+            console.error('Ошибка подключения к Supabase:', error);
+            console.log('Текущий URL:', window.location.origin);
+            console.log('Проверьте CORS настройки для этого домена в Supabase');
+        } else {
+            console.log('✓ Supabase подключен успешно');
+        }
+    } catch (err) {
+        console.error('Критическая ошибка подключения:', err);
+    }
+});
+
 // API ключ Wata
 const WATA_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJQdWJsaWNJZCI6IjNhMWJmOTYxLThjYmMtYmIwZC1iMmRjLTNmMTQ1YjVmYjdlOCIsIlRva2VuVmVyc2lvbiI6IjEiLCJleHAiOjE3NTk0MTAxMjMsImlzcyI6Imh0dHBzOi8vYXBpLndhdGEucHJvIiwiYXVkIjoiaHR0cHM6Ly9hcGkud2F0YS5wcm8vYXBpL2gyaCJ9.593TE4q83LRidOJmCbJhn3B-EhGMWOK_yZmsVDMhY6U';
 const WATA_API_URL = 'https://api.wata.pro/api/h2h';
