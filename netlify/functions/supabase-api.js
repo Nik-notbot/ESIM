@@ -20,26 +20,26 @@ exports.handler = async (event, context) => {
 
   try {
     // Parse the request
-    const { table, params } = JSON.parse(event.body || '{}');
-    const method = event.httpMethod;
+    const { table, method: reqMethod, params } = JSON.parse(event.body || '{}');
+    const httpMethod = reqMethod || event.httpMethod;
     
     // Build URL
     let url = `${SUPABASE_URL}/rest/v1/${table}`;
-    if (params && method === 'GET') {
+    if (params && httpMethod === 'GET') {
       const queryParams = new URLSearchParams(params);
       url += `?${queryParams.toString()}`;
     }
 
     // Make request to Supabase
     const response = await fetch(url, {
-      method: method,
+      method: httpMethod,
       headers: {
         'apikey': SUPABASE_ANON_KEY,
         'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
         'Content-Type': 'application/json',
         'Prefer': 'return=representation'
       },
-      body: method !== 'GET' ? JSON.stringify(params) : undefined
+      body: httpMethod !== 'GET' ? JSON.stringify(params) : undefined
     });
 
     const data = await response.text();
