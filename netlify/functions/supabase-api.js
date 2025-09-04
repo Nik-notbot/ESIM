@@ -1,5 +1,6 @@
 // Простая прокси функция для Supabase API
-const fetch = require('node-fetch');
+// В Node.js 18+ fetch встроен, для старых версий используем node-fetch
+const fetch = globalThis.fetch || require('node-fetch');
 
 exports.handler = async (event, context) => {
   // CORS headers
