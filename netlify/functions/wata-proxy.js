@@ -1,0 +1,50 @@
+// Прокси для Wata API
+exports.handler = async (event, context) => {
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS'
+  };
+
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 200, headers, body: '' };
+  }
+
+  const WATA_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJQdWJsaWNJZCI6IjNhMWJmOTYxLThjYmMtYmIwZC1iMmRjLTNmMTQ1YjVmYjdlOCIsIlRva2VuVmVyc2lvbiI6IjEiLCJleHAiOjE3NTk0MTAxMjMsImlzcyI6Imh0dHBzOi8vYXBpLndhdGEucHJvIiwiYXVkIjoiaHR0cHM6Ly9hcGkud2F0YS5wcm8vYXBpL2gyaCJ9.593TE4q83LRidOJmCbJhn3B-EhGMWOK_yZmsVDMhY6U';
+  const WATA_API_URL = 'https://api.wata.pro/api/h2h';
+
+  try {
+    const paymentData = JSON.parse(event.body);
+    
+    console.log('Creating payment:', paymentData);
+    
+    const response = await fetch(`${WATA_API_URL}/payments`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${WATA_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(paymentData)
+    });
+
+    const responseText = await response.text();
+    console.log('Wata response:', response.status, responseText);
+
+    return {
+      statusCode: response.status,
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+      },
+      body: responseText
+    };
+
+  } catch (error) {
+    console.error('Wata proxy error:', error);
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ error: error.message })
+    };
+  }
+};
