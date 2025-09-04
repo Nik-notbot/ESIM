@@ -132,9 +132,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <script>
-        // Конфигурация Supabase - ЗАМЕНИТЕ НА ВАШИ ЗНАЧЕНИЯ!
-        const SUPABASE_URL = 'https://YOUR-PROJECT-ID.supabase.co'; // <-- ЗАМЕНИТЕ
-        const SUPABASE_ANON_KEY = 'YOUR-ANON-KEY'; // <-- ЗАМЕНИТЕ
+        // Конфигурация Supabase - проект esim-store
+        const SUPABASE_URL = 'https://wiwkergsvbgnrdslqkzg.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indpd2tlcmdzdmJnbnJkc2xxa3pnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5OTA5MjAsImV4cCI6MjA3MjU2NjkyMH0.PmWeSrWMRzlHlFJpwRjlSla3Ra6hWAoCNErMEdEWtEk';
         
         // Инициализация Supabase
         const { createClient } = window.supabase;
@@ -245,12 +245,7 @@
         
         // Запускаем при загрузке страницы
         document.addEventListener('DOMContentLoaded', () => {
-            // Проверяем настройки
-            if (SUPABASE_URL.includes('YOUR-PROJECT-ID')) {
-                alert('ВНИМАНИЕ: Необходимо настроить SUPABASE_URL и SUPABASE_ANON_KEY в файле success-new.html');
-                showError('Система не настроена. Обратитесь к администратору.');
-                return;
-            }
+            // Проверяем настройки - теперь всё настроено!
             
             getQRCode();
         });

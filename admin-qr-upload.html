@@ -153,8 +153,8 @@
     <div class="container">
         <h1>Управление QR-кодами eSIM</h1>
         
-        <div class="config-note">
-            <strong>⚠️ Важно:</strong> Перед использованием замените SUPABASE_URL и SUPABASE_ANON_KEY на ваши значения из Supabase Dashboard → Settings → API
+        <div class="config-note" style="background: #d4edda; border-color: #c3e6cb; color: #155724;">
+            <strong>✅ Готово к работе!</strong> Проект esim-store настроен и готов к использованию.
         </div>
         
         <div id="message"></div>
@@ -233,9 +233,9 @@ https://i.ibb.co/DEF456/qr-003.png" required></textarea>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <script>
-        // ЗАМЕНИТЕ ЭТИ ЗНАЧЕНИЯ НА ВАШИ!
-        const SUPABASE_URL = 'https://YOUR-PROJECT-ID.supabase.co'; // <-- ЗАМЕНИТЕ
-        const SUPABASE_ANON_KEY = 'YOUR-ANON-KEY'; // <-- ЗАМЕНИТЕ
+        // Конфигурация Supabase - проект esim-store
+        const SUPABASE_URL = 'https://wiwkergsvbgnrdslqkzg.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indpd2tlcmdzdmJnbnJkc2xxa3pnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5OTA5MjAsImV4cCI6MjA3MjU2NjkyMH0.PmWeSrWMRzlHlFJpwRjlSla3Ra6hWAoCNErMEdEWtEk';
         
         // Инициализация Supabase
         const { createClient } = window.supabase;
@@ -384,11 +384,7 @@ https://i.ibb.co/DEF456/qr-003.png" required></textarea>
         
         // Проверка конфигурации при загрузке
         document.addEventListener('DOMContentLoaded', () => {
-            if (SUPABASE_URL.includes('YOUR-PROJECT-ID')) {
-                showMessage('ВНИМАНИЕ: Замените SUPABASE_URL и SUPABASE_ANON_KEY на ваши значения!', 'error');
-                return;
-            }
-            
+            // Конфигурация уже настроена!
             loadStats();
             loadQRCodes();
         });

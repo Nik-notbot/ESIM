@@ -29,8 +29,8 @@ exports.handler = async (event, context) => {
       currency: paymentData.currency || 'RUB',
       description: paymentData.description,
       orderId: paymentData.orderId,
-      successRedirectUrl: paymentData.successUrl,
-      failRedirectUrl: paymentData.failUrl
+          successRedirectUrl: paymentData.successUrl || paymentData.successRedirectUrl,
+    failRedirectUrl: paymentData.failUrl || paymentData.failRedirectUrl
     };
     
     console.log('Wata payment data:', wataPaymentData);

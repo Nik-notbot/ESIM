@@ -1,9 +1,9 @@
 // Netlify Function для обработки вебхуков от Wata
 // Эта функция будет вызываться когда пользователь завершит оплату
 
-// Конфигурация - ЗАМЕНИТЕ НА ВАШИ ЗНАЧЕНИЯ!
-const SUPABASE_URL = process.env.SUPABASE_URL || 'https://YOUR-PROJECT-ID.supabase.co';
-const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY || 'YOUR-SERVICE-KEY'; // service_role key, НЕ anon!
+// Конфигурация - проект esim-store
+const SUPABASE_URL = process.env.SUPABASE_URL || 'https://wiwkergsvbgnrdslqkzg.supabase.co';
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indpd2tlcmdzdmJnbnJkc2xxa3pnIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1Njk5MDkyMCwiZXhwIjoyMDcyNTY2OTIwfQ.RJPwoAVUNzIbG7yGTm-hS2wNrBelhaQ5k57cpQLXZj8'; // service_role key для вебхуков
 
 // Получаем fetch для Node.js
 const fetch = globalThis.fetch || require('node-fetch');

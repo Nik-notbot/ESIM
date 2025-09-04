@@ -1,7 +1,7 @@
 // Конфигурация для НОВОГО проекта Supabase
-// ВАЖНО: Замените эти значения на ваши из Supabase Dashboard → Settings → API
-const SUPABASE_URL = 'https://YOUR-PROJECT-ID.supabase.co'; // <-- ЗАМЕНИТЕ
-const SUPABASE_ANON_KEY = 'YOUR-ANON-KEY'; // <-- ЗАМЕНИТЕ
+// Проект: esim-store
+const SUPABASE_URL = 'https://wiwkergsvbgnrdslqkzg.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indpd2tlcmdzdmJnbnJkc2xxa3pnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5OTA5MjAsImV4cCI6MjA3MjU2NjkyMH0.PmWeSrWMRzlHlFJpwRjlSla3Ra6hWAoCNErMEdEWtEk';
 
 // Инициализация Supabase клиента
 const { createClient } = window.supabase;
