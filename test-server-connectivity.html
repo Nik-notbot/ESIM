@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест подключения с сервера</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test-section {
+            background: #f5f5f5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px 0;
+            cursor: pointer;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .success { color: green; }
+        .error { color: red; }
+        .warning { color: orange; }
+        pre {
+            background: #f0f0f0;
+            padding: 15px;
+            overflow-x: auto;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+        .result-item {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            background: white;
+            border: 1px solid #ddd;
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <h1>Диагностика подключения с сервера Netlify</h1>
+    
+    <div class="test-section">
+        <h2>Проверка подключений с сервера</h2>
+        <p>Эта страница проверяет возможность подключения к API непосредственно с сервера Netlify, минуя браузер.</p>
+        <button onclick="runServerTest()">Запустить полную диагностику</button>
+        <div id="serverResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Альтернативные решения</h2>
+        <div id="alternatives"></div>
+    </div>
+
+    <script>
+        async function runServerTest() {
+            const resultDiv = document.getElementById('serverResult');
+            resultDiv.innerHTML = '<div class="loading"><div class="spinner"></div><p>Выполняется диагностика с сервера...</p></div>';
+            
+            try {
+                const response = await fetch('/.netlify/functions/test-connectivity');
+                const results = await response.json();
+                
+                let html = '<h3>Результаты диагностики:</h3>';
+                
+                // DNS результаты
+                html += '<div class="result-item">';
+                html += '<h4>1. DNS разрешение:</h4>';
+                if (results.wata_dns) {
+                    html += `<p>Wata API DNS: ${results.wata_dns.success ? 
+                        '<span class="success">✓ Успешно</span> - IPs: ' + results.wata_dns.ips?.join(', ') : 
+                        '<span class="error">✗ Ошибка: ' + results.wata_dns.error + '</span>'}</p>`;
+                }
+                if (results.supabase_dns) {
+                    html += `<p>Supabase DNS: ${results.supabase_dns.success ? 
+                        '<span class="success">✓ Успешно</span> - IPs: ' + results.supabase_dns.ips?.join(', ') : 
+                        '<span class="error">✗ Ошибка: ' + results.supabase_dns.error + '</span>'}</p>`;
+                }
+                html += '</div>';
+                
+                // HTTP тесты
+                html += '<div class="result-item">';
+                html += '<h4>2. HTTP подключения:</h4>';
+                const testNames = {
+                    github: 'GitHub API',
+                    google: 'Google',
+                    wata_main: 'Wata главный сайт',
+                    wata_api: 'Wata API',
+                    supabase_main: 'Supabase главный сайт',
+                    supabase_project: 'Ваш проект Supabase'
+                };
+                
+                for (const [key, name] of Object.entries(testNames)) {
+                    if (results[key]) {
+                        const test = results[key];
+                        html += `<p>${name}: ${test.success ? 
+                            `<span class="success">✓ Успешно</span> (${test.status}, ${test.time})` : 
+                            `<span class="error">✗ Ошибка: ${test.error}</span>`}</p>`;
+                    }
+                }
+                html += '</div>';
+                
+                // Полный тест Wata API
+                if (results.wata_api_full) {
+                    html += '<div class="result-item">';
+                    html += '<h4>3. Полный тест Wata API:</h4>';
+                    if (results.wata_api_full.success) {
+                        html += `<p class="success">✓ Статус: ${results.wata_api_full.status} ${results.wata_api_full.statusText}</p>`;
+                        html += `<details><summary>Заголовки ответа</summary><pre>${JSON.stringify(results.wata_api_full.headers, null, 2)}</pre></details>`;
+                        html += `<details><summary>Тело ответа</summary><pre>${results.wata_api_full.body}</pre></details>`;
+                    } else {
+                        html += `<p class="error">✗ Ошибка: ${results.wata_api_full.error}</p>`;
+                    }
+                    html += '</div>';
+                }
+                
+                // Информация о среде
+                if (results.environment) {
+                    html += '<div class="result-item">';
+                    html += '<h4>4. Среда выполнения:</h4>';
+                    html += `<pre>${JSON.stringify(results.environment, null, 2)}</pre>`;
+                    html += '</div>';
+                }
+                
+                // Полный JSON для отладки
+                html += '<details style="margin-top: 20px;"><summary>Полный JSON ответ</summary>';
+                html += `<pre>${JSON.stringify(results, null, 2)}</pre>`;
+                html += '</details>';
+                
+                resultDiv.innerHTML = html;
+                
+                // Анализ результатов и предложение решений
+                analyzeResults(results);
+                
+            } catch (error) {
+                resultDiv.innerHTML = `<p class="error">Ошибка выполнения диагностики: ${error.message}</p>`;
+            }
+        }
+        
+        function analyzeResults(results) {
+            const altDiv = document.getElementById('alternatives');
+            let html = '<h3>Анализ и рекомендации:</h3>';
+            
+            // Проверяем, какие сервисы недоступны
+            const wataBlocked = !results.wata_api?.success || !results.wata_api_full?.success;
+            const supabaseBlocked = !results.supabase_project?.success;
+            
+            if (wataBlocked && supabaseBlocked) {
+                html += '<div class="result-item">';
+                html += '<p class="error"><strong>Обнаружена блокировка обоих сервисов!</strong></p>';
+                html += '<p>Возможные причины:</p>';
+                html += '<ul>';
+                html += '<li>Региональные ограничения (серверы Netlify находятся в регионе с ограничениями)</li>';
+                html += '<li>Блокировка на уровне хостинг-провайдера</li>';
+                html += '<li>Проблемы с SSL/TLS сертификатами</li>';
+                html += '</ul>';
+                html += '</div>';
+                
+                html += '<div class="result-item">';
+                html += '<h4>Рекомендуемые решения:</h4>';
+                html += '<ol>';
+                html += '<li><strong>Использовать альтернативный хостинг</strong> - Vercel, Railway, Render</li>';
+                html += '<li><strong>Развернуть собственный прокси-сервер</strong> в доступном регионе</li>';
+                html += '<li><strong>Использовать альтернативные сервисы:</strong>';
+                html += '<ul>';
+                html += '<li>Вместо Supabase: Firebase, PlanetScale, Neon</li>';
+                html += '<li>Для платежей: YooKassa, CloudPayments, Stripe</li>';
+                html += '</ul></li>';
+                html += '<li><strong>Изменить регион Netlify Functions</strong> (если возможно)</li>';
+                html += '</ol>';
+                html += '</div>';
+            } else if (wataBlocked) {
+                html += '<div class="result-item">';
+                html += '<p class="warning">Wata API недоступен, но Supabase работает</p>';
+                html += '<p>Попробуйте альтернативные платежные системы</p>';
+                html += '</div>';
+            } else if (supabaseBlocked) {
+                html += '<div class="result-item">';
+                html += '<p class="warning">Supabase недоступен, но Wata работает</p>';
+                html += '<p>Можно использовать альтернативную БД или localStorage</p>';
+                html += '</div>';
+            } else {
+                html += '<div class="result-item">';
+                html += '<p class="success">Все сервисы доступны!</p>';
+                html += '</div>';
+            }
+            
+            altDiv.innerHTML = html;
+        }
+        
+        // Автоматически запускаем тест при загрузке
+        window.onload = function() {
+            runServerTest();
+        };
+    </script>
+</body>
+</html>
