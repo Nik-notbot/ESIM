@@ -154,6 +154,7 @@
         </div>
     </div>
     
+    <script src="qr-codes-data.js"></script>
     <script>
         // Получаем ID заказа из URL
         const urlParams = new URLSearchParams(window.location.search);
@@ -178,64 +179,106 @@
             
             const order = JSON.parse(orderData);
             
-            container.innerHTML = `
-                <div class="success-icon">
-                    <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M20 6L9 17l-5-5" stroke="currentColor"/>
-                    </svg>
-                </div>
+            // Получаем QR-код для этого тарифа
+            const qrCode = getAvailableQRCode(order.planId);
+            
+            if (qrCode && qrCode.url) {
+                // Сохраняем QR-код в заказе
+                order.qrCode = qrCode;
+                localStorage.setItem(`order_${orderId}`, JSON.stringify(order));
                 
-                <h1 class="success-title">Спасибо за покупку!</h1>
-                <p class="success-message">Ваш заказ успешно оформлен</p>
-                
-                <div class="order-info">
-                    <h3>Информация о заказе:</h3>
-                    <div class="order-item">
-                        <span>Номер заказа:</span>
-                        <span style="font-family: monospace; font-size: 0.9em;">${orderId}</span>
-                    </div>
-                    <div class="order-item">
-                        <span>Тариф:</span>
-                        <span>${order.planName} (${order.planData} ГБ)</span>
-                    </div>
-                    <div class="order-item">
-                        <span>Сумма:</span>
-                        <span>${order.planPrice} ₽</span>
-                    </div>
-                    <div class="order-item">
-                        <span>Email:</span>
-                        <span>${order.customerEmail}</span>
-                    </div>
-                </div>
-                
-                <div class="contact-section">
-                    <h3>Получите ваш QR-код для активации eSIM</h3>
-                    <p>
-                        Для получения QR-кода напишите нашему менеджеру в Telegram. 
-                        Отправьте номер вашего заказа, и мы сразу вышлем QR-код.
-                    </p>
-                    <p style="margin-top: 15px;">
-                        <strong>Номер заказа для отправки:</strong><br>
-                        <code style="background: #e5e7eb; padding: 8px 12px; border-radius: 5px; font-size: 1.1em;">
-                            ${orderId}
-                        </code>
-                    </p>
-                    <a href="https://t.me/m/s3YBfElRZGRk" class="contact-button" target="_blank">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+                // Показываем страницу с QR-кодом
+                container.innerHTML = `
+                    <div class="success-icon">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M20 6L9 17l-5-5" stroke="currentColor"/>
                         </svg>
-                        Написать в поддержку
+                    </div>
+                    
+                    <h1 class="success-title">Оплата прошла успешно!</h1>
+                    <p class="success-message">Ваша eSIM готова к использованию</p>
+                    
+                    <div style="background: #f5f5f5; padding: 30px; border-radius: 15px; margin: 30px 0;">
+                        <h2 style="text-align: center; margin-bottom: 20px;">Ваш QR-код для активации eSIM</h2>
+                        <div style="background: white; padding: 20px; border-radius: 10px; display: inline-block; margin: 0 auto;">
+                            <img src="${qrCode.url}" alt="QR код для eSIM" style="max-width: 300px; height: auto; display: block;">
+                        </div>
+                        <p style="text-align: center; margin-top: 20px;">
+                            <a href="${qrCode.url}" download="esim-qr-code.png" style="color: #2196F3;">
+                                Скачать QR-код
+                            </a>
+                        </p>
+                    </div>
+                    
+                    <div style="background: #e3f2fd; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <h3>Как активировать eSIM:</h3>
+                        <ol style="text-align: left; margin-left: 20px;">
+                            <li>Откройте <strong>Настройки</strong> → <strong>Сотовая связь</strong></li>
+                            <li>Нажмите <strong>Добавить eSIM</strong></li>
+                            <li>Выберите <strong>Использовать QR-код</strong></li>
+                            <li>Отсканируйте QR-код выше</li>
+                            <li>Следуйте инструкциям на экране</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="order-info">
+                        <h3>Детали заказа:</h3>
+                        <div class="order-item">
+                            <span>Тариф:</span>
+                            <span>${order.planName} (${order.planData} ГБ)</span>
+                        </div>
+                        <div class="order-item">
+                            <span>Email:</span>
+                            <span>${order.customerEmail}</span>
+                        </div>
+                    </div>
+                    
+                    <a href="/" class="home-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                        На главную
                     </a>
-                </div>
-                
-                <a href="/" class="home-link">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
-                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                    </svg>
-                    На главную
-                </a>
-            `;
+                `;
+            } else {
+                // Если QR-коды закончились, показываем инструкцию для связи
+                container.innerHTML = `
+                    <div class="success-icon">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M20 6L9 17l-5-5" stroke="currentColor"/>
+                        </svg>
+                    </div>
+                    
+                    <h1 class="success-title">Спасибо за покупку!</h1>
+                    <p class="success-message">Ваш заказ успешно оформлен</p>
+                    
+                    <div class="contact-section">
+                        <h3>QR-код будет отправлен в течение 5 минут</h3>
+                        <p>
+                            Наш менеджер уже обрабатывает ваш заказ. 
+                            QR-код будет отправлен на email: <strong>${order.customerEmail}</strong>
+                        </p>
+                        <p style="margin-top: 15px;">
+                            Если у вас есть вопросы, напишите нам:
+                        </p>
+                        <a href="https://t.me/m/s3YBfElRZGRk" class="contact-button" target="_blank">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+                            </svg>
+                            Написать в поддержку
+                        </a>
+                    </div>
+                    
+                    <a href="/" class="home-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                        На главную
+                    </a>
+                `;
+            }
         }
         
         // Показываем контент после небольшой задержки
