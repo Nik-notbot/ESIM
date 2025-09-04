@@ -99,19 +99,19 @@
             result.innerHTML = '<p>Создаем тестовый платеж...</p>';
             
             const testPayment = {
+                type: 'OneTime',
                 amount: 100.00,
                 currency: 'RUB',
                 description: 'Test payment',
                 orderId: 'test_' + Date.now(),
-                customerEmail: 'test@example.com',
-                successUrl: window.location.origin + '/success.html',
-                failUrl: window.location.origin + '/payment.html'
+                successRedirectUrl: window.location.origin + '/success.html',
+                failRedirectUrl: window.location.origin + '/payment.html'
             };
             
             try {
                 console.log('Отправляем запрос:', testPayment);
                 
-                const response = await fetch(`${WATA_API_URL}/payments`, {
+                const response = await fetch(`${WATA_API_URL}/links`, {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${WATA_API_KEY}`,
@@ -129,8 +129,8 @@
                     try {
                         const data = JSON.parse(responseText);
                         result.innerHTML += `<p class="success">✓ Платеж создан!</p>`;
-                        if (data.paymentUrl || data.url) {
-                            result.innerHTML += `<p>URL: <a href="${data.paymentUrl || data.url}" target="_blank">Открыть платежную страницу</a></p>`;
+                        if (data.url || data.paymentUrl) {
+                            result.innerHTML += `<p>URL: <a href="${data.url || data.paymentUrl}" target="_blank">Открыть платежную страницу</a></p>`;
                         }
                         result.innerHTML += `<details><summary>Полный ответ</summary><pre>${JSON.stringify(data, null, 2)}</pre></details>`;
                     } catch {
