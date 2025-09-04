@@ -41,19 +41,30 @@ document.getElementById('paymentForm').addEventListener('submit', async (e) => {
     
     try {
         // 1. Создаем заказ в базе данных
+        console.log('Создаем заказ с данными:', {
+            plan_id: parseInt(planId),
+            customer_email: email,
+            customer_phone: phone,
+            amount: parseFloat(planPrice),
+            status: 'pending'
+        });
+        
         const { data: order, error: orderError } = await supabase
             .from('orders')
             .insert({
                 plan_id: parseInt(planId),
                 customer_email: email,
-                customer_phone: phone,
+                customer_phone: phone || null,
                 amount: parseFloat(planPrice),
                 status: 'pending'
             })
             .select()
             .single();
             
-        if (orderError) throw new Error('Ошибка создания заказа: ' + orderError.message);
+        if (orderError) {
+            console.error('Ошибка Supabase:', orderError);
+            throw new Error('Ошибка создания заказа: ' + orderError.message);
+        }
         
         // 2. Создаем платеж в Wata
         const paymentData = {
