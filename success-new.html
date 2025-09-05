@@ -283,31 +283,48 @@
                 console.log('Найден QR-код:', qrCode);
                 
                 // 2. Помечаем QR-код как использованный
-                const { error: updateQRError } = await supabase
+                console.log('Обновляем QR-код:', qrCode.id, 'для заказа:', order.id);
+                
+                // Сначала проверяем, можем ли мы обновить QR-код
+                const { data: updateQRData, error: updateQRError } = await supabase
                     .from('qr_codes')
                     .update({
                         is_used: true,
                         used_at: new Date().toISOString(),
                         used_by_order_id: order.id
                     })
-                    .eq('id', qrCode.id);
+                    .eq('id', qrCode.id)
+                    .eq('is_used', false) // Дополнительная проверка
+                    .select();
                 
                 if (updateQRError) {
                     console.error('Ошибка обновления QR-кода:', updateQRError);
+                    console.log('Возможно, проблема с правами доступа (RLS политики)');
+                    
+                    // Показываем QR-код даже если не удалось обновить статус
+                    console.log('Показываем QR-код без обновления статуса в БД');
+                    showQRCode(qrCode.qr_url);
+                    return;
+                } else {
+                    console.log('QR-код успешно обновлен:', updateQRData);
                 }
                 
                 // 3. Обновляем заказ
-                const { error: updateOrderError } = await supabase
+                console.log('Обновляем заказ:', order.id, 'с QR-кодом:', qrCode.id);
+                const { data: updateOrderData, error: updateOrderError } = await supabase
                     .from('orders')
                     .update({
                         qr_code_id: qrCode.id,
                         status: 'completed',
                         updated_at: new Date().toISOString()
                     })
-                    .eq('id', order.id);
+                    .eq('id', order.id)
+                    .select();
                 
                 if (updateOrderError) {
                     console.error('Ошибка обновления заказа:', updateOrderError);
+                } else {
+                    console.log('Заказ успешно обновлен:', updateOrderData);
                 }
                 
                 // 4. Показываем QR-код
