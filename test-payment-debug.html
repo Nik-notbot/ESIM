@@ -33,8 +33,8 @@
     
     <div class="test-section">
         <h2>4. Тест формы оплаты</h2>
-        <p><a href="payment.html?plan=1&name=Стандарт&data=8&price=990" target="_blank">Открыть страницу оплаты (Стандарт)</a></p>
-        <p><a href="payment.html?plan=2&name=Премиум&data=25&price=1990" target="_blank">Открыть страницу оплаты (Премиум)</a></p>
+        <p><a href="payment.html?plan=1&name=Стандарт&data=8&price=100" target="_blank">Открыть страницу оплаты (Стандарт)</a></p>
+        <p><a href="payment.html?plan=2&name=Премиум&data=25&price=100" target="_blank">Открыть страницу оплаты (Премиум)</a></p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -97,7 +97,7 @@
                         plan_id: 1,
                         customer_email: 'test@example.com',
                         customer_phone: '+79991234567',
-                        amount: 990,
+                        amount: 100,
                         status: 'pending'
                     })
                     .select()
