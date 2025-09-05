@@ -39,6 +39,9 @@
             max-width: 300px;
             height: auto;
             display: block;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 0 auto;
         }
         
         .loading {
@@ -318,10 +321,41 @@
         }
         
         function showQRCode(url) {
+            console.log('Показываем QR-код:', url);
+            
+            // Скрываем сообщение о загрузке
             document.getElementById('loading-message').style.display = 'none';
-            document.getElementById('qr-container').style.display = 'block';
-            document.getElementById('qr-code-img').src = url;
+            
+            // Показываем контейнер QR-кода
+            const qrContainer = document.getElementById('qr-container');
+            qrContainer.style.display = 'block';
+            
+            // Устанавливаем ссылку для скачивания
             document.getElementById('download-link').href = url;
+            
+            // Устанавливаем источник изображения
+            const qrImg = document.getElementById('qr-code-img');
+            qrImg.src = url;
+            
+            // Добавляем обработчики для отладки
+            qrImg.onload = function() {
+                console.log('QR-код успешно загружен');
+            };
+            
+            qrImg.onerror = function() {
+                console.error('Ошибка загрузки QR-кода:', url);
+                // Показываем альтернативный текст
+                qrImg.style.display = 'none';
+                const qrWrapper = qrImg.parentElement;
+                qrWrapper.innerHTML = `
+                    <div style="padding: 20px; border: 2px dashed #ccc; border-radius: 8px;">
+                        <p style="margin: 0; color: #666;">QR-код готов к скачиванию</p>
+                        <p style="margin: 10px 0 0 0; font-size: 14px; color: #999;">Изображение не отображается, но ссылка для скачивания работает</p>
+                    </div>
+                `;
+            };
+            
+            console.log('QR-код должен быть виден');
         }
         
         function showError(message, orderId = null) {
