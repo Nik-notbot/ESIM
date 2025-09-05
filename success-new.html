@@ -217,25 +217,8 @@
                 // Получаем доступный QR-код
                 console.log('Получаем QR-код для плана:', order.plan_id);
                 
-                const { data: qrResult, error: qrError } = await supabase
-                    .rpc('get_available_qr_code', {
-                        p_plan_id: order.plan_id,
-                        p_order_id: order.id
-                    });
-                
-                if (qrError) {
-                    console.error('Ошибка получения QR-кода:', qrError);
-                    showError('Не удалось получить QR-код', order.id);
-                    return;
-                }
-                
-                if (qrResult && qrResult.length > 0) {
-                    console.log('QR-код получен:', qrResult[0]);
-                    showQRCode(qrResult[0].qr_url);
-                } else {
-                    console.log('Нет доступных QR-кодов');
-                    showError('В данный момент все QR-коды заняты. Мы отправим код на email.', order.id);
-                }
+                // Получаем QR-код альтернативным способом
+                await getQRCodeAlternative(order);
                 
             } catch (error) {
                 console.error('Ошибка:', error);
@@ -258,29 +241,78 @@
                     console.error('Ошибка обновления статуса:', updateError);
                 }
                 
-                // Получаем QR-код
-                const { data: qrResult, error: qrError } = await supabase
-                    .rpc('get_available_qr_code', {
-                        p_plan_id: order.plan_id,
-                        p_order_id: order.id
-                    });
-                
-                if (qrError) {
-                    console.error('Ошибка получения QR-кода:', qrError);
-                    showError('Не удалось получить QR-код', order.id);
-                    return;
-                }
-                
-                if (qrResult && qrResult.length > 0) {
-                    console.log('QR-код получен принудительно:', qrResult[0]);
-                    showQRCode(qrResult[0].qr_url);
-                } else {
-                    console.log('Нет доступных QR-кодов');
-                    showError('В данный момент все QR-коды заняты. Мы отправим код на email.', order.id);
-                }
+                // Получаем QR-код альтернативным способом
+                await getQRCodeAlternative(order);
                 
             } catch (error) {
                 console.error('Ошибка принудительного назначения QR-кода:', error);
+                showError('Произошла ошибка при получении QR-кода');
+            }
+        }
+        
+        // Альтернативная функция получения QR-кода без RPC
+        async function getQRCodeAlternative(order) {
+            try {
+                console.log('Получаем QR-код альтернативным способом...');
+                
+                // 1. Находим доступный QR-код
+                const { data: availableQRCodes, error: qrError } = await supabase
+                    .from('qr_codes')
+                    .select('id, qr_url')
+                    .eq('plan_id', order.plan_id)
+                    .eq('is_used', false)
+                    .order('created_at')
+                    .limit(1);
+                
+                if (qrError) {
+                    console.error('Ошибка поиска QR-кодов:', qrError);
+                    showError('Не удалось найти доступные QR-коды', order.id);
+                    return;
+                }
+                
+                if (!availableQRCodes || availableQRCodes.length === 0) {
+                    console.log('Нет доступных QR-кодов');
+                    showError('В данный момент все QR-коды заняты. Мы отправим код на email.', order.id);
+                    return;
+                }
+                
+                const qrCode = availableQRCodes[0];
+                console.log('Найден QR-код:', qrCode);
+                
+                // 2. Помечаем QR-код как использованный
+                const { error: updateQRError } = await supabase
+                    .from('qr_codes')
+                    .update({
+                        is_used: true,
+                        used_at: new Date().toISOString(),
+                        used_by_order_id: order.id
+                    })
+                    .eq('id', qrCode.id);
+                
+                if (updateQRError) {
+                    console.error('Ошибка обновления QR-кода:', updateQRError);
+                }
+                
+                // 3. Обновляем заказ
+                const { error: updateOrderError } = await supabase
+                    .from('orders')
+                    .update({
+                        qr_code_id: qrCode.id,
+                        status: 'completed',
+                        updated_at: new Date().toISOString()
+                    })
+                    .eq('id', order.id);
+                
+                if (updateOrderError) {
+                    console.error('Ошибка обновления заказа:', updateOrderError);
+                }
+                
+                // 4. Показываем QR-код
+                console.log('QR-код успешно назначен:', qrCode.qr_url);
+                showQRCode(qrCode.qr_url);
+                
+            } catch (error) {
+                console.error('Ошибка альтернативного получения QR-кода:', error);
                 showError('Произошла ошибка при получении QR-кода');
             }
         }
