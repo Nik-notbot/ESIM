@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
     checkSupabaseConnection();
     
     // Подключаем обработчик формы
-    const paymentForm = document.getElementById('payment-form');
+    const paymentForm = document.getElementById('paymentForm');
     if (paymentForm) {
         paymentForm.addEventListener('submit', handlePayment);
     }
@@ -151,10 +151,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const planPrice = urlParams.get('price');
     
     if (planName && planData && planPrice) {
-        const planInfo = document.getElementById('plan-info');
-        if (planInfo) {
-            planInfo.textContent = `${planName} - ${planData} ГБ за ${planPrice} ₽`;
-        }
+        // Обновляем информацию о плане в заказе
+        const planNameElement = document.getElementById('planName');
+        const planDataElement = document.getElementById('planData');
+        const planPriceElement = document.getElementById('planPrice');
+        
+        if (planNameElement) planNameElement.textContent = planName;
+        if (planDataElement) planDataElement.textContent = planData + ' ГБ';
+        if (planPriceElement) planPriceElement.textContent = planPrice + ' ₽';
     }
     
     // Проверяем, была ли ошибка оплаты
