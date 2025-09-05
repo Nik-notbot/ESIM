@@ -178,10 +178,25 @@
                 orderDetails.style.display = 'block';
                 
                 // Проверяем статус оплаты
-                if (order.status !== 'paid' && order.status !== 'completed') {
+                if (order.status === 'processing') {
                     console.log('Ожидаем подтверждение оплаты...');
-                    // Ждем 2 секунды и проверяем снова
-                    setTimeout(() => getQRCode(), 2000);
+                    // Ждем 3 секунды и проверяем снова (максимум 10 попыток)
+                    if (window.checkAttempts === undefined) {
+                        window.checkAttempts = 0;
+                    }
+                    window.checkAttempts++;
+                    
+                    if (window.checkAttempts < 10) {
+                        setTimeout(() => getQRCode(), 3000);
+                    } else {
+                        console.log('Таймаут ожидания подтверждения. Показываем QR-код принудительно.');
+                        // Принудительно показываем QR-код после таймаута
+                        await assignQRCode(order);
+                    }
+                    return;
+                } else if (order.status !== 'paid' && order.status !== 'completed') {
+                    console.log('Статус заказа:', order.status);
+                    showError('Оплата не подтверждена. Статус: ' + order.status);
                     return;
                 }
                 
@@ -224,6 +239,48 @@
                 
             } catch (error) {
                 console.error('Ошибка:', error);
+                showError('Произошла ошибка при получении QR-кода');
+            }
+        }
+        
+        // Функция для принудительного назначения QR-кода
+        async function assignQRCode(order) {
+            try {
+                console.log('Принудительно назначаем QR-код для заказа:', order.id);
+                
+                // Обновляем статус заказа на 'paid'
+                const { error: updateError } = await supabase
+                    .from('orders')
+                    .update({ status: 'paid' })
+                    .eq('id', order.id);
+                
+                if (updateError) {
+                    console.error('Ошибка обновления статуса:', updateError);
+                }
+                
+                // Получаем QR-код
+                const { data: qrResult, error: qrError } = await supabase
+                    .rpc('get_available_qr_code', {
+                        p_plan_id: order.plan_id,
+                        p_order_id: order.id
+                    });
+                
+                if (qrError) {
+                    console.error('Ошибка получения QR-кода:', qrError);
+                    showError('Не удалось получить QR-код', order.id);
+                    return;
+                }
+                
+                if (qrResult && qrResult.length > 0) {
+                    console.log('QR-код получен принудительно:', qrResult[0]);
+                    showQRCode(qrResult[0].qr_url);
+                } else {
+                    console.log('Нет доступных QR-кодов');
+                    showError('В данный момент все QR-коды заняты. Мы отправим код на email.', order.id);
+                }
+                
+            } catch (error) {
+                console.error('Ошибка принудительного назначения QR-кода:', error);
                 showError('Произошла ошибка при получении QR-кода');
             }
         }
