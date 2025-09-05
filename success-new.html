@@ -320,8 +320,39 @@
             }
         }
         
+        // Функция для преобразования URL ImgBB в прямую ссылку на изображение
+        function convertImgBBUrl(url) {
+            // Если это уже прямая ссылка на изображение, возвращаем как есть
+            if (url.includes('.png') || url.includes('.jpg') || url.includes('.jpeg') || url.includes('.gif')) {
+                return url;
+            }
+            
+            // Если это ссылка на ImgBB страницу, преобразуем в прямую ссылку
+            if (url.includes('ibb.co/')) {
+                // Извлекаем ID изображения из URL
+                const match = url.match(/ibb\.co\/([a-zA-Z0-9]+)/);
+                if (match && match[1]) {
+                    const imageId = match[1];
+                    // Преобразуем в прямую ссылку на изображение
+                    return `https://i.ibb.co/${imageId}/image.png`;
+                }
+            }
+            
+            // Если это ссылка на i.ibb.co, но без расширения, добавляем .png
+            if (url.includes('i.ibb.co/') && !url.includes('.')) {
+                return url + '.png';
+            }
+            
+            // Возвращаем оригинальный URL, если не удалось преобразовать
+            return url;
+        }
+        
         function showQRCode(url) {
             console.log('Показываем QR-код:', url);
+            
+            // Преобразуем URL ImgBB в прямую ссылку на изображение
+            const directImageUrl = convertImgBBUrl(url);
+            console.log('Преобразованный URL:', directImageUrl);
             
             // Скрываем сообщение о загрузке
             document.getElementById('loading-message').style.display = 'none';
@@ -331,11 +362,11 @@
             qrContainer.style.display = 'block';
             
             // Устанавливаем ссылку для скачивания
-            document.getElementById('download-link').href = url;
+            document.getElementById('download-link').href = directImageUrl;
             
             // Устанавливаем источник изображения
             const qrImg = document.getElementById('qr-code-img');
-            qrImg.src = url;
+            qrImg.src = directImageUrl;
             
             // Добавляем обработчики для отладки
             qrImg.onload = function() {
@@ -343,16 +374,46 @@
             };
             
             qrImg.onerror = function() {
-                console.error('Ошибка загрузки QR-кода:', url);
-                // Показываем альтернативный текст
-                qrImg.style.display = 'none';
-                const qrWrapper = qrImg.parentElement;
-                qrWrapper.innerHTML = `
-                    <div style="padding: 20px; border: 2px dashed #ccc; border-radius: 8px;">
-                        <p style="margin: 0; color: #666;">QR-код готов к скачиванию</p>
-                        <p style="margin: 10px 0 0 0; font-size: 14px; color: #999;">Изображение не отображается, но ссылка для скачивания работает</p>
-                    </div>
-                `;
+                console.error('Ошибка загрузки QR-кода:', directImageUrl);
+                console.log('Пробуем альтернативные варианты...');
+                
+                // Пробуем другие варианты URL
+                const alternativeUrls = [
+                    url.replace('ibb.co/', 'i.ibb.co/') + '.png',
+                    url.replace('ibb.co/', 'i.ibb.co/') + '.jpg',
+                    url.replace('ibb.co/', 'i.ibb.co/') + '.jpeg',
+                    url + '.png',
+                    url + '.jpg'
+                ];
+                
+                let currentIndex = 0;
+                const tryNextUrl = () => {
+                    if (currentIndex < alternativeUrls.length) {
+                        const altUrl = alternativeUrls[currentIndex];
+                        console.log('Пробуем альтернативный URL:', altUrl);
+                        qrImg.src = altUrl;
+                        currentIndex++;
+                    } else {
+                        // Все варианты исчерпаны, показываем альтернативный текст
+                        console.log('Все варианты URL исчерпаны');
+                        qrImg.style.display = 'none';
+                        const qrWrapper = qrImg.parentElement;
+                        qrWrapper.innerHTML = `
+                            <div style="padding: 20px; border: 2px dashed #ccc; border-radius: 8px;">
+                                <p style="margin: 0; color: #666;">QR-код готов к скачиванию</p>
+                                <p style="margin: 10px 0 0 0; font-size: 14px; color: #999;">Изображение не отображается, но ссылка для скачивания работает</p>
+                                <p style="margin: 10px 0 0 0; font-size: 12px; color: #999;">Оригинальный URL: ${url}</p>
+                            </div>
+                        `;
+                    }
+                };
+                
+                qrImg.onerror = tryNextUrl;
+                qrImg.onload = function() {
+                    console.log('Альтернативный URL сработал:', qrImg.src);
+                };
+                
+                tryNextUrl();
             };
             
             console.log('QR-код должен быть виден');
