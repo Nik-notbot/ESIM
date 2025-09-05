@@ -15,7 +15,7 @@ CREATE TABLE qr_codes (
     plan_id INTEGER REFERENCES esim_plans(id),
     qr_url VARCHAR(255) NOT NULL UNIQUE,
     is_used BOOLEAN DEFAULT FALSE,
-    used_by_order_id UUID,
+    order_id TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     used_at TIMESTAMP WITH TIME ZONE
 );

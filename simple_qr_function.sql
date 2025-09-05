@@ -25,7 +25,7 @@ BEGIN
         UPDATE qr_codes 
         SET is_used = TRUE,
             used_at = NOW(),
-            used_by_order_id = p_order_id
+            order_id = p_order_id::TEXT
         WHERE id = selected_qr_id;
         
         -- Обновляем заказ

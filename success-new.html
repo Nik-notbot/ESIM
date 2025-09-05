@@ -291,7 +291,7 @@
                     .update({
                         is_used: true,
                         used_at: new Date().toISOString(),
-                        used_by_order_id: order.id
+                        order_id: order.id  // Исправляем название колонки
                     })
                     .eq('id', qrCode.id)
                     .eq('is_used', false) // Дополнительная проверка
