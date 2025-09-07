@@ -232,15 +232,33 @@
         .back-link {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            color: var(--text-light);
+            gap: 12px;
+            color: white;
             text-decoration: none;
-            margin-bottom: 30px;
-            transition: color 0.3s;
+            margin: 20px 0 0 20px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.95rem;
         }
         
         .back-link:hover {
-            color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .back-link svg {
+            transition: transform 0.3s ease;
+        }
+        
+        .back-link:hover svg {
+            transform: translateX(-3px);
         }
         
         .security-info {
@@ -310,6 +328,12 @@
             
             .features-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .back-link {
+                margin: 15px 0 0 15px;
+                padding: 10px 16px;
+                font-size: 0.9rem;
             }
         }
     </style>
