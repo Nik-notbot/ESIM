@@ -194,6 +194,26 @@
                     <label>URL изображения QR-кода:</label>
                     <input type="url" id="qr-url" placeholder="https://i.ibb.co/..." required>
                 </div>
+                <div class="form-group">
+                    <label>Страна:</label>
+                    <input type="text" id="country-name" placeholder="Германия">
+                </div>
+                <div class="form-group">
+                    <label>Код страны:</label>
+                    <input type="text" id="country-code" placeholder="DE" maxlength="3">
+                </div>
+                <div class="form-group">
+                    <label>Номер eSIM:</label>
+                    <input type="text" id="esim-number" placeholder="+49 123 456 7890">
+                </div>
+                <div class="form-group">
+                    <label>PIN код:</label>
+                    <input type="text" id="pin-code" placeholder="1234">
+                </div>
+                <div class="form-group">
+                    <label>PUK код:</label>
+                    <input type="text" id="puk-code" placeholder="12345678">
+                </div>
                 <button type="submit">Добавить QR-код</button>
             </form>
         </div>
@@ -324,19 +344,35 @@ https://i.ibb.co/DEF456/qr-003.png" required></textarea>
             
             const planId = parseInt(document.getElementById('plan').value);
             const qrUrl = document.getElementById('qr-url').value.trim();
+            const countryName = document.getElementById('country-name').value.trim();
+            const countryCode = document.getElementById('country-code').value.trim();
+            const esimNumber = document.getElementById('esim-number').value.trim();
+            const pinCode = document.getElementById('pin-code').value.trim();
+            const pukCode = document.getElementById('puk-code').value.trim();
             
             try {
                 const { error } = await supabase
                     .from('qr_codes')
                     .insert({
                         plan_id: planId,
-                        qr_url: qrUrl
+                        qr_url: qrUrl,
+                        country_name: countryName || null,
+                        country_code: countryCode || null,
+                        esim_number: esimNumber || null,
+                        pin_code: pinCode || null,
+                        puk_code: pukCode || null
                     });
                 
                 if (error) throw error;
                 
                 showMessage('QR-код успешно добавлен!');
+                // Очищаем все поля
                 document.getElementById('qr-url').value = '';
+                document.getElementById('country-name').value = '';
+                document.getElementById('country-code').value = '';
+                document.getElementById('esim-number').value = '';
+                document.getElementById('pin-code').value = '';
+                document.getElementById('puk-code').value = '';
                 loadStats();
                 loadQRCodes();
                 

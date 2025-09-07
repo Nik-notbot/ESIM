@@ -87,6 +87,51 @@
             margin: 20px 0;
             font-size: 14px;
         }
+        
+        .esim-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 1px solid #e9ecef;
+        }
+        
+        .esim-info h3 {
+            margin: 0 0 15px 0;
+            color: #495057;
+            font-size: 18px;
+        }
+        
+        .esim-details {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .esim-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .esim-item:last-child {
+            border-bottom: none;
+        }
+        
+        .esim-item .label {
+            font-weight: 600;
+            color: #6c757d;
+        }
+        
+        .esim-item .value {
+            font-weight: 500;
+            color: #212529;
+            font-family: 'Courier New', monospace;
+            background: #e9ecef;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
@@ -107,6 +152,29 @@
                     Скачать QR-код
                 </a>
             </p>
+            
+            <!-- Дополнительная информация о eSIM -->
+            <div id="esim-info" class="esim-info" style="display: none;">
+                <h3>Информация о вашей eSIM</h3>
+                <div class="esim-details">
+                    <div class="esim-item">
+                        <span class="label">Страна:</span>
+                        <span id="country-info" class="value">-</span>
+                    </div>
+                    <div class="esim-item">
+                        <span class="label">Номер eSIM:</span>
+                        <span id="esim-number" class="value">-</span>
+                    </div>
+                    <div class="esim-item">
+                        <span class="label">PIN код:</span>
+                        <span id="pin-code" class="value">-</span>
+                    </div>
+                    <div class="esim-item">
+                        <span class="label">PUK код:</span>
+                        <span id="puk-code" class="value">-</span>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <div id="error-message" class="error-message">
@@ -261,7 +329,7 @@
                 // 1. Находим доступный QR-код
                 const { data: availableQRCodes, error: qrError } = await supabase
                     .from('qr_codes')
-                    .select('id, qr_url')
+                    .select('id, qr_url, country_name, country_code, esim_number, pin_code, puk_code')
                     .eq('plan_id', order.plan_id)
                     .eq('is_used', false)
                     .order('created_at')
@@ -327,9 +395,9 @@
                     console.log('Заказ успешно обновлен:', updateOrderData);
                 }
                 
-                // 4. Показываем QR-код
+                // 4. Показываем QR-код с дополнительной информацией
                 console.log('QR-код успешно назначен:', qrCode.qr_url);
-                showQRCode(qrCode.qr_url);
+                showQRCode(qrCode.qr_url, qrCode);
                 
             } catch (error) {
                 console.error('Ошибка альтернативного получения QR-кода:', error);
@@ -364,8 +432,9 @@
             return url;
         }
         
-        function showQRCode(url) {
+        function showQRCode(url, qrData = null) {
             console.log('Показываем QR-код:', url);
+            console.log('Дополнительные данные:', qrData);
             
             // Преобразуем URL ImgBB в прямую ссылку на изображение
             const directImageUrl = convertImgBBUrl(url);
@@ -384,6 +453,11 @@
             // Устанавливаем источник изображения
             const qrImg = document.getElementById('qr-code-img');
             qrImg.src = directImageUrl;
+            
+            // Отображаем дополнительную информацию о eSIM
+            if (qrData) {
+                displayESIMInfo(qrData);
+            }
             
             // Добавляем обработчики для отладки
             qrImg.onload = function() {
@@ -434,6 +508,39 @@
             };
             
             console.log('QR-код должен быть виден');
+        }
+        
+        // Функция для отображения дополнительной информации о eSIM
+        function displayESIMInfo(qrData) {
+            console.log('Отображаем информацию о eSIM:', qrData);
+            
+            const esimInfoDiv = document.getElementById('esim-info');
+            if (!esimInfoDiv) return;
+            
+            // Заполняем информацию
+            const countryInfo = document.getElementById('country-info');
+            const esimNumber = document.getElementById('esim-number');
+            const pinCode = document.getElementById('pin-code');
+            const pukCode = document.getElementById('puk-code');
+            
+            if (countryInfo && qrData.country_name && qrData.country_code) {
+                countryInfo.textContent = `${qrData.country_name} (${qrData.country_code})`;
+            }
+            
+            if (esimNumber && qrData.esim_number) {
+                esimNumber.textContent = qrData.esim_number;
+            }
+            
+            if (pinCode && qrData.pin_code) {
+                pinCode.textContent = qrData.pin_code;
+            }
+            
+            if (pukCode && qrData.puk_code) {
+                pukCode.textContent = qrData.puk_code;
+            }
+            
+            // Показываем блок с информацией
+            esimInfoDiv.style.display = 'block';
         }
         
         function showError(message, orderId = null) {
