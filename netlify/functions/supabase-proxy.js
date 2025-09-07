@@ -18,8 +18,8 @@ exports.handler = async (event, context) => {
     };
   }
 
-  const SUPABASE_URL = 'https://nwcleyhnbzxetcqtlim.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im53Y2xleWhubmJ6eGV0Y3F0bGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDczODEzODUsImV4cCI6MjA2Mjk1NzM4NX0.3ss3IMHLlhipHY1u8610mCX6TBG4e3doZULjvoQ1Ijg';
+  const SUPABASE_URL = process.env.SUPABASE_URL || 'https://wiwkergsvbgnrdslqkzg.supabase.co';
+  const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indpd2tlcmdzdmJnbnJkc2xxa3pnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5OTA5MjAsImV4cCI6MjA3MjU2NjkyMH0.PmWeSrWMRzlHlFJpwRjlSla3Ra6hWAoCNErMEdEWtEk';
 
   try {
     const { path, method, body: requestBody, queryStringParameters } = event;

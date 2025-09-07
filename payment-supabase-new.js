@@ -142,7 +142,7 @@ async function handlePayment(event) {
 async function checkSupabaseConnection() {
     try {
         console.log('Проверяем подключение к новому проекту Supabase...');
-        console.log('URL:', SUPABASE_URL);
+        console.log('URL:', supabaseUrl);
         
         const { count, error } = await supabase
             .from('esim_plans')
