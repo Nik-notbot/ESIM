@@ -575,19 +575,52 @@ https://i.ibb.co/DEF456/qr-003.png" required></textarea>
     </div> <!-- Закрытие admin-content -->
     
     <script>
-        // Проверка пароля
-        function checkPassword() {
+        // Проверка пароля через API
+        async function checkPassword() {
             const password = document.getElementById('passwordInput').value;
-            const correctPassword = 'admin123'; // Замените на ваш пароль
+            const errorDiv = document.getElementById('errorMessage');
             
-            if (password === correctPassword) {
-                document.getElementById('loginContainer').style.display = 'none';
-                document.getElementById('adminContent').style.display = 'block';
-                // Сохраняем сессию на 1 час
-                sessionStorage.setItem('adminAuth', 'true');
-                sessionStorage.setItem('adminAuthTime', Date.now().toString());
-            } else {
-                document.getElementById('errorMessage').textContent = 'Неверный пароль';
+            if (!password) {
+                errorDiv.textContent = 'Введите пароль';
+                return;
+            }
+            
+            try {
+                errorDiv.textContent = 'Проверяем...';
+                
+                const response = await fetch('/.netlify/functions/admin-auth', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: 'admin',
+                        password: password
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Успешная авторизация
+                    document.getElementById('loginContainer').style.display = 'none';
+                    document.getElementById('adminContent').style.display = 'block';
+                    
+                    // Сохраняем токен сессии
+                    sessionStorage.setItem('adminAuth', 'true');
+                    sessionStorage.setItem('adminToken', result.sessionToken);
+                    sessionStorage.setItem('adminAuthTime', Date.now().toString());
+                    sessionStorage.setItem('adminUser', JSON.stringify(result.admin));
+                    
+                    errorDiv.textContent = '';
+                } else {
+                    errorDiv.textContent = result.message || 'Ошибка авторизации';
+                    document.getElementById('passwordInput').value = '';
+                }
+                
+            } catch (error) {
+                console.error('Auth error:', error);
+                errorDiv.textContent = 'Ошибка соединения с сервером';
                 document.getElementById('passwordInput').value = '';
             }
         }
@@ -596,8 +629,9 @@ https://i.ibb.co/DEF456/qr-003.png" required></textarea>
         function checkSession() {
             const auth = sessionStorage.getItem('adminAuth');
             const authTime = sessionStorage.getItem('adminAuthTime');
+            const token = sessionStorage.getItem('adminToken');
             
-            if (auth === 'true' && authTime) {
+            if (auth === 'true' && authTime && token) {
                 const timeDiff = Date.now() - parseInt(authTime);
                 const oneHour = 60 * 60 * 1000; // 1 час в миллисекундах
                 
@@ -605,12 +639,25 @@ https://i.ibb.co/DEF456/qr-003.png" required></textarea>
                     // Сессия еще действительна
                     document.getElementById('loginContainer').style.display = 'none';
                     document.getElementById('adminContent').style.display = 'block';
+                    
+                    // Показываем информацию об админе
+                    const adminUser = JSON.parse(sessionStorage.getItem('adminUser') || '{}');
+                    if (adminUser.username) {
+                        console.log(`Добро пожаловать, ${adminUser.username}!`);
+                    }
                 } else {
                     // Сессия истекла
-                    sessionStorage.removeItem('adminAuth');
-                    sessionStorage.removeItem('adminAuthTime');
+                    clearSession();
                 }
             }
+        }
+        
+        // Очистка сессии
+        function clearSession() {
+            sessionStorage.removeItem('adminAuth');
+            sessionStorage.removeItem('adminToken');
+            sessionStorage.removeItem('adminAuthTime');
+            sessionStorage.removeItem('adminUser');
         }
         
         // Проверка сессии при загрузке
