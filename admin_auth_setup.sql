@@ -19,6 +19,9 @@ CREATE POLICY "Allow authenticated read" ON admin_passwords
 CREATE POLICY "Allow service role modify" ON admin_passwords
     FOR ALL USING (auth.role() = 'service_role');
 
+-- Удаляем старую функцию если она существует
+DROP FUNCTION IF EXISTS check_admin_password(VARCHAR(50), VARCHAR(255));
+
 -- Создание функции для проверки пароля
 CREATE OR REPLACE FUNCTION check_admin_password(
     input_password VARCHAR(255)
@@ -54,4 +57,4 @@ END;
 $$;
 
 -- Предоставляем права на выполнение функции
-GRANT EXECUTE ON FUNCTION check_admin_password TO anon;
+GRANT EXECUTE ON FUNCTION check_admin_password(VARCHAR(255)) TO anon;

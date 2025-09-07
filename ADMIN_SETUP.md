@@ -2,7 +2,21 @@
 
 ## 📋 Шаги настройки:
 
-### 1. Создание таблицы в Supabase
+### 1. Очистка старых функций (если нужно)
+
+Если возникают ошибки с функциями, сначала выполните `cleanup_old_functions.sql`:
+
+```sql
+-- Удаляем старые функции
+DROP FUNCTION IF EXISTS check_admin_password(VARCHAR(50), VARCHAR(255));
+DROP FUNCTION IF EXISTS check_admin_password(VARCHAR(255));
+
+-- Удаляем старые таблицы
+DROP TABLE IF EXISTS admins CASCADE;
+DROP TABLE IF EXISTS admin_passwords CASCADE;
+```
+
+### 2. Создание таблицы в Supabase
 
 Выполните SQL скрипт `admin_auth_setup.sql` в Supabase SQL Editor:
 
@@ -84,7 +98,7 @@ $$;
 GRANT EXECUTE ON FUNCTION check_admin_password TO anon;
 ```
 
-### 2. Настройка переменных окружения в Netlify
+### 3. Настройка переменных окружения в Netlify
 
 Добавьте в Netlify Dashboard → Site settings → Environment variables:
 
@@ -93,7 +107,7 @@ SUPABASE_URL=ваш_supabase_url
 SUPABASE_SERVICE_ROLE_KEY=ваш_service_role_key
 ```
 
-### 3. Изменение пароля
+### 4. Изменение пароля
 
 Чтобы изменить пароль, выполните в Supabase SQL Editor:
 
@@ -104,7 +118,7 @@ SET password = 'новый_пароль'
 WHERE password = 'admin123';
 ```
 
-### 4. Добавление дополнительного пароля
+### 5. Добавление дополнительного пароля
 
 ```sql
 -- Добавить дополнительный пароль
