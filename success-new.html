@@ -342,8 +342,24 @@
         // Функция для инициализации Supabase
         async function initSupabase() {
             try {
+                console.log('Loading Supabase configuration...');
                 const response = await fetch('/.netlify/functions/get-config');
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Failed to load configuration:', errorData);
+                    throw new Error(`Configuration error: ${errorData.message || 'Unknown error'}`);
+                }
+                
                 const config = await response.json();
+                console.log('Configuration loaded:', { 
+                    hasUrl: !!config.supabaseUrl, 
+                    hasKey: !!config.supabaseAnonKey 
+                });
+                
+                if (!config.supabaseUrl || !config.supabaseAnonKey) {
+                    throw new Error('Missing Supabase configuration. Please check environment variables in Netlify.');
+                }
                 
                 supabaseUrl = config.supabaseUrl;
                 
@@ -631,11 +647,26 @@
         
         // Запускаем при загрузке страницы
         document.addEventListener('DOMContentLoaded', async () => {
-            // Инициализируем Supabase
-            await initSupabase();
-            
-            // Получаем QR-код
-            getQRCode();
+            try {
+                // Инициализируем Supabase
+                await initSupabase();
+                
+                // Получаем QR-код
+                getQRCode();
+            } catch (error) {
+                console.error('Initialization failed:', error);
+                
+                // Показываем пользователю понятное сообщение
+                document.getElementById('loading-message').innerHTML = `
+                    <div style="color: #ff4444; text-align: center; padding: 20px;">
+                        <strong>Ошибка конфигурации</strong><br>
+                        Не удалось загрузить настройки приложения.<br>
+                        <small>Обратитесь к администратору для решения проблемы.</small>
+                    </div>
+                `;
+                
+                return;
+            }
         });
     </script>
 </body>

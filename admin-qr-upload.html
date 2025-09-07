@@ -260,8 +260,24 @@ https://i.ibb.co/DEF456/qr-003.png" required></textarea>
         // Функция для инициализации Supabase
         async function initSupabase() {
             try {
+                console.log('Loading Supabase configuration...');
                 const response = await fetch('/.netlify/functions/get-config');
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Failed to load configuration:', errorData);
+                    throw new Error(`Configuration error: ${errorData.message || 'Unknown error'}`);
+                }
+                
                 const config = await response.json();
+                console.log('Configuration loaded:', { 
+                    hasUrl: !!config.supabaseUrl, 
+                    hasKey: !!config.supabaseAnonKey 
+                });
+                
+                if (!config.supabaseUrl || !config.supabaseAnonKey) {
+                    throw new Error('Missing Supabase configuration. Please check environment variables in Netlify.');
+                }
                 
                 supabaseUrl = config.supabaseUrl;
                 
@@ -435,12 +451,41 @@ https://i.ibb.co/DEF456/qr-003.png" required></textarea>
         
         // Проверка конфигурации при загрузке
         document.addEventListener('DOMContentLoaded', async () => {
-            // Инициализируем Supabase
-            await initSupabase();
-            
-            // Загружаем статистику и QR-коды
-            loadStats();
-            loadQRCodes();
+            try {
+                // Инициализируем Supabase
+                await initSupabase();
+                
+                // Загружаем статистику и QR-коды
+                loadStats();
+                loadQRCodes();
+            } catch (error) {
+                console.error('Initialization failed:', error);
+                
+                // Показываем пользователю понятное сообщение
+                const errorMessage = document.createElement('div');
+                errorMessage.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: #ff4444;
+                    color: white;
+                    padding: 15px 20px;
+                    border-radius: 8px;
+                    z-index: 10000;
+                    max-width: 500px;
+                    text-align: center;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                `;
+                errorMessage.innerHTML = `
+                    <strong>Ошибка конфигурации</strong><br>
+                    Не удалось загрузить настройки приложения.<br>
+                    <small>Обратитесь к администратору для решения проблемы.</small>
+                `;
+                document.body.appendChild(errorMessage);
+                
+                return;
+            }
         });
     </script>
 </body>
