@@ -7,17 +7,15 @@
 Выполните SQL скрипт `admin_auth_setup.sql` в Supabase SQL Editor:
 
 ```sql
--- Создание таблицы для админов
-CREATE TABLE IF NOT EXISTS admins (
+-- Создание таблицы для паролей
+CREATE TABLE IF NOT EXISTS admin_passwords (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL
 );
 
--- Вставка админа по умолчанию (пароль: admin123)
-INSERT INTO admins (username, password) 
-VALUES ('admin', 'admin123')
-ON CONFLICT (username) DO NOTHING;
+-- Вставка пароля по умолчанию (пароль: admin123)
+INSERT INTO admin_passwords (password) 
+VALUES ('admin123');
 
 -- Создание RLS политик
 ALTER TABLE admins ENABLE ROW LEVEL SECURITY;
@@ -97,21 +95,21 @@ SUPABASE_SERVICE_ROLE_KEY=ваш_service_role_key
 
 ### 3. Изменение пароля
 
-Чтобы изменить пароль админа, выполните в Supabase SQL Editor:
+Чтобы изменить пароль, выполните в Supabase SQL Editor:
 
 ```sql
--- Изменить пароль для пользователя admin
-UPDATE admins 
+-- Изменить пароль
+UPDATE admin_passwords 
 SET password = 'новый_пароль' 
-WHERE username = 'admin';
+WHERE password = 'admin123';
 ```
 
-### 4. Добавление нового админа
+### 4. Добавление дополнительного пароля
 
 ```sql
--- Добавить нового админа
-INSERT INTO admins (username, password) 
-VALUES ('новый_админ', 'пароль_админа');
+-- Добавить дополнительный пароль
+INSERT INTO admin_passwords (password) 
+VALUES ('дополнительный_пароль');
 ```
 
 ## 🔒 Безопасность:

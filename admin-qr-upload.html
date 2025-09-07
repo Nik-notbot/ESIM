@@ -594,7 +594,6 @@ https://i.ibb.co/DEF456/qr-003.png" required></textarea>
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        username: 'admin',
                         password: password
                     })
                 });
@@ -610,7 +609,6 @@ https://i.ibb.co/DEF456/qr-003.png" required></textarea>
                     sessionStorage.setItem('adminAuth', 'true');
                     sessionStorage.setItem('adminToken', result.sessionToken);
                     sessionStorage.setItem('adminAuthTime', Date.now().toString());
-                    sessionStorage.setItem('adminUser', JSON.stringify(result.admin));
                     
                     errorDiv.textContent = '';
                 } else {
@@ -641,10 +639,7 @@ https://i.ibb.co/DEF456/qr-003.png" required></textarea>
                     document.getElementById('adminContent').style.display = 'block';
                     
                     // Показываем информацию об админе
-                    const adminUser = JSON.parse(sessionStorage.getItem('adminUser') || '{}');
-                    if (adminUser.username) {
-                        console.log(`Добро пожаловать, ${adminUser.username}!`);
-                    }
+                    console.log('Добро пожаловать в админ панель!');
                 } else {
                     // Сессия истекла
                     clearSession();
@@ -657,7 +652,6 @@ https://i.ibb.co/DEF456/qr-003.png" required></textarea>
             sessionStorage.removeItem('adminAuth');
             sessionStorage.removeItem('adminToken');
             sessionStorage.removeItem('adminAuthTime');
-            sessionStorage.removeItem('adminUser');
         }
         
         // Проверка сессии при загрузке

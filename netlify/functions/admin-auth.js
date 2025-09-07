@@ -24,15 +24,15 @@ exports.handler = async (event, context) => {
     }
 
     try {
-        const { username, password } = JSON.parse(event.body);
+        const { password } = JSON.parse(event.body);
 
-        if (!username || !password) {
+        if (!password) {
             return {
                 statusCode: 400,
                 headers,
                 body: JSON.stringify({ 
                     success: false, 
-                    message: 'Username и password обязательны' 
+                    message: 'Password обязателен' 
                 })
             };
         }
@@ -57,7 +57,6 @@ exports.handler = async (event, context) => {
 
         // Вызываем функцию проверки пароля
         const { data, error } = await supabase.rpc('check_admin_password', {
-            input_username: username,
             input_password: password
         });
 
@@ -74,8 +73,8 @@ exports.handler = async (event, context) => {
         }
 
         if (data && data.success) {
-            // Генерируем простой токен сессии (в реальном проекте используйте JWT)
-            const sessionToken = Buffer.from(`${username}:${Date.now()}`).toString('base64');
+            // Генерируем простой токен сессии
+            const sessionToken = Buffer.from(`admin:${Date.now()}`).toString('base64');
             
             return {
                 statusCode: 200,
@@ -83,11 +82,7 @@ exports.handler = async (event, context) => {
                 body: JSON.stringify({
                     success: true,
                     message: data.message,
-                    sessionToken: sessionToken,
-                    admin: {
-                        id: data.admin_id,
-                        username: data.username
-                    }
+                    sessionToken: sessionToken
                 })
             };
         } else {
