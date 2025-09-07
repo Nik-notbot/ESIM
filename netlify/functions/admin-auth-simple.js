@@ -24,13 +24,10 @@ exports.handler = async (event, context) => {
     }
 
     try {
-        console.log('Admin auth function called');
-        console.log('Event body:', event.body);
-        
+        console.log('Simple admin auth function called');
         const { password } = JSON.parse(event.body);
 
         if (!password) {
-            console.log('No password provided');
             return {
                 statusCode: 400,
                 headers,
@@ -41,14 +38,9 @@ exports.handler = async (event, context) => {
             };
         }
 
-        console.log('Password provided:', password);
-
-        // Инициализация Supabase с service role key для доступа к функции
+        // Инициализация Supabase с service role key
         const supabaseUrl = process.env.SUPABASE_URL;
         const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-        console.log('Supabase URL exists:', !!supabaseUrl);
-        console.log('Supabase Service Key exists:', !!supabaseServiceKey);
 
         if (!supabaseUrl || !supabaseServiceKey) {
             console.error('Missing Supabase environment variables');
@@ -57,22 +49,21 @@ exports.handler = async (event, context) => {
                 headers,
                 body: JSON.stringify({ 
                     success: false, 
-                    message: 'Server configuration error - missing environment variables' 
+                    message: 'Server configuration error' 
                 })
             };
         }
 
         const supabase = createClient(supabaseUrl, supabaseServiceKey);
-        console.log('Supabase client created');
 
-        // Вызываем функцию проверки пароля
-        console.log('Calling check_admin_password function with password:', password);
-        const { data, error } = await supabase.rpc('check_admin_password', {
-            input_password: password
-        });
+        // Прямой запрос к таблице вместо RPC
+        const { data, error } = await supabase
+            .from('admin_passwords')
+            .select('*')
+            .eq('password', password);
 
-        console.log('RPC result - data:', data);
-        console.log('RPC result - error:', error);
+        console.log('Query result - data:', data);
+        console.log('Query result - error:', error);
 
         if (error) {
             console.error('Database error:', error);
@@ -86,8 +77,8 @@ exports.handler = async (event, context) => {
             };
         }
 
-        if (data && data.success) {
-            // Генерируем простой токен сессии
+        if (data && data.length > 0) {
+            // Пароль найден
             const sessionToken = Buffer.from(`admin:${Date.now()}`).toString('base64');
             
             return {
@@ -95,17 +86,18 @@ exports.handler = async (event, context) => {
                 headers,
                 body: JSON.stringify({
                     success: true,
-                    message: data.message,
+                    message: 'Успешная авторизация',
                     sessionToken: sessionToken
                 })
             };
         } else {
+            // Пароль не найден
             return {
                 statusCode: 401,
                 headers,
                 body: JSON.stringify({
                     success: false,
-                    message: data ? data.message : 'Ошибка авторизации'
+                    message: 'Неверный пароль'
                 })
             };
         }
@@ -117,7 +109,7 @@ exports.handler = async (event, context) => {
             headers,
             body: JSON.stringify({ 
                 success: false, 
-                message: 'Internal server error' 
+                message: 'Internal server error: ' + error.message 
             })
         };
     }

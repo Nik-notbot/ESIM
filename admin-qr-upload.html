@@ -588,7 +588,7 @@ https://i.ibb.co/DEF456/qr-003.png" required></textarea>
             try {
                 errorDiv.textContent = 'Проверяем...';
                 
-                const response = await fetch('/.netlify/functions/admin-auth', {
+                const response = await fetch('/.netlify/functions/admin-auth-simple', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
