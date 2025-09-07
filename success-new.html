@@ -132,6 +132,65 @@
             padding: 4px 8px;
             border-radius: 4px;
         }
+        
+        .instruction-section {
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+        }
+        
+        .instruction-section.important {
+            background: #e3f2fd;
+            border-left-color: #2196f3;
+        }
+        
+        .instruction-section.warning {
+            background: #fff3e0;
+            border-left-color: #ff9800;
+        }
+        
+        .instruction-section h4 {
+            margin: 0 0 15px 0;
+            color: #333;
+            font-size: 16px;
+        }
+        
+        .instruction-section ul, .instruction-section ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .instruction-section li {
+            margin: 8px 0;
+            line-height: 1.5;
+        }
+        
+        .instruction-section p {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        
+        .instruction-section strong {
+            color: #1976d2;
+        }
+        
+        .instruction-section em {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .recharge-link {
+            color: #2196f3;
+            text-decoration: none;
+            font-weight: 500;
+            word-break: break-all;
+        }
+        
+        .recharge-link:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -185,15 +244,54 @@
         </div>
         
         <div class="instructions">
-            <h3>Как активировать eSIM:</h3>
-            <ol>
-                <li>Убедитесь, что у вас есть подключение к интернету (Wi-Fi)</li>
-                <li>Откройте настройки телефона</li>
-                <li>Найдите раздел "Мобильная связь" или "SIM-карты"</li>
-                <li>Выберите "Добавить eSIM" или "Добавить тарифный план"</li>
-                <li>Отсканируйте QR-код с помощью камеры</li>
-                <li>Следуйте инструкциям на экране</li>
-            </ol>
+            <h3>Инструкция по установке eSIM через QR-код</h3>
+            
+            <div class="instruction-section">
+                <h4>Перед началом убедитесь, что:</h4>
+                <ul>
+                    <li>Ваш телефон поддерживает eSIM.</li>
+                    <li>У вас есть стабильное подключение к Wi-Fi или мобильной сети.</li>
+                    <li>Вы получили QR-код от нас (по ссылке или изображением).</li>
+                </ul>
+            </div>
+
+            <div class="instruction-section">
+                <h4>🔹 Для iPhone (iOS 13 и выше):</h4>
+                <ol>
+                    <li>Зайдите в <strong>Настройки → Сотовая связь → Добавить сотовый тариф</strong>.</li>
+                    <li>Наведите камеру на QR-код, который мы вам отправили.</li>
+                    <li>Дождитесь загрузки профиля и нажмите <strong>Добавить тариф</strong>.</li>
+                    <li>При необходимости — выберите, как использовать этот тариф (основной / дополнительный).</li>
+                </ol>
+            </div>
+
+            <div class="instruction-section">
+                <h4>🔹 Для Android (Samsung, Pixel, Xiaomi и др.):</h4>
+                <ol>
+                    <li>Зайдите в <strong>Настройки → Подключения → Мобильные сети → Добавить eSIM</strong><br>
+                        <em>(или: Сеть → SIM-карты → Добавить мобильный тариф)</em></li>
+                    <li>Выберите <strong>Сканировать QR-код</strong>.</li>
+                    <li>Наведите камеру на QR-код.</li>
+                    <li>Подтвердите установку профиля и дождитесь подключения.</li>
+                </ol>
+                <p><strong>📌 Некоторые модели могут перезагрузиться — это нормально.</strong></p>
+            </div>
+
+            <div class="instruction-section important">
+                <h4>💡 Важные настройки:</h4>
+                <p>Обязательно включите <strong>роуминг данных</strong>, включите <strong>вызовы по WiFi</strong>, даже если вы находитесь в своей стране.<br>
+                Это не приведёт к дополнительным расходам, но необходимо для корректной работы сети в большинстве eSIM-тарифов.</p>
+            </div>
+
+            <div class="instruction-section warning">
+                <h4>⚠️ Обратите внимание:</h4>
+                <p>Если ваша eSIM не подключается автоматически и вы не получаете СМС с кодом, попробуйте вручную переключиться между разными операторами (например, МТС, Билайн, Теле2). Дайте каждому оператору примерно 10 минут, чтобы проверить, появится ли сеть и придёт ли СМС.</p>
+            </div>
+
+            <div class="instruction-section">
+                <h4>🔗 Сайт для пополнения eSIM:</h4>
+                <p><a href="https://www.recharge.com/es/es/simyo" target="_blank" class="recharge-link">https://www.recharge.com/es/es/simyo</a></p>
+            </div>
         </div>
         
         <a href="index.html" class="buy-button">Вернуться на главную</a>
