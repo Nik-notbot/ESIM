@@ -53,6 +53,8 @@ async function handlePayment(event) {
         const email = formData.get('email');
         const phone = formData.get('phone');
         
+        console.log('Данные формы:', { email, phone });
+        
         // Получаем параметры плана из URL
         const urlParams = new URLSearchParams(window.location.search);
         const planId = parseInt(urlParams.get('plan'));
@@ -60,7 +62,19 @@ async function handlePayment(event) {
         const planData = urlParams.get('data');
         const planPrice = urlParams.get('price');
         
-        console.log('Создаем заказ в новой БД Supabase...');
+        console.log('Параметры плана:', { planId, planName, planData, planPrice });
+        
+        // Проверяем обязательные параметры
+        if (!planId || !planPrice) {
+            throw new Error('Отсутствуют обязательные параметры плана. Проверьте URL.');
+        }
+        
+        const amount = parseFloat(planPrice);
+        if (isNaN(amount) || amount <= 0) {
+            throw new Error(`Некорректная цена: ${planPrice}`);
+        }
+        
+        console.log('Создаем заказ в новой БД Supabase...', { amount });
         
         // 1. Создаем заказ в базе данных
         const { data: order, error: orderError } = await supabase
@@ -69,7 +83,7 @@ async function handlePayment(event) {
                 plan_id: planId,
                 customer_email: email,
                 customer_phone: phone,
-                amount: parseFloat(planPrice),
+                amount: amount,
                 status: 'pending'
             })
             .select()
@@ -84,7 +98,7 @@ async function handlePayment(event) {
         
         // 2. Создаем платеж через Wata API (через прокси)
         const paymentData = {
-            amount: parseFloat(planPrice),
+            amount: amount,
             currency: 'RUB',
             description: `eSIM ${planName} - ${planData} ГБ`,
             orderId: order.id,
