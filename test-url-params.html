@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест URL параметров</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test-link {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            background: #f0f0f0;
+            text-decoration: none;
+            color: #333;
+            border-radius: 5px;
+        }
+        .test-link:hover {
+            background: #e0e0e0;
+        }
+        .params-display {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Тест URL параметров</h1>
+    
+    <h2>Ссылки для тестирования:</h2>
+    <a href="payment.html?plan=1&name=Стандарт&data=8&price=100" class="test-link">
+        Тест 1: payment.html?plan=1&name=Стандарт&data=8&price=100
+    </a>
+    
+    <a href="payment.html?plan=2&name=Премиум&data=25&price=100" class="test-link">
+        Тест 2: payment.html?plan=2&name=Премиум&data=25&price=100
+    </a>
+    
+    <h2>Текущие параметры URL:</h2>
+    <div id="params-display" class="params-display">
+        Загрузка...
+    </div>
+    
+    <script>
+        function displayURLParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const params = Object.fromEntries(urlParams.entries());
+            
+            const display = document.getElementById('params-display');
+            display.innerHTML = `
+                <strong>Текущий URL:</strong> ${window.location.href}<br>
+                <strong>Search params:</strong> ${window.location.search}<br>
+                <strong>Параметры:</strong><br>
+                <pre>${JSON.stringify(params, null, 2)}</pre>
+            `;
+        }
+        
+        // Показываем параметры при загрузке
+        displayURLParams();
+        
+        // Обновляем при изменении URL
+        window.addEventListener('popstate', displayURLParams);
+    </script>
+</body>
+</html>

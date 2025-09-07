@@ -62,6 +62,9 @@ async function handlePayment(event) {
         const planData = urlParams.get('data');
         const planPrice = urlParams.get('price');
         
+        console.log('Текущий URL:', window.location.href);
+        console.log('Search params:', window.location.search);
+        console.log('Все параметры URL:', Object.fromEntries(urlParams.entries()));
         console.log('Параметры плана:', { planId, planName, planData, planPrice });
         
         // Проверяем обязательные параметры
