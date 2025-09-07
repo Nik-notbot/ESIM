@@ -11,15 +11,12 @@
 CREATE TABLE IF NOT EXISTS admins (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    last_login TIMESTAMP WITH TIME ZONE,
-    is_active BOOLEAN DEFAULT true
+    password VARCHAR(255) NOT NULL
 );
 
 -- Вставка админа по умолчанию (пароль: admin123)
-INSERT INTO admins (username, password_hash) 
-VALUES ('admin', '$2b$10$rQZ8K9vL2mN3pO4qR5sT6uV7wX8yZ9aB0cD1eF2gH3iJ4kL5mN6oP7qR8sT9uV')
+INSERT INTO admins (username, password) 
+VALUES ('admin', 'admin123')
 ON CONFLICT (username) DO NOTHING;
 
 -- Создание RLS политик
@@ -105,7 +102,7 @@ SUPABASE_SERVICE_ROLE_KEY=ваш_service_role_key
 ```sql
 -- Изменить пароль для пользователя admin
 UPDATE admins 
-SET password_hash = 'новый_хеш_пароля' 
+SET password = 'новый_пароль' 
 WHERE username = 'admin';
 ```
 
@@ -113,8 +110,8 @@ WHERE username = 'admin';
 
 ```sql
 -- Добавить нового админа
-INSERT INTO admins (username, password_hash) 
-VALUES ('новый_админ', 'хеш_пароля');
+INSERT INTO admins (username, password) 
+VALUES ('новый_админ', 'пароль_админа');
 ```
 
 ## 🔒 Безопасность:
