@@ -59,8 +59,8 @@ CREATE INDEX idx_qr_codes_plan_id ON qr_codes(plan_id);
 
 -- Вставка начальных данных о тарифах
 INSERT INTO esim_plans (name, data_gb, price_rub, description, is_popular) VALUES
-('Стандарт', 8, 990.00, 'Высокоскоростной интернет на месяц', false),
-('Премиум', 25, 1990.00, 'Высокоскоростной интернет на месяц', true);
+('Стандарт', 8, 2400.00, 'Высокоскоростной интернет на месяц', false),
+('Премиум', 50, 3000.00, 'Высокоскоростной интернет на месяц', true);
 
 -- Примеры QR-кодов (замените на реальные)
 -- INSERT INTO qr_codes (plan_id, qr_url) VALUES
