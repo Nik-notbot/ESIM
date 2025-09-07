@@ -83,6 +83,19 @@ exports.handler = async (event, context) => {
                 };
             }
 
+            // БЕЗОПАСНОСТЬ: Проверяем статус оплаты
+            if (order.status !== 'paid' && order.status !== 'completed') {
+                return {
+                    statusCode: 403,
+                    headers,
+                    body: JSON.stringify({ 
+                        error: 'Payment not confirmed',
+                        message: 'QR code can only be issued for paid orders',
+                        orderStatus: order.status
+                    })
+                };
+            }
+
             // Если QR-код уже назначен
             if (order.qr_code_id) {
                 const { data: qrCode, error: qrError } = await supabase
@@ -176,6 +189,9 @@ exports.handler = async (event, context) => {
                 };
             }
 
+            // БЕЗОПАСНОСТЬ: Логируем принудительное обновление статуса
+            console.warn(`SECURITY: Forced status update for order ${orderId} to ${status}`);
+            
             const { data, error } = await supabase
                 .from('orders')
                 .update({ status })

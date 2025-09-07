@@ -474,6 +474,13 @@
                 
                 if (!response.ok) {
                     console.error('Ошибка получения QR-кода:', result.error);
+                    
+                    // Специальная обработка ошибки безопасности
+                    if (response.status === 403) {
+                        showError('Оплата не подтверждена. QR-код можно получить только после успешной оплаты.');
+                        return;
+                    }
+                    
                     showError(result.error || 'Не удалось получить QR-код');
                     return;
                 }
@@ -495,6 +502,10 @@
             try {
                 console.log('Принудительно назначаем QR-код для заказа:', order.id);
                 
+                // ВНИМАНИЕ: Эта функция обновляет статус на 'paid' принудительно
+                // Это должно использоваться только в случае проблем с webhook'ами
+                console.warn('ВНИМАНИЕ: Принудительное обновление статуса заказа на paid');
+                
                 // Обновляем статус заказа на 'paid' через серверную функцию
                 const updateResponse = await fetch('/.netlify/functions/order-handler/update-order-status', {
                     method: 'POST',
@@ -509,6 +520,8 @@
                 
                 if (!updateResponse.ok) {
                     console.error('Ошибка обновления статуса заказа');
+                    showError('Не удалось обновить статус заказа');
+                    return;
                 }
                 
                 // Получаем QR-код с сервера
