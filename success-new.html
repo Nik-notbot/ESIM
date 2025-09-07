@@ -335,13 +335,28 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <script>
-        // Конфигурация Supabase - проект esim-store
-        const SUPABASE_URL = 'https://wiwkergsvbgnrdslqkzg.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indpd2tlcmdzdmJnbnJkc2xxa3pnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5OTA5MjAsImV4cCI6MjA3MjU2NjkyMH0.PmWeSrWMRzlHlFJpwRjlSla3Ra6hWAoCNErMEdEWtEk';
-        
-        // Инициализация Supabase
-        const { createClient } = window.supabase;
-        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // Конфигурация Supabase будет загружена с сервера
+        let supabase = null;
+        let supabaseUrl = null;
+
+        // Функция для инициализации Supabase
+        async function initSupabase() {
+            try {
+                const response = await fetch('/.netlify/functions/get-config');
+                const config = await response.json();
+                
+                supabaseUrl = config.supabaseUrl;
+                
+                // Инициализация Supabase клиента
+                const { createClient } = window.supabase;
+                supabase = createClient(supabaseUrl, config.supabaseAnonKey);
+                
+                console.log('Supabase initialized successfully');
+            } catch (error) {
+                console.error('Failed to initialize Supabase:', error);
+                throw error;
+            }
+        }
         
         // Функция для получения QR-кода
         async function getQRCode() {
@@ -356,19 +371,17 @@
             try {
                 console.log('Получаем информацию о заказе:', orderId);
                 
-                // Получаем информацию о заказе
-                const { data: order, error: orderError } = await supabase
-                    .from('orders')
-                    .select('*, esim_plans(name, data_gb)')
-                    .eq('id', orderId)
-                    .single();
+                // Получаем информацию о заказе через серверную функцию
+                const orderResponse = await fetch(`/.netlify/functions/order-handler/get-order?orderId=${orderId}`);
+                const orderResult = await orderResponse.json();
                 
-                if (orderError) {
-                    console.error('Ошибка получения заказа:', orderError);
+                if (!orderResponse.ok) {
+                    console.error('Ошибка получения заказа:', orderResult.error);
                     showError('Заказ не найден');
                     return;
                 }
                 
+                const order = orderResult.order;
                 console.log('Заказ найден:', order);
                 
                 // Показываем детали заказа
@@ -403,25 +416,9 @@
                     return;
                 }
                 
-                // Если QR-код уже назначен
-                if (order.qr_code_id) {
-                    const { data: qrCode, error: qrError } = await supabase
-                        .from('qr_codes')
-                        .select('qr_url')
-                        .eq('id', order.qr_code_id)
-                        .single();
-                    
-                    if (!qrError && qrCode) {
-                        showQRCode(qrCode.qr_url);
-                        return;
-                    }
-                }
-                
-                // Получаем доступный QR-код
-                console.log('Получаем QR-код для плана:', order.plan_id);
-                
-                // Получаем QR-код альтернативным способом
-                await getQRCodeAlternative(order);
+                // Получаем QR-код через серверную функцию
+                console.log('Получаем QR-код для заказа:', orderId);
+                await getQRCodeFromServer(orderId);
                 
             } catch (error) {
                 console.error('Ошибка:', error);
@@ -429,23 +426,55 @@
             }
         }
         
+        // Функция для получения QR-кода с сервера
+        async function getQRCodeFromServer(orderId) {
+            try {
+                console.log('Получаем QR-код с сервера для заказа:', orderId);
+                
+                const response = await fetch(`/.netlify/functions/order-handler/get-qr-code?orderId=${orderId}`);
+                const result = await response.json();
+                
+                if (!response.ok) {
+                    console.error('Ошибка получения QR-кода:', result.error);
+                    showError(result.error || 'Не удалось получить QR-код');
+                    return;
+                }
+                
+                const { qrCode, order } = result;
+                console.log('QR-код получен:', qrCode);
+                
+                // Показываем QR-код с дополнительной информацией
+                showQRCode(qrCode.qr_url, qrCode);
+                
+            } catch (error) {
+                console.error('Ошибка получения QR-кода с сервера:', error);
+                showError('Произошла ошибка при получении QR-кода');
+            }
+        }
+
         // Функция для принудительного назначения QR-кода
         async function assignQRCode(order) {
             try {
                 console.log('Принудительно назначаем QR-код для заказа:', order.id);
                 
-                // Обновляем статус заказа на 'paid'
-                const { error: updateError } = await supabase
-                    .from('orders')
-                    .update({ status: 'paid' })
-                    .eq('id', order.id);
+                // Обновляем статус заказа на 'paid' через серверную функцию
+                const updateResponse = await fetch('/.netlify/functions/order-handler/update-order-status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        orderId: order.id,
+                        status: 'paid'
+                    })
+                });
                 
-                if (updateError) {
-                    console.error('Ошибка обновления статуса:', updateError);
+                if (!updateResponse.ok) {
+                    console.error('Ошибка обновления статуса заказа');
                 }
                 
-                // Получаем QR-код альтернативным способом
-                await getQRCodeAlternative(order);
+                // Получаем QR-код с сервера
+                await getQRCodeFromServer(order.id);
                 
             } catch (error) {
                 console.error('Ошибка принудительного назначения QR-кода:', error);
@@ -453,89 +482,6 @@
             }
         }
         
-        // Альтернативная функция получения QR-кода без RPC
-        async function getQRCodeAlternative(order) {
-            try {
-                console.log('Получаем QR-код альтернативным способом...');
-                
-                // 1. Находим доступный QR-код
-                const { data: availableQRCodes, error: qrError } = await supabase
-                    .from('qr_codes')
-                    .select('id, qr_url, country_name, country_code, esim_number, pin_code, puk_code')
-                    .eq('plan_id', order.plan_id)
-                    .eq('is_used', false)
-                    .order('created_at')
-                    .limit(1);
-                
-                if (qrError) {
-                    console.error('Ошибка поиска QR-кодов:', qrError);
-                    showError('Не удалось найти доступные QR-коды', order.id);
-                    return;
-                }
-                
-                if (!availableQRCodes || availableQRCodes.length === 0) {
-                    console.log('Нет доступных QR-кодов');
-                    showError('В данный момент все QR-коды заняты. Мы отправим код на email.', order.id);
-                    return;
-                }
-                
-                const qrCode = availableQRCodes[0];
-                console.log('Найден QR-код:', qrCode);
-                
-                // 2. Помечаем QR-код как использованный
-                console.log('Обновляем QR-код:', qrCode.id, 'для заказа:', order.id);
-                
-                // Сначала проверяем, можем ли мы обновить QR-код
-                const { data: updateQRData, error: updateQRError } = await supabase
-                    .from('qr_codes')
-                    .update({
-                        is_used: true,
-                        used_at: new Date().toISOString(),
-                        order_id: order.id  // Исправляем название колонки
-                    })
-                    .eq('id', qrCode.id)
-                    .eq('is_used', false) // Дополнительная проверка
-                    .select();
-                
-                if (updateQRError) {
-                    console.error('Ошибка обновления QR-кода:', updateQRError);
-                    console.log('Возможно, проблема с правами доступа (RLS политики)');
-                    
-                    // Показываем QR-код даже если не удалось обновить статус
-                    console.log('Показываем QR-код без обновления статуса в БД');
-                    showQRCode(qrCode.qr_url);
-                    return;
-                } else {
-                    console.log('QR-код успешно обновлен:', updateQRData);
-                }
-                
-                // 3. Обновляем заказ
-                console.log('Обновляем заказ:', order.id, 'с QR-кодом:', qrCode.id);
-                const { data: updateOrderData, error: updateOrderError } = await supabase
-                    .from('orders')
-                    .update({
-                        qr_code_id: qrCode.id,
-                        status: 'completed',
-                        updated_at: new Date().toISOString()
-                    })
-                    .eq('id', order.id)
-                    .select();
-                
-                if (updateOrderError) {
-                    console.error('Ошибка обновления заказа:', updateOrderError);
-                } else {
-                    console.log('Заказ успешно обновлен:', updateOrderData);
-                }
-                
-                // 4. Показываем QR-код с дополнительной информацией
-                console.log('QR-код успешно назначен:', qrCode.qr_url);
-                showQRCode(qrCode.qr_url, qrCode);
-                
-            } catch (error) {
-                console.error('Ошибка альтернативного получения QR-кода:', error);
-                showError('Произошла ошибка при получении QR-кода');
-            }
-        }
         
         // Функция для преобразования URL ImgBB в прямую ссылку на изображение
         function convertImgBBUrl(url) {
@@ -684,9 +630,11 @@
         }
         
         // Запускаем при загрузке страницы
-        document.addEventListener('DOMContentLoaded', () => {
-            // Проверяем настройки - теперь всё настроено!
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Инициализируем Supabase
+            await initSupabase();
             
+            // Получаем QR-код
             getQRCode();
         });
     </script>

@@ -1,11 +1,25 @@
-// Конфигурация для НОВОГО проекта Supabase
-// Проект: esim-store
-const SUPABASE_URL = 'https://wiwkergsvbgnrdslqkzg.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indpd2tlcmdzdmJnbnJkc2xxa3pnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5OTA5MjAsImV4cCI6MjA3MjU2NjkyMH0.PmWeSrWMRzlHlFJpwRjlSla3Ra6hWAoCNErMEdEWtEk';
+// Конфигурация Supabase будет загружена с сервера
+let supabase = null;
+let supabaseUrl = null;
 
-// Инициализация Supabase клиента
-const { createClient } = window.supabase;
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Функция для инициализации Supabase
+async function initSupabase() {
+    try {
+        const response = await fetch('/.netlify/functions/get-config');
+        const config = await response.json();
+        
+        supabaseUrl = config.supabaseUrl;
+        
+        // Инициализация Supabase клиента
+        const { createClient } = window.supabase;
+        supabase = createClient(supabaseUrl, config.supabaseAnonKey);
+        
+        console.log('Supabase initialized successfully');
+    } catch (error) {
+        console.error('Failed to initialize Supabase:', error);
+        throw error;
+    }
+}
 
 // Функция для обработки платежа
 async function handlePayment(event) {
@@ -134,7 +148,10 @@ async function checkSupabaseConnection() {
 }
 
 // Инициализация при загрузке страницы
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    // Инициализируем Supabase
+    await initSupabase();
+    
     // Проверяем подключение
     checkSupabaseConnection();
     

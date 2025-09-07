@@ -6,7 +6,8 @@
     "build": "echo 'No build required for static site'"
   },
   "dependencies": {
-    "node-fetch": "^2.6.7"
+    "node-fetch": "^2.6.7",
+    "@supabase/supabase-js": "^2.39.0"
   },
   "devDependencies": {},
   "engines": {
