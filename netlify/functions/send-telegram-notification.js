@@ -25,9 +25,9 @@ exports.handler = async (event, context) => {
 
         // Получаем настройки Telegram из переменных окружения
         const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN;
-        const telegramChatId = process.env.TELEGRAM_CHAT_ID;
+        const telegramChatIds = process.env.TELEGRAM_CHAT_IDS || process.env.TELEGRAM_CHAT_ID;
 
-        if (!telegramBotToken || !telegramChatId) {
+        if (!telegramBotToken || !telegramChatIds) {
             console.log('Telegram not configured, skipping notification');
             return {
                 statusCode: 200,
@@ -35,6 +35,21 @@ exports.handler = async (event, context) => {
                 body: JSON.stringify({ 
                     success: true, 
                     message: 'Telegram not configured, notification skipped' 
+                })
+            };
+        }
+
+        // Поддерживаем как один Chat ID, так и несколько (через запятую)
+        const chatIds = telegramChatIds.split(',').map(id => id.trim()).filter(id => id);
+        
+        if (chatIds.length === 0) {
+            console.log('No valid chat IDs found');
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ 
+                    success: true, 
+                    message: 'No valid chat IDs found, notification skipped' 
                 })
             };
         }
@@ -50,39 +65,62 @@ exports.handler = async (event, context) => {
             message = formatGenericNotification(orderData);
         }
 
-        // Отправляем сообщение в Telegram
-        const telegramResponse = await fetch(
-            `https://api.telegram.org/bot${telegramBotToken}/sendMessage`,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    chat_id: telegramChatId,
-                    text: message,
-                    parse_mode: 'HTML',
-                    disable_web_page_preview: true
-                })
-            }
-        );
+        // Отправляем сообщение всем указанным пользователям
+        const results = [];
+        const errors = [];
 
-        if (!telegramResponse.ok) {
-            const errorText = await telegramResponse.text();
-            console.error('Telegram API error:', errorText);
-            throw new Error('Failed to send Telegram notification');
+        for (const chatId of chatIds) {
+            try {
+                console.log(`Sending notification to chat ID: ${chatId}`);
+                
+                const telegramResponse = await fetch(
+                    `https://api.telegram.org/bot${telegramBotToken}/sendMessage`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            chat_id: chatId,
+                            text: message,
+                            parse_mode: 'HTML',
+                            disable_web_page_preview: true
+                        })
+                    }
+                );
+
+                if (!telegramResponse.ok) {
+                    const errorText = await telegramResponse.text();
+                    console.error(`Telegram API error for chat ${chatId}:`, errorText);
+                    errors.push({ chatId, error: errorText });
+                } else {
+                    const telegramResult = await telegramResponse.json();
+                    console.log(`Telegram notification sent to ${chatId}:`, telegramResult.message_id);
+                    results.push({ 
+                        chatId, 
+                        messageId: telegramResult.message_id,
+                        success: true 
+                    });
+                }
+            } catch (error) {
+                console.error(`Error sending to chat ${chatId}:`, error);
+                errors.push({ chatId, error: error.message });
+            }
         }
 
-        const telegramResult = await telegramResponse.json();
-        console.log('Telegram notification sent:', telegramResult.message_id);
+        // Возвращаем результат
+        const successCount = results.length;
+        const errorCount = errors.length;
 
         return {
             statusCode: 200,
             headers,
             body: JSON.stringify({ 
-                success: true, 
-                message: 'Notification sent successfully',
-                telegram_message_id: telegramResult.message_id
+                success: successCount > 0,
+                message: `Notifications sent: ${successCount} success, ${errorCount} errors`,
+                results: results,
+                errors: errors,
+                total_recipients: chatIds.length
             })
         };
 
