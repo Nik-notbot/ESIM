@@ -751,7 +751,7 @@
                 btn.disabled = true;
                 showExportStatus('Загрузка данных заказов...', 'info');
                 
-                const response = await fetch('/.netlify/functions/export-orders', {
+                const response = await fetch('/.netlify/functions/export-orders-simple', {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${authToken}`
@@ -803,7 +803,7 @@
                 btn.disabled = true;
                 showExportStatus('Загрузка данных QR-кодов...', 'info');
                 
-                const response = await fetch('/.netlify/functions/export-qr-codes', {
+                const response = await fetch('/.netlify/functions/export-qr-codes-simple', {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${authToken}`
