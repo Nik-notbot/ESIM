@@ -667,11 +667,16 @@
                     document.getElementById('loginContainer').style.display = 'none';
                     document.getElementById('adminContent').style.display = 'block';
                     
+                    // Загружаем данные только если сессия валидна
+                    loadQRCodes();
+                    loadStats();
+                    
                     // Показываем информацию об админе
                     console.log('Добро пожаловать в админ панель!');
                 } else {
                     // Сессия истекла
                     clearSession();
+                    showMessage('Сессия истекла. Войдите заново.', 'error');
                 }
             }
         }
@@ -725,11 +730,16 @@
             const originalText = btn.innerHTML;
             
             try {
+                // Проверяем сессию
+                const authToken = sessionStorage.getItem('adminToken');
+                if (!authToken) {
+                    throw new Error('Сессия истекла. Войдите заново.');
+                }
+                
                 btn.innerHTML = '⏳ Загрузка...';
                 btn.disabled = true;
                 showExportStatus('Загрузка данных заказов...', 'info');
                 
-                const authToken = sessionStorage.getItem('adminToken');
                 const response = await fetch('/.netlify/functions/export-orders', {
                     method: 'GET',
                     headers: {
@@ -738,7 +748,8 @@
                 });
                 
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
                 }
                 
                 const data = await response.json();
@@ -771,11 +782,16 @@
             const originalText = btn.innerHTML;
             
             try {
+                // Проверяем сессию
+                const authToken = sessionStorage.getItem('adminToken');
+                if (!authToken) {
+                    throw new Error('Сессия истекла. Войдите заново.');
+                }
+                
                 btn.innerHTML = '⏳ Загрузка...';
                 btn.disabled = true;
                 showExportStatus('Загрузка данных QR-кодов...', 'info');
                 
-                const authToken = sessionStorage.getItem('adminToken');
                 const response = await fetch('/.netlify/functions/export-qr-codes', {
                     method: 'GET',
                     headers: {
@@ -784,7 +800,8 @@
                 });
                 
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
                 }
                 
                 const data = await response.json();

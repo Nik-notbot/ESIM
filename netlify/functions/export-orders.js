@@ -23,6 +23,19 @@ exports.handler = async (event, context) => {
     }
 
     try {
+        // Check environment variables
+        if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+            console.error('Missing Supabase environment variables');
+            return {
+                statusCode: 500,
+                headers,
+                body: JSON.stringify({ 
+                    error: 'Server configuration error',
+                    details: 'Missing Supabase credentials'
+                })
+            };
+        }
+
         // Initialize Supabase client with service role key
         const supabase = createClient(
             process.env.SUPABASE_URL,
