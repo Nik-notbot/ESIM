@@ -301,27 +301,6 @@
             </form>
         </div>
         
-        <!-- Массовая загрузка -->
-        <div class="section">
-            <h2>Массовая загрузка</h2>
-            <form id="bulk-upload">
-                <div class="form-group">
-                    <label>Тариф для всех:</label>
-                    <select id="bulk-plan" required>
-                        <option value="1">Стандарт (8 ГБ)</option>
-                        <option value="2">Премиум (25 ГБ)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>URL-адреса (по одному на строку):</label>
-                    <textarea id="bulk-urls" rows="10" placeholder="https://i.ibb.co/TxNLKx3x/qr-001.png
-https://i.ibb.co/ABC123/qr-002.png
-https://i.ibb.co/DEF456/qr-003.png" required></textarea>
-                </div>
-                <button type="submit">Загрузить все</button>
-            </form>
-        </div>
-        
         <!-- Список QR-кодов -->
         <div class="section">
             <h2>Текущие QR-коды</h2>
@@ -487,43 +466,6 @@ https://i.ibb.co/DEF456/qr-003.png" required></textarea>
                 document.getElementById('esim-number').value = '';
                 document.getElementById('pin-code').value = '';
                 document.getElementById('puk-code').value = '';
-                loadStats();
-                loadQRCodes();
-                
-            } catch (error) {
-                showMessage('Ошибка: ' + error.message, 'error');
-            }
-        });
-        
-        // Массовая загрузка
-        document.getElementById('bulk-upload').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const planId = parseInt(document.getElementById('bulk-plan').value);
-            const urls = document.getElementById('bulk-urls').value
-                .split('\n')
-                .map(url => url.trim())
-                .filter(url => url.length > 0);
-            
-            if (urls.length === 0) {
-                showMessage('Добавьте хотя бы один URL', 'error');
-                return;
-            }
-            
-            try {
-                const qrCodes = urls.map(url => ({
-                    plan_id: planId,
-                    qr_url: url
-                }));
-                
-                const { error } = await supabase
-                    .from('qr_codes')
-                    .insert(qrCodes);
-                
-                if (error) throw error;
-                
-                showMessage(`Успешно добавлено ${urls.length} QR-кодов!`);
-                document.getElementById('bulk-urls').value = '';
                 loadStats();
                 loadQRCodes();
                 
