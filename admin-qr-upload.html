@@ -262,6 +262,50 @@
             </div>
         </div>
         
+        <!-- Экспорт данных -->
+        <div class="export-section" style="margin: 30px 0; padding: 20px; background: #f8f9fa; border-radius: 10px; border: 1px solid #e9ecef;">
+            <h3 style="margin-top: 0; color: #495057;">📊 Экспорт данных</h3>
+            <p style="color: #6c757d; margin-bottom: 20px;">Выгрузите все заказы и QR-коды в формате JSON для анализа и резервного копирования.</p>
+            
+            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                <button id="exportOrdersBtn" class="export-btn" style="
+                    background: linear-gradient(135deg, #28a745, #20c997);
+                    color: white;
+                    border: none;
+                    padding: 12px 24px;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    font-size: 14px;
+                    font-weight: 500;
+                    transition: all 0.3s ease;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                ">
+                    📋 Экспорт заказов
+                </button>
+                
+                <button id="exportQRCodesBtn" class="export-btn" style="
+                    background: linear-gradient(135deg, #007bff, #6610f2);
+                    color: white;
+                    border: none;
+                    padding: 12px 24px;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    font-size: 14px;
+                    font-weight: 500;
+                    transition: all 0.3s ease;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                ">
+                    🔗 Экспорт QR-кодов
+                </button>
+            </div>
+            
+            <div id="exportStatus" style="margin-top: 15px; padding: 10px; border-radius: 5px; display: none;"></div>
+        </div>
+        
         <!-- Добавление одного QR-кода -->
         <div class="section">
             <h2>Добавить QR-код</h2>
@@ -648,6 +692,129 @@
                 checkPassword();
             }
         });
+        
+        // Функции экспорта данных
+        function showExportStatus(message, type = 'info') {
+            const statusDiv = document.getElementById('exportStatus');
+            statusDiv.style.display = 'block';
+            statusDiv.textContent = message;
+            
+            // Стили в зависимости от типа сообщения
+            if (type === 'success') {
+                statusDiv.style.background = '#d4edda';
+                statusDiv.style.color = '#155724';
+                statusDiv.style.border = '1px solid #c3e6cb';
+            } else if (type === 'error') {
+                statusDiv.style.background = '#f8d7da';
+                statusDiv.style.color = '#721c24';
+                statusDiv.style.border = '1px solid #f5c6cb';
+            } else {
+                statusDiv.style.background = '#d1ecf1';
+                statusDiv.style.color = '#0c5460';
+                statusDiv.style.border = '1px solid #bee5eb';
+            }
+        }
+        
+        function hideExportStatus() {
+            const statusDiv = document.getElementById('exportStatus');
+            statusDiv.style.display = 'none';
+        }
+        
+        async function exportOrders() {
+            const btn = document.getElementById('exportOrdersBtn');
+            const originalText = btn.innerHTML;
+            
+            try {
+                btn.innerHTML = '⏳ Загрузка...';
+                btn.disabled = true;
+                showExportStatus('Загрузка данных заказов...', 'info');
+                
+                const authToken = sessionStorage.getItem('adminToken');
+                const response = await fetch('/.netlify/functions/export-orders', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // Создаем и скачиваем файл
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `orders_export_${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+                
+                showExportStatus(`✅ Экспорт завершен! Загружено ${data.total_orders} заказов`, 'success');
+                
+            } catch (error) {
+                console.error('Export orders error:', error);
+                showExportStatus(`❌ Ошибка экспорта: ${error.message}`, 'error');
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                setTimeout(hideExportStatus, 5000);
+            }
+        }
+        
+        async function exportQRCodes() {
+            const btn = document.getElementById('exportQRCodesBtn');
+            const originalText = btn.innerHTML;
+            
+            try {
+                btn.innerHTML = '⏳ Загрузка...';
+                btn.disabled = true;
+                showExportStatus('Загрузка данных QR-кодов...', 'info');
+                
+                const authToken = sessionStorage.getItem('adminToken');
+                const response = await fetch('/.netlify/functions/export-qr-codes', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // Создаем и скачиваем файл
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `qr_codes_export_${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+                
+                showExportStatus(`✅ Экспорт завершен! Загружено ${data.total_qr_codes} QR-кодов (${data.available_qr_codes} доступно, ${data.used_qr_codes} использовано)`, 'success');
+                
+            } catch (error) {
+                console.error('Export QR codes error:', error);
+                showExportStatus(`❌ Ошибка экспорта: ${error.message}`, 'error');
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                setTimeout(hideExportStatus, 5000);
+            }
+        }
+        
+        // Обработчики событий для кнопок экспорта
+        document.getElementById('exportOrdersBtn').addEventListener('click', exportOrders);
+        document.getElementById('exportQRCodesBtn').addEventListener('click', exportQRCodes);
     </script>
 </body>
 </html>
