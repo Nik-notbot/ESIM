@@ -403,13 +403,27 @@
         // Загрузить список QR-кодов
         async function loadQRCodes() {
             try {
-                const { data, error } = await supabase
-                    .from('qr_codes')
-                    .select('*')
-                    .order('created_at', { ascending: false })
-                    .limit(100);
+                // Получаем токен авторизации
+                const authToken = sessionStorage.getItem('adminToken');
+                if (!authToken) {
+                    throw new Error('Сессия истекла. Войдите заново.');
+                }
+
+                // Загружаем данные через серверную функцию
+                const response = await fetch('/.netlify/functions/admin-get-qr-codes', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                const result = await response.json();
                 
-                if (error) throw error;
+                if (!response.ok) {
+                    throw new Error(result.message || 'Ошибка загрузки QR-кодов');
+                }
+
+                const data = result.data;
                 
                 const listDiv = document.getElementById('qr-list');
                 listDiv.innerHTML = '';
@@ -455,9 +469,20 @@
             const hiddenNotes = document.getElementById('hidden-notes').value.trim();
             
             try {
-                const { error } = await supabase
-                    .from('qr_codes')
-                    .insert({
+                // Получаем токен авторизации
+                const authToken = sessionStorage.getItem('adminToken');
+                if (!authToken) {
+                    throw new Error('Сессия истекла. Войдите заново.');
+                }
+
+                // Отправляем данные через серверную функцию
+                const response = await fetch('/.netlify/functions/admin-add-qr', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
                         plan_id: planId,
                         qr_url: qrUrl,
                         country_name: countryName || null,
@@ -466,9 +491,14 @@
                         pin_code: pinCode || null,
                         puk_code: pukCode || null,
                         hidden_notes: hiddenNotes || null
-                    });
+                    })
+                });
+
+                const result = await response.json();
                 
-                if (error) throw error;
+                if (!response.ok) {
+                    throw new Error(result.message || 'Ошибка добавления QR-кода');
+                }
                 
                 showMessage('QR-код успешно добавлен!');
                 // Очищаем все поля
