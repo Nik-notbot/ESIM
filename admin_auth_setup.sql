@@ -1,11 +1,17 @@
 -- Создание таблицы для паролей
 CREATE TABLE IF NOT EXISTS admin_passwords (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    password VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- Удаляем старые пароли если они есть
-DELETE FROM admin_passwords;
+-- Очищаем старые пароли (только если таблица существует)
+DO $$
+BEGIN
+    IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'admin_passwords') THEN
+        DELETE FROM admin_passwords;
+    END IF;
+END $$;
 
 -- Вставка нового пароля (пароль: JlHhWO2hoU2)
 INSERT INTO admin_passwords (password) 
