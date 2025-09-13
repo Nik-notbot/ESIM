@@ -416,6 +416,12 @@
         // Загрузить статистику
         async function loadStats() {
             try {
+                // Проверяем что Supabase инициализирован
+                if (!supabase) {
+                    console.error('Supabase не инициализирован');
+                    return;
+                }
+                
                 const { data, error } = await supabase
                     .from('qr_codes')
                     .select('plan_id, is_used');
@@ -667,9 +673,14 @@
                     document.getElementById('loginContainer').style.display = 'none';
                     document.getElementById('adminContent').style.display = 'block';
                     
-                    // Загружаем данные только если сессия валидна
-                    loadQRCodes();
-                    loadStats();
+                    // Инициализируем Supabase и загружаем данные
+                    initSupabase().then(() => {
+                        loadQRCodes();
+                        loadStats();
+                    }).catch(error => {
+                        console.error('Ошибка инициализации Supabase:', error);
+                        showMessage('Ошибка подключения к базе данных', 'error');
+                    });
                     
                     // Показываем информацию об админе
                     console.log('Добро пожаловать в админ панель!');

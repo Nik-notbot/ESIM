@@ -43,6 +43,7 @@ exports.handler = async (event, context) => {
         );
 
         // Get all QR codes with related data
+        console.log('Fetching QR codes from database...');
         const { data: qrCodes, error: qrError } = await supabase
             .from('qr_codes')
             .select(`
@@ -57,6 +58,8 @@ exports.handler = async (event, context) => {
                 )
             `)
             .order('created_at', { ascending: false });
+            
+        console.log('QR codes query result:', { qrCodesCount: qrCodes?.length, error: qrError });
 
         if (qrError) {
             console.error('Error fetching QR codes:', qrError);

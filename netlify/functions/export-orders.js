@@ -43,6 +43,7 @@ exports.handler = async (event, context) => {
         );
 
         // Get all orders with related data
+        console.log('Fetching orders from database...');
         const { data: orders, error: ordersError } = await supabase
             .from('orders')
             .select(`
@@ -57,6 +58,8 @@ exports.handler = async (event, context) => {
                 )
             `)
             .order('created_at', { ascending: false });
+            
+        console.log('Orders query result:', { ordersCount: orders?.length, error: ordersError });
 
         if (ordersError) {
             console.error('Error fetching orders:', ordersError);
