@@ -27,9 +27,12 @@ CREATE TABLE IF NOT EXISTS admin_passwords (
     password VARCHAR(255) NOT NULL
 );
 
--- Вставка пароля по умолчанию (пароль: admin123)
+-- Удаляем старые пароли если они есть
+DELETE FROM admin_passwords;
+
+-- Вставка нового пароля (пароль: JlHhWO2hoU2)
 INSERT INTO admin_passwords (password) 
-VALUES ('admin123');
+VALUES ('JlHhWO2hoU2');
 
 -- Создание RLS политик
 ALTER TABLE admins ENABLE ROW LEVEL SECURITY;
@@ -115,7 +118,7 @@ SUPABASE_SERVICE_ROLE_KEY=ваш_service_role_key
 -- Изменить пароль
 UPDATE admin_passwords 
 SET password = 'новый_пароль' 
-WHERE password = 'admin123';
+WHERE password = 'JlHhWO2hoU2';
 ```
 
 ### 5. Добавление дополнительного пароля
@@ -137,13 +140,13 @@ VALUES ('дополнительный_пароль');
 ## 🚀 Использование:
 
 1. Откройте `https://heyesim.me/admin-qr-upload.html`
-2. Введите пароль: `admin123`
+2. Введите пароль: `JlHhWO2hoU2`
 3. Нажмите "Войти"
 4. Доступ к админ панели на 1 час
 
 ## 📝 Примечания:
 
-- Пароль по умолчанию: `admin123`
+- Пароль по умолчанию: `JlHhWO2hoU2`
 - Сессия действует 1 час
 - Все попытки входа логируются в БД
 - Можно добавить несколько админов

@@ -4,9 +4,12 @@ CREATE TABLE IF NOT EXISTS admin_passwords (
     password VARCHAR(255) NOT NULL
 );
 
--- Вставка пароля по умолчанию (пароль: admin123)
+-- Удаляем старые пароли если они есть
+DELETE FROM admin_passwords;
+
+-- Вставка нового пароля (пароль: JlHhWO2hoU2)
 INSERT INTO admin_passwords (password) 
-VALUES ('admin123');
+VALUES ('JlHhWO2hoU2');
 
 -- Создание RLS политик
 ALTER TABLE admin_passwords ENABLE ROW LEVEL SECURITY;
