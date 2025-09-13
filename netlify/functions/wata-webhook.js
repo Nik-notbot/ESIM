@@ -103,6 +103,54 @@ exports.handler = async (event, context) => {
                 console.log('Не удалось назначить QR-код:', await qrResponse.text());
             }
         }
+
+        // Отправляем уведомление о продаже (только при успешной оплате)
+        if (orderStatus === 'paid' && updatedOrder.length > 0) {
+            console.log('Отправляем уведомление о продаже...');
+            
+            try {
+                // Получаем полную информацию о заказе с планом
+                const fullOrderResponse = await fetch(
+                    `${SUPABASE_URL}/rest/v1/orders?id=eq.${orderId}&select=*,esim_plans(*)`,
+                    {
+                        headers: {
+                            'apikey': SUPABASE_SERVICE_KEY,
+                            'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                );
+
+                if (fullOrderResponse.ok) {
+                    const fullOrderData = await fullOrderResponse.json();
+                    if (fullOrderData.length > 0) {
+                        // Отправляем уведомление в Telegram
+                        const notificationResponse = await fetch(
+                            `${process.env.URL || 'https://heyesim.me'}/.netlify/functions/send-telegram-notification`,
+                            {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    orderData: fullOrderData[0],
+                                    notificationType: 'sale'
+                                })
+                            }
+                        );
+
+                        if (notificationResponse.ok) {
+                            console.log('Уведомление о продаже отправлено');
+                        } else {
+                            console.log('Не удалось отправить уведомление о продаже');
+                        }
+                    }
+                }
+            } catch (notificationError) {
+                console.error('Ошибка отправки уведомления:', notificationError);
+                // Не прерываем выполнение из-за ошибки уведомления
+            }
+        }
         
         // Возвращаем успешный ответ
         return {
