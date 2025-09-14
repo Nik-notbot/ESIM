@@ -138,7 +138,7 @@ exports.handler = async (event, context) => {
         console.log('Supabase URL:', SUPABASE_URL);
         console.log('Service Key configured:', !!SUPABASE_SERVICE_KEY);
         
-        // Обновляем статус заказа в Supabase
+        // Обновляем статус заказа в Supabase с защитой от превышения лимитов
         const updateUrl = `${SUPABASE_URL}/rest/v1/orders?id=eq.${orderId}`;
         const updateBody = {
             status: orderStatus,
@@ -149,7 +149,46 @@ exports.handler = async (event, context) => {
         console.log('Update URL:', updateUrl);
         console.log('Update body:', updateBody);
         
-        const updateResponse = await fetch(updateUrl, {
+        // Функция для выполнения запроса с повторными попытками
+        async function makeSupabaseRequest(url, options, maxRetries = 3) {
+            for (let attempt = 1; attempt <= maxRetries; attempt++) {
+                try {
+                    console.log(`Supabase request attempt ${attempt}/${maxRetries}`);
+                    
+                    const response = await fetch(url, options);
+                    
+                    // Если получили 429 (Too Many Requests), ждем и повторяем
+                    if (response.status === 429) {
+                        const retryAfter = response.headers.get('Retry-After') || Math.pow(2, attempt);
+                        const waitTime = parseInt(retryAfter) * 1000;
+                        
+                        console.log(`Rate limited (429), waiting ${waitTime}ms before retry ${attempt + 1}`);
+                        
+                        if (attempt < maxRetries) {
+                            await new Promise(resolve => setTimeout(resolve, waitTime));
+                            continue;
+                        } else {
+                            throw new Error(`Rate limited after ${maxRetries} attempts`);
+                        }
+                    }
+                    
+                    return response;
+                } catch (error) {
+                    console.error(`Attempt ${attempt} failed:`, error.message);
+                    
+                    if (attempt === maxRetries) {
+                        throw error;
+                    }
+                    
+                    // Экспоненциальная задержка между попытками
+                    const waitTime = Math.pow(2, attempt) * 1000;
+                    console.log(`Waiting ${waitTime}ms before retry ${attempt + 1}`);
+                    await new Promise(resolve => setTimeout(resolve, waitTime));
+                }
+            }
+        }
+        
+        const updateResponse = await makeSupabaseRequest(updateUrl, {
             method: 'PATCH',
             headers: {
                 'apikey': SUPABASE_SERVICE_KEY,
@@ -178,8 +217,8 @@ exports.handler = async (event, context) => {
         if (orderStatus === 'paid' && updatedOrder.length > 0 && !updatedOrder[0].qr_code_id) {
             console.log('Назначаем QR-код для заказа...');
             
-            // Вызываем функцию назначения QR-кода
-            const qrResponse = await fetch(
+            // Вызываем функцию назначения QR-кода с защитой от лимитов
+            const qrResponse = await makeSupabaseRequest(
                 `${SUPABASE_URL}/rest/v1/rpc/get_available_qr_code`,
                 {
                     method: 'POST',
@@ -235,10 +274,11 @@ exports.handler = async (event, context) => {
             console.log('Отправляем уведомление о продаже...');
             
             try {
-                // Получаем полную информацию о заказе с планом
-                const fullOrderResponse = await fetch(
+                // Получаем полную информацию о заказе с планом с защитой от лимитов
+                const fullOrderResponse = await makeSupabaseRequest(
                     `${SUPABASE_URL}/rest/v1/orders?id=eq.${orderId}&select=*,esim_plans(*)`,
                     {
+                        method: 'GET',
                         headers: {
                             'apikey': SUPABASE_SERVICE_KEY,
                             'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
@@ -268,8 +308,8 @@ exports.handler = async (event, context) => {
                         if (notificationResponse.ok) {
                             console.log('Уведомление о продаже отправлено');
                             
-                            // Обновляем время отправки уведомления в БД
-                            await fetch(
+                            // Обновляем время отправки уведомления в БД с защитой от лимитов
+                            await makeSupabaseRequest(
                                 `${SUPABASE_URL}/rest/v1/orders?id=eq.${orderId}`,
                                 {
                                     method: 'PATCH',
