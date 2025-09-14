@@ -1,7 +1,5 @@
-const { createClient } = require('@supabase/supabase-js');
-
+// Тестовая функция для проверки подключения к Supabase
 exports.handler = async (event, context) => {
-    // CORS headers
     const headers = {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization',
@@ -9,90 +7,78 @@ exports.handler = async (event, context) => {
         'Content-Type': 'application/json'
     };
 
-    // Handle preflight requests
     if (event.httpMethod === 'OPTIONS') {
         return { statusCode: 200, headers, body: '' };
     }
 
-    if (event.httpMethod !== 'GET') {
-        return {
-            statusCode: 405,
-            headers,
-            body: JSON.stringify({ error: 'Method not allowed' })
-        };
-    }
-
     try {
-        // Check environment variables
-        if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+        const SUPABASE_URL = process.env.SUPABASE_URL;
+        const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+        
+        console.log('Testing Supabase connection...');
+        console.log('URL configured:', !!SUPABASE_URL);
+        console.log('Service key configured:', !!SUPABASE_SERVICE_KEY);
+        
+        if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
             return {
                 statusCode: 500,
                 headers,
-                body: JSON.stringify({ 
-                    error: 'Missing Supabase credentials',
-                    details: {
-                        hasUrl: !!process.env.SUPABASE_URL,
-                        hasServiceKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY
-                    }
+                body: JSON.stringify({
+                    error: 'Supabase not configured',
+                    SUPABASE_URL: !!SUPABASE_URL,
+                    SUPABASE_SERVICE_ROLE_KEY: !!SUPABASE_SERVICE_KEY
                 })
             };
         }
 
-        // Initialize Supabase client
-        const supabase = createClient(
-            process.env.SUPABASE_URL,
-            process.env.SUPABASE_SERVICE_ROLE_KEY
-        );
+        // Тестируем подключение - получаем список заказов
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/orders?select=id,status&limit=5`, {
+            headers: {
+                'apikey': SUPABASE_SERVICE_KEY,
+                'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+                'Content-Type': 'application/json'
+            }
+        });
 
-        // Test connection by querying a simple table
-        console.log('Testing Supabase connection...');
+        console.log('Supabase response status:', response.status);
         
-        // Test orders table
-        const { data: orders, error: ordersError } = await supabase
-            .from('orders')
-            .select('id')
-            .limit(1);
-            
-        // Test qr_codes table
-        const { data: qrCodes, error: qrCodesError } = await supabase
-            .from('qr_codes')
-            .select('id')
-            .limit(1);
+        if (!response.ok) {
+            const error = await response.text();
+            console.error('Supabase error:', error);
+            return {
+                statusCode: 500,
+                headers,
+                body: JSON.stringify({
+                    error: 'Supabase connection failed',
+                    status: response.status,
+                    errorText: error
+                })
+            };
+        }
+
+        const data = await response.json();
+        console.log('Supabase data received:', data);
 
         return {
             statusCode: 200,
             headers,
             body: JSON.stringify({
-                message: 'Supabase connection test completed',
-                timestamp: new Date().toISOString(),
-                connection_status: 'success',
-                tables_test: {
-                    orders: {
-                        accessible: !ordersError,
-                        error: ordersError?.message || null,
-                        sample_count: orders?.length || 0
-                    },
-                    qr_codes: {
-                        accessible: !qrCodesError,
-                        error: qrCodesError?.message || null,
-                        sample_count: qrCodes?.length || 0
-                    }
-                },
-                environment: {
-                    supabase_url: process.env.SUPABASE_URL ? 'configured' : 'missing',
-                    service_key: process.env.SUPABASE_SERVICE_ROLE_KEY ? 'configured' : 'missing'
-                }
+                success: true,
+                message: 'Supabase connection successful',
+                ordersCount: data.length,
+                sampleOrders: data,
+                timestamp: new Date().toISOString()
             })
         };
 
     } catch (error) {
-        console.error('Supabase test error:', error);
+        console.error('Test error:', error);
         return {
             statusCode: 500,
             headers,
-            body: JSON.stringify({ 
-                error: 'Supabase connection test failed',
-                details: error.message,
+            body: JSON.stringify({
+                error: 'Test failed',
+                message: error.message,
                 stack: error.stack
             })
         };

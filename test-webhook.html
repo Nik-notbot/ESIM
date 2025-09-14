@@ -67,7 +67,10 @@
         <h3>5. Тест с форматом Wata API:</h3>
         <button onclick="testWataFormat()">Тест формата Wata</button>
         
-        <h3>6. Тест с разными форматами данных:</h3>
+        <h3>6. Тест подключения к Supabase:</h3>
+        <button onclick="testSupabase()">Тест Supabase</button>
+        
+        <h3>7. Тест с разными форматами данных:</h3>
         <button onclick="testDifferentFormats()">Тест разных форматов</button>
         
         <div id="result"></div>
@@ -307,6 +310,30 @@
                 } else {
                     resultDiv.className = 'result error';
                     resultDiv.innerHTML = `❌ Ошибка формата Wata:\n\nОтправленные данные:\n${JSON.stringify(wataData, null, 2)}\n\nОшибка:\n${JSON.stringify(result, null, 2)}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `❌ Ошибка: ${error.message}`;
+            }
+        }
+        
+        async function testSupabase() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '⏳ Тестируем подключение к Supabase...';
+            
+            try {
+                const response = await fetch('/.netlify/functions/test-supabase', {
+                    method: 'GET'
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `✅ Supabase подключение работает!\n\n${JSON.stringify(result, null, 2)}`;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `❌ Ошибка подключения к Supabase:\n\n${JSON.stringify(result, null, 2)}`;
                 }
             } catch (error) {
                 resultDiv.className = 'result error';

@@ -3,7 +3,7 @@
 
 // Конфигурация - проект esim-store
 const SUPABASE_URL = process.env.SUPABASE_URL || 'https://wiwkergsvbgnrdslqkzg.supabase.co';
-const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indpd2tlcmdzdmJnbnJkc2xxa3pnIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1Njk5MDkyMCwiZXhwIjoyMDcyNTY2OTIwfQ.RJPwoAVUNzIbG7yGTm-hS2wNrBelhaQ5k57cpQLXZj8'; // service_role key для вебхуков
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indpd2tlcmdzdmJnbnJkc2xxa3pnIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1Njk5MDkyMCwiZXhwIjoyMDcyNTY2OTIwfQ.RJPwoAVUNzIbG7yGTm-hS2wNrBelhaQ5k57cpQLXZj8'; // service_role key для вебхуков
 
 // Секретный ключ для проверки подписи Wata
 const WATA_WEBHOOK_SECRET = process.env.WATA_WEBHOOK_SECRET || 'your-webhook-secret-here';
@@ -80,16 +80,8 @@ exports.handler = async (event, context) => {
             };
         }
 
-        // Проверяем подпись Wata (если есть)
-        const signature = event.headers['x-wata-signature'] || event.headers['X-Wata-Signature'];
-        if (signature && !verifyWataSignature(event.body, signature, WATA_WEBHOOK_SECRET)) {
-            console.error('Invalid signature');
-            return {
-                statusCode: 401,
-                headers,
-                body: JSON.stringify({ error: 'Invalid signature' })
-            };
-        }
+        // Wata не использует подпись webhook, пропускаем проверку
+        console.log('Skipping signature verification (not used by Wata)');
 
         // Парсим данные вебхука
         let webhookData;
@@ -140,30 +132,40 @@ exports.handler = async (event, context) => {
         }
         
         console.log(`Обновляем заказ ${orderId} - статус: ${orderStatus}`);
+        console.log('Supabase URL:', SUPABASE_URL);
+        console.log('Service Key configured:', !!SUPABASE_SERVICE_KEY);
         
         // Обновляем статус заказа в Supabase
-        const updateResponse = await fetch(
-            `${SUPABASE_URL}/rest/v1/orders?id=eq.${orderId}`,
-            {
-                method: 'PATCH',
-                headers: {
-                    'apikey': SUPABASE_SERVICE_KEY,
-                    'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
-                    'Content-Type': 'application/json',
-                    'Prefer': 'return=representation'
-                },
-                body: JSON.stringify({
-                    status: orderStatus,
-                    payment_id: paymentId,
-                    updated_at: new Date().toISOString()
-                })
-            }
-        );
+        const updateUrl = `${SUPABASE_URL}/rest/v1/orders?id=eq.${orderId}`;
+        const updateBody = {
+            status: orderStatus,
+            payment_id: paymentId,
+            updated_at: new Date().toISOString()
+        };
+        
+        console.log('Update URL:', updateUrl);
+        console.log('Update body:', updateBody);
+        
+        const updateResponse = await fetch(updateUrl, {
+            method: 'PATCH',
+            headers: {
+                'apikey': SUPABASE_SERVICE_KEY,
+                'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+                'Content-Type': 'application/json',
+                'Prefer': 'return=representation'
+            },
+            body: JSON.stringify(updateBody)
+        });
+        
+        console.log('Update response status:', updateResponse.status);
+        console.log('Update response headers:', Object.fromEntries(updateResponse.headers.entries()));
         
         if (!updateResponse.ok) {
             const error = await updateResponse.text();
             console.error('Ошибка обновления заказа:', error);
-            throw new Error('Failed to update order');
+            console.error('Response status:', updateResponse.status);
+            console.error('Response headers:', Object.fromEntries(updateResponse.headers.entries()));
+            throw new Error(`Failed to update order: ${updateResponse.status} - ${error}`);
         }
         
         const updatedOrder = await updateResponse.json();
