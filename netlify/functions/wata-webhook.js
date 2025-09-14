@@ -9,32 +9,84 @@ const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY || 'eyJhbGciOiJIUz
 const fetch = globalThis.fetch || require('node-fetch');
 
 exports.handler = async (event, context) => {
+    // CORS заголовки
+    const headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Content-Type': 'application/json'
+    };
+
+    // Обработка preflight запросов
+    if (event.httpMethod === 'OPTIONS') {
+        return {
+            statusCode: 200,
+            headers,
+            body: ''
+        };
+    }
+
     // Только POST запросы
     if (event.httpMethod !== 'POST') {
         return {
             statusCode: 405,
+            headers,
             body: JSON.stringify({ error: 'Method not allowed' })
         };
     }
     
     try {
-        // Парсим данные вебхука
-        const webhookData = JSON.parse(event.body);
-        console.log('Получен вебхук:', webhookData);
-        
-        // Извлекаем данные платежа
-        const { 
-            orderId,
-            paymentId,
-            status,
-            amount,
-            currency
-        } = webhookData;
-        
-        if (!orderId || !status) {
+        // Логируем входящий запрос
+        console.log('Webhook received:', {
+            method: event.httpMethod,
+            headers: event.headers,
+            body: event.body
+        });
+
+        // Проверяем наличие тела запроса
+        if (!event.body) {
+            console.error('Empty request body');
             return {
                 statusCode: 400,
-                body: JSON.stringify({ error: 'Missing required fields' })
+                headers,
+                body: JSON.stringify({ error: 'Empty request body' })
+            };
+        }
+
+        // Парсим данные вебхука
+        let webhookData;
+        try {
+            webhookData = JSON.parse(event.body);
+        } catch (parseError) {
+            console.error('JSON parse error:', parseError);
+            return {
+                statusCode: 400,
+                headers,
+                body: JSON.stringify({ error: 'Invalid JSON format' })
+            };
+        }
+        
+        console.log('Parsed webhook data:', webhookData);
+        
+        // Извлекаем данные платежа (поддерживаем разные форматы)
+        const orderId = webhookData.orderId || webhookData.order_id || webhookData.id;
+        const paymentId = webhookData.paymentId || webhookData.payment_id || webhookData.transaction_id;
+        const status = webhookData.status || webhookData.state || webhookData.payment_status;
+        const amount = webhookData.amount || webhookData.total || webhookData.sum;
+        const currency = webhookData.currency || webhookData.currency_code || 'RUB';
+        
+        console.log('Extracted data:', { orderId, paymentId, status, amount, currency });
+        
+        if (!orderId || !status) {
+            console.error('Missing required fields:', { orderId, status });
+            return {
+                statusCode: 400,
+                headers,
+                body: JSON.stringify({ 
+                    error: 'Missing required fields',
+                    received: { orderId, status },
+                    fullData: webhookData
+                })
             };
         }
         
@@ -155,6 +207,7 @@ exports.handler = async (event, context) => {
         // Возвращаем успешный ответ
         return {
             statusCode: 200,
+            headers,
             body: JSON.stringify({ 
                 success: true,
                 message: 'Webhook processed successfully',
@@ -168,9 +221,11 @@ exports.handler = async (event, context) => {
         
         return {
             statusCode: 500,
+            headers,
             body: JSON.stringify({ 
                 error: 'Internal server error',
-                message: error.message 
+                message: error.message,
+                stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
             })
         };
     }

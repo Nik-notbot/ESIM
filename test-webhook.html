@@ -61,6 +61,12 @@
         <h3>3. Тест Webhook (неудачная оплата):</h3>
         <button onclick="testWebhookFailed()">Тест неудачной оплаты</button>
         
+        <h3>4. Тест простого webhook:</h3>
+        <button onclick="testSimpleWebhook()">Тест простого webhook</button>
+        
+        <h3>5. Тест с разными форматами данных:</h3>
+        <button onclick="testDifferentFormats()">Тест разных форматов</button>
+        
         <div id="result"></div>
     </div>
 
@@ -173,6 +179,99 @@
                 resultDiv.className = 'result error';
                 resultDiv.innerHTML = `❌ Ошибка: ${error.message}`;
             }
+        }
+        
+        async function testSimpleWebhook() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '⏳ Тестируем простой webhook...';
+            
+            try {
+                const response = await fetch('/.netlify/functions/test-webhook', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        test: 'data',
+                        timestamp: new Date().toISOString()
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `✅ Простой webhook работает!\n\n${JSON.stringify(result, null, 2)}`;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `❌ Ошибка простого webhook:\n\n${JSON.stringify(result, null, 2)}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `❌ Ошибка: ${error.message}`;
+            }
+        }
+        
+        async function testDifferentFormats() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '⏳ Тестируем разные форматы данных...';
+            
+            const formats = [
+                {
+                    name: 'Формат 1 (orderId, status)',
+                    data: {
+                        orderId: 'test-order-1',
+                        status: 'Success',
+                        amount: 1000
+                    }
+                },
+                {
+                    name: 'Формат 2 (order_id, state)',
+                    data: {
+                        order_id: 'test-order-2',
+                        state: 'Success',
+                        total: 1000
+                    }
+                },
+                {
+                    name: 'Формат 3 (id, payment_status)',
+                    data: {
+                        id: 'test-order-3',
+                        payment_status: 'Success',
+                        sum: 1000
+                    }
+                }
+            ];
+            
+            let results = [];
+            
+            for (const format of formats) {
+                try {
+                    const response = await fetch('/.netlify/functions/wata-webhook', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(format.data)
+                    });
+                    
+                    const result = await response.json();
+                    results.push({
+                        format: format.name,
+                        success: response.ok,
+                        result: result
+                    });
+                } catch (error) {
+                    results.push({
+                        format: format.name,
+                        success: false,
+                        error: error.message
+                    });
+                }
+            }
+            
+            resultDiv.className = 'result success';
+            resultDiv.innerHTML = `✅ Тест форматов завершен!\n\n${JSON.stringify(results, null, 2)}`;
         }
     </script>
 </body>
