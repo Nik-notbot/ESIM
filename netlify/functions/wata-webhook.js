@@ -202,8 +202,36 @@ exports.handler = async (event, context) => {
             }
         }
 
-        // Отправляем уведомление о продаже (только при успешной оплате)
+        // Отправляем уведомление о продаже (только при успешной оплате и если еще не отправляли)
         if (orderStatus === 'paid' && updatedOrder.length > 0) {
+            console.log('Проверяем, нужно ли отправлять уведомление о продаже...');
+            
+            // Проверяем, не отправляли ли уже уведомление для этого заказа
+            const order = updatedOrder[0];
+            const lastNotificationTime = order.telegram_notification_sent_at;
+            const now = new Date();
+            
+            // Если уведомление уже отправляли в последние 24 часа, пропускаем
+            if (lastNotificationTime) {
+                const notificationDate = new Date(lastNotificationTime);
+                const hoursSinceNotification = (now - notificationDate) / (1000 * 60 * 60);
+                
+                if (hoursSinceNotification < 24) {
+                    console.log(`Уведомление для заказа ${orderId} уже отправлялось ${hoursSinceNotification.toFixed(1)} часов назад, пропускаем`);
+                    return {
+                        statusCode: 200,
+                        headers,
+                        body: JSON.stringify({ 
+                            success: true,
+                            message: 'Webhook processed successfully (notification already sent)',
+                            orderId: orderId,
+                            status: orderStatus,
+                            notificationSkipped: true
+                        })
+                    };
+                }
+            }
+            
             console.log('Отправляем уведомление о продаже...');
             
             try {
@@ -239,6 +267,23 @@ exports.handler = async (event, context) => {
 
                         if (notificationResponse.ok) {
                             console.log('Уведомление о продаже отправлено');
+                            
+                            // Обновляем время отправки уведомления в БД
+                            await fetch(
+                                `${SUPABASE_URL}/rest/v1/orders?id=eq.${orderId}`,
+                                {
+                                    method: 'PATCH',
+                                    headers: {
+                                        'apikey': SUPABASE_SERVICE_KEY,
+                                        'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        telegram_notification_sent_at: now.toISOString()
+                                    })
+                                }
+                            );
+                            console.log('Время отправки уведомления сохранено в БД');
                         } else {
                             console.log('Не удалось отправить уведомление о продаже');
                         }
