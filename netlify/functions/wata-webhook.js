@@ -98,17 +98,20 @@ exports.handler = async (event, context) => {
         
         console.log('Parsed webhook data:', webhookData);
         
-        // Извлекаем данные платежа согласно формату Wata API
-        // Формат Wata: { order_uuid, amount, status, order_id, paid_date_msk, hash }
-        const orderId = webhookData.order_uuid || webhookData.order_id || webhookData.orderId || webhookData.id;
-        const paymentId = webhookData.payment_id || webhookData.paymentId || webhookData.transaction_id;
-        const status = webhookData.status || webhookData.state || webhookData.payment_status;
+        // Извлекаем данные платежа согласно реальному формату Wata API
+        // Реальный формат Wata: { transactionType, transactionId, transactionStatus, amount, currency, orderId, orderDescription, paymentTime, commission, email }
+        const orderId = webhookData.orderId || webhookData.order_uuid || webhookData.order_id || webhookData.id;
+        const paymentId = webhookData.transactionId || webhookData.payment_id || webhookData.paymentId || webhookData.transaction_id;
+        const status = webhookData.transactionStatus || webhookData.status || webhookData.state || webhookData.payment_status;
         const amount = webhookData.amount || webhookData.total || webhookData.sum;
         const currency = webhookData.currency || webhookData.currency_code || 'RUB';
-        const paidDate = webhookData.paid_date_msk || webhookData.paid_date || webhookData.created_at;
+        const paidDate = webhookData.paymentTime || webhookData.paid_date_msk || webhookData.paid_date || webhookData.created_at;
         const hash = webhookData.hash;
+        const transactionType = webhookData.transactionType;
+        const orderDescription = webhookData.orderDescription;
+        const commission = webhookData.commission;
         
-        console.log('Extracted data:', { orderId, paymentId, status, amount, currency, paidDate, hash });
+        console.log('Extracted data:', { orderId, paymentId, status, amount, currency, paidDate, hash, transactionType, orderDescription, commission });
         
         if (!orderId || !status) {
             console.error('Missing required fields:', { orderId, status });
@@ -123,11 +126,11 @@ exports.handler = async (event, context) => {
             };
         }
         
-        // Определяем статус для нашей БД согласно Wata API
+        // Определяем статус для нашей БД согласно реальному формату Wata API
         let orderStatus = 'pending';
         if (status === 'Paid' || status === 'Success' || status === 'Succeeded') {
             orderStatus = 'paid';
-        } else if (status === 'Failed' || status === 'Declined' || status === 'Cancelled') {
+        } else if (status === 'Failed' || status === 'Declined' || status === 'Cancelled' || status === 'Error') {
             orderStatus = 'failed';
         }
         

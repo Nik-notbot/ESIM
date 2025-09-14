@@ -64,16 +64,19 @@
         <h3>4. Тест простого webhook:</h3>
         <button onclick="testSimpleWebhook()">Тест простого webhook</button>
         
-        <h3>5. Тест с форматом Wata API:</h3>
+        <h3>5. Тест с реальным форматом Wata API:</h3>
+        <button onclick="testRealWataFormat()">Тест реального формата Wata</button>
+        
+        <h3>6. Тест с форматом Wata API (старый):</h3>
         <button onclick="testWataFormat()">Тест формата Wata</button>
         
-        <h3>6. Тест подключения к Supabase:</h3>
+        <h3>7. Тест подключения к Supabase:</h3>
         <button onclick="testSupabase()">Тест Supabase</button>
         
-        <h3>7. Тест с разными форматами данных:</h3>
+        <h3>8. Тест с разными форматами данных:</h3>
         <button onclick="testDifferentFormats()">Тест разных форматов</button>
         
-        <h3>8. Тест с новым UUID (создание заказа):</h3>
+        <h3>9. Тест с новым UUID (создание заказа):</h3>
         <button onclick="testNewOrder()">Тест нового заказа</button>
         
         <div id="result"></div>
@@ -331,6 +334,55 @@
                 } else {
                     resultDiv.className = 'result error';
                     resultDiv.innerHTML = `❌ Ошибка формата Wata:\n\nОтправленные данные:\n${JSON.stringify(wataData, null, 2)}\n\nОшибка:\n${JSON.stringify(result, null, 2)}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `❌ Ошибка: ${error.message}`;
+            }
+        }
+        
+        async function testRealWataFormat() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '⏳ Тестируем реальный формат Wata API...';
+            
+            try {
+                // Используем реальный UUID из базы данных
+                const realOrderId = '6c99dbe3-1fde-4c5d-888f-4b7581b6c132';
+                
+                // Реальный формат данных от Wata (из логов)
+                const realWataData = {
+                    transactionType: 'SBP',
+                    transactionId: '3a1c5ae1-e92a-eeae-aa12-0cfe6ce8b20e',
+                    transactionStatus: 'Paid',
+                    errorCode: null,
+                    errorDescription: null,
+                    terminalName: 'heyesim.me СБП',
+                    terminalPublicId: '3a1bf961-8cbc-bb0d-b2dc-3f145b5fb7e8',
+                    amount: 2400,
+                    currency: 'RUB',
+                    orderId: realOrderId,
+                    orderDescription: 'eSIM Стандарт - 8 ГБ',
+                    paymentTime: new Date().toISOString(),
+                    commission: 192,
+                    email: null
+                };
+                
+                const response = await fetch('/.netlify/functions/wata-webhook', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(realWataData)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `✅ Реальный формат Wata работает!\n\nОтправленные данные:\n${JSON.stringify(realWataData, null, 2)}\n\nОтвет:\n${JSON.stringify(result, null, 2)}`;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `❌ Ошибка реального формата Wata:\n\nОтправленные данные:\n${JSON.stringify(realWataData, null, 2)}\n\nОшибка:\n${JSON.stringify(result, null, 2)}`;
                 }
             } catch (error) {
                 resultDiv.className = 'result error';
