@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест Webhook</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Тест Webhook уведомлений</h1>
+        
+        <h3>1. Тест функции Telegram:</h3>
+        <button onclick="testTelegram()">Отправить тестовое уведомление</button>
+        
+        <h3>2. Тест Webhook (успешная оплата):</h3>
+        <button onclick="testWebhookSuccess()">Тест успешной оплаты</button>
+        
+        <h3>3. Тест Webhook (неудачная оплата):</h3>
+        <button onclick="testWebhookFailed()">Тест неудачной оплаты</button>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function testTelegram() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '⏳ Отправляем тестовое уведомление...';
+            
+            try {
+                const response = await fetch('/.netlify/functions/send-telegram-notification', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        orderData: {
+                            id: 'test-' + Date.now(),
+                            customer_email: 'test@example.com',
+                            customer_phone: '+7 999 123 45 67',
+                            amount: 1000,
+                            currency: 'RUB',
+                            esim_plans: {
+                                name: 'Стандарт',
+                                data_gb: '5'
+                            },
+                            created_at: new Date().toISOString()
+                        },
+                        notificationType: 'sale'
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `✅ Уведомление отправлено успешно!\n\n${JSON.stringify(result, null, 2)}`;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `❌ Ошибка отправки:\n\n${JSON.stringify(result, null, 2)}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `❌ Ошибка: ${error.message}`;
+            }
+        }
+        
+        async function testWebhookSuccess() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '⏳ Тестируем webhook успешной оплаты...';
+            
+            try {
+                const response = await fetch('/.netlify/functions/wata-webhook', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        orderId: 'test-order-' + Date.now(),
+                        paymentId: 'test-payment-' + Date.now(),
+                        status: 'Success',
+                        amount: 1000,
+                        currency: 'RUB'
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `✅ Webhook обработан успешно!\n\n${JSON.stringify(result, null, 2)}`;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `❌ Ошибка webhook:\n\n${JSON.stringify(result, null, 2)}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `❌ Ошибка: ${error.message}`;
+            }
+        }
+        
+        async function testWebhookFailed() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '⏳ Тестируем webhook неудачной оплаты...';
+            
+            try {
+                const response = await fetch('/.netlify/functions/wata-webhook', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        orderId: 'test-order-failed-' + Date.now(),
+                        paymentId: 'test-payment-failed-' + Date.now(),
+                        status: 'Failed',
+                        amount: 1000,
+                        currency: 'RUB'
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `✅ Webhook обработан успешно!\n\n${JSON.stringify(result, null, 2)}`;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `❌ Ошибка webhook:\n\n${JSON.stringify(result, null, 2)}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `❌ Ошибка: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
