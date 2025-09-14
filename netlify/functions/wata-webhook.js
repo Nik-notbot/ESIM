@@ -5,8 +5,35 @@
 const SUPABASE_URL = process.env.SUPABASE_URL || 'https://wiwkergsvbgnrdslqkzg.supabase.co';
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indpd2tlcmdzdmJnbnJkc2xxa3pnIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1Njk5MDkyMCwiZXhwIjoyMDcyNTY2OTIwfQ.RJPwoAVUNzIbG7yGTm-hS2wNrBelhaQ5k57cpQLXZj8'; // service_role key для вебхуков
 
+// Секретный ключ для проверки подписи Wata
+const WATA_WEBHOOK_SECRET = process.env.WATA_WEBHOOK_SECRET || 'your-webhook-secret-here';
+
 // Получаем fetch для Node.js
 const fetch = globalThis.fetch || require('node-fetch');
+
+// Функция для проверки подписи Wata
+function verifyWataSignature(payload, signature, secret) {
+    if (!signature || !secret) {
+        console.log('No signature or secret provided, skipping verification');
+        return true; // Пропускаем проверку если нет подписи
+    }
+    
+    try {
+        const crypto = require('crypto');
+        const expectedSignature = crypto
+            .createHmac('sha256', secret)
+            .update(payload, 'utf8')
+            .digest('hex');
+        
+        return crypto.timingSafeEqual(
+            Buffer.from(signature, 'hex'),
+            Buffer.from(expectedSignature, 'hex')
+        );
+    } catch (error) {
+        console.error('Signature verification error:', error);
+        return false;
+    }
+}
 
 exports.handler = async (event, context) => {
     // CORS заголовки
@@ -53,6 +80,17 @@ exports.handler = async (event, context) => {
             };
         }
 
+        // Проверяем подпись Wata (если есть)
+        const signature = event.headers['x-wata-signature'] || event.headers['X-Wata-Signature'];
+        if (signature && !verifyWataSignature(event.body, signature, WATA_WEBHOOK_SECRET)) {
+            console.error('Invalid signature');
+            return {
+                statusCode: 401,
+                headers,
+                body: JSON.stringify({ error: 'Invalid signature' })
+            };
+        }
+
         // Парсим данные вебхука
         let webhookData;
         try {
@@ -68,14 +106,17 @@ exports.handler = async (event, context) => {
         
         console.log('Parsed webhook data:', webhookData);
         
-        // Извлекаем данные платежа (поддерживаем разные форматы)
-        const orderId = webhookData.orderId || webhookData.order_id || webhookData.id;
-        const paymentId = webhookData.paymentId || webhookData.payment_id || webhookData.transaction_id;
+        // Извлекаем данные платежа согласно формату Wata API
+        // Формат Wata: { order_uuid, amount, status, order_id, paid_date_msk, hash }
+        const orderId = webhookData.order_uuid || webhookData.order_id || webhookData.orderId || webhookData.id;
+        const paymentId = webhookData.payment_id || webhookData.paymentId || webhookData.transaction_id;
         const status = webhookData.status || webhookData.state || webhookData.payment_status;
         const amount = webhookData.amount || webhookData.total || webhookData.sum;
         const currency = webhookData.currency || webhookData.currency_code || 'RUB';
+        const paidDate = webhookData.paid_date_msk || webhookData.paid_date || webhookData.created_at;
+        const hash = webhookData.hash;
         
-        console.log('Extracted data:', { orderId, paymentId, status, amount, currency });
+        console.log('Extracted data:', { orderId, paymentId, status, amount, currency, paidDate, hash });
         
         if (!orderId || !status) {
             console.error('Missing required fields:', { orderId, status });
@@ -90,11 +131,11 @@ exports.handler = async (event, context) => {
             };
         }
         
-        // Определяем статус для нашей БД
+        // Определяем статус для нашей БД согласно Wata API
         let orderStatus = 'pending';
-        if (status === 'Success' || status === 'Succeeded') {
+        if (status === 'Paid' || status === 'Success' || status === 'Succeeded') {
             orderStatus = 'paid';
-        } else if (status === 'Failed' || status === 'Declined') {
+        } else if (status === 'Failed' || status === 'Declined' || status === 'Cancelled') {
             orderStatus = 'failed';
         }
         

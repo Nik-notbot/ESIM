@@ -64,7 +64,10 @@
         <h3>4. Тест простого webhook:</h3>
         <button onclick="testSimpleWebhook()">Тест простого webhook</button>
         
-        <h3>5. Тест с разными форматами данных:</h3>
+        <h3>5. Тест с форматом Wata API:</h3>
+        <button onclick="testWataFormat()">Тест формата Wata</button>
+        
+        <h3>6. Тест с разными форматами данных:</h3>
         <button onclick="testDifferentFormats()">Тест разных форматов</button>
         
         <div id="result"></div>
@@ -272,6 +275,43 @@
             
             resultDiv.className = 'result success';
             resultDiv.innerHTML = `✅ Тест форматов завершен!\n\n${JSON.stringify(results, null, 2)}`;
+        }
+        
+        async function testWataFormat() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '⏳ Тестируем формат Wata API...';
+            
+            try {
+                const wataData = {
+                    order_uuid: 'test-wata-' + Date.now(),
+                    amount: 1000,
+                    status: 'Paid',
+                    order_id: 'test-wata-' + Date.now(),
+                    paid_date_msk: new Date().toISOString(),
+                    hash: 'test-hash-' + Date.now()
+                };
+                
+                const response = await fetch('/.netlify/functions/wata-webhook', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(wataData)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `✅ Формат Wata работает!\n\nОтправленные данные:\n${JSON.stringify(wataData, null, 2)}\n\nОтвет:\n${JSON.stringify(result, null, 2)}`;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `❌ Ошибка формата Wata:\n\nОтправленные данные:\n${JSON.stringify(wataData, null, 2)}\n\nОшибка:\n${JSON.stringify(result, null, 2)}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `❌ Ошибка: ${error.message}`;
+            }
         }
     </script>
 </body>
