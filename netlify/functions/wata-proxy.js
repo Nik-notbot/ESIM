@@ -87,6 +87,7 @@ exports.handler = async (event) => {
 
     // Если URL не задан, пробуем стандартные эндпоинты из документации
     const defaultCandidates = [
+      'https://api.wata.pro/api/h2h/links',
       'https://wata.pro/api/payments',
       'https://wata.pro/api/payment',
       'https://wata.pro/api/payment/create',
@@ -103,7 +104,7 @@ exports.handler = async (event) => {
       return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid JSON body' }) };
     }
 
-    const { amount, currency = 'RUB', description, orderId, customerEmail, successUrl, failUrl } = payload;
+    const { amount, currency = 'RUB', description, orderId, customerEmail, successUrl, failUrl, type, expirationDateTime } = payload;
     if (!amount || !orderId || !description) {
       return {
         statusCode: 400,
@@ -112,15 +113,16 @@ exports.handler = async (event) => {
       };
     }
 
-    // Build request body for Wata. Keep it generic and passthrough-friendly.
+    // Build request body for Wata H2H links per docs
     const wataBody = {
+      type: type || 'ManyTime',
       amount,
       currency,
       description,
       orderId,
-      email: customerEmail,
-      successUrl,
-      failUrl
+      successRedirectUrl: successUrl,
+      failRedirectUrl: failUrl,
+      expirationDateTime
     };
 
     // Build primary headers based on configured values (if any)
