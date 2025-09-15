@@ -37,7 +37,7 @@ exports.handler = async (event) => {
 
   try {
     // Try multiple env var names to match previous configuration
-    const apiUrl = (
+    let apiUrl = (
       process.env.WATA_CREATE_PAYMENT_URL ||
       process.env.WATA_PAYMENT_URL ||
       process.env.WATA_API_URL ||
@@ -59,7 +59,7 @@ exports.handler = async (event) => {
     const configuredAuthHeader = process.env.WATA_AUTH_HEADER; // e.g. 'X-Api-Key' or 'Authorization'
     const configuredAuthScheme = process.env.WATA_AUTH_SCHEME; // e.g. 'Bearer' or ''
 
-    if (!apiUrl || !apiKey) {
+    if (!apiKey) {
       const presentEnv = {
         WATA_CREATE_PAYMENT_URL: !!process.env.WATA_CREATE_PAYMENT_URL,
         WATA_PAYMENT_URL: !!process.env.WATA_PAYMENT_URL,
@@ -79,11 +79,22 @@ exports.handler = async (event) => {
         headers,
         body: JSON.stringify({
           error: 'Wata API is not configured',
-          message: 'Установите переменные окружения: URL и ключ API. Поддерживаются: WATA_CREATE_PAYMENT_URL | WATA_PAYMENT_URL | WATA_API_URL | WATA_PAYMENT_CREATE_URL | WATA_URL | WATA_BASE_URL и WATA_API_KEY | WATA_KEY | WATA_TOKEN | WATA_SECRET | WATA',
+          message: 'Отсутствует API ключ. Установите WATA_API_KEY (или WATA_KEY/WATA_TOKEN/WATA_SECRET/WATA)',
           detected: presentEnv
         })
       };
     }
+
+    // Если URL не задан, пробуем стандартные эндпоинты из документации
+    const defaultCandidates = [
+      'https://wata.pro/api/payments',
+      'https://wata.pro/api/payment',
+      'https://wata.pro/api/payment/create',
+      'https://wata.pro/api/payments/create',
+      'https://wata.pro/api/transactions',
+      'https://wata.pro/api/transactions/create'
+    ];
+    const candidateUrls = apiUrl ? [apiUrl] : defaultCandidates;
 
     let payload;
     try {
@@ -134,25 +145,34 @@ exports.handler = async (event) => {
 
     // Try with candidates until one succeeds (not 401/403)
     let resp;
-    for (let i = 0; i < candidateHeaders.length; i++) {
-      resp = await httpRequestWithRetry(apiUrl, {
-        method: 'POST',
-        headers: candidateHeaders[i],
-        body: JSON.stringify(wataBody)
-      });
-      if (resp.status !== 401 && resp.status !== 403) break;
-      // if unauthorized/forbidden, try next header style
+    let lastError;
+    // Перебираем URL и заголовки до успешного ответа (не 401/403/404)
+    outer:
+    for (let u = 0; u < candidateUrls.length; u++) {
+      const url = candidateUrls[u];
+      for (let i = 0; i < candidateHeaders.length; i++) {
+        resp = await httpRequestWithRetry(url, {
+          method: 'POST',
+          headers: candidateHeaders[i],
+          body: JSON.stringify(wataBody)
+        });
+        if (resp.status !== 401 && resp.status !== 403 && resp.status !== 404) {
+          apiUrl = url; // запомним какой URL сработал
+          break outer;
+        }
+        lastError = { status: resp.status, url };
+      }
     }
 
     const text = await resp.text();
     let data;
     try { data = JSON.parse(text); } catch (_) { data = { raw: text }; }
 
-    if (!resp.ok) {
+    if (!resp || !resp.ok) {
       return {
-        statusCode: resp.status,
+        statusCode: resp ? resp.status : 500,
         headers,
-        body: JSON.stringify({ error: 'Failed to create payment', status: resp.status, data })
+        body: JSON.stringify({ error: 'Failed to create payment', status: resp ? resp.status : 500, data, tried: candidateUrls, lastError })
       };
     }
 
