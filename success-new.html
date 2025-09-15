@@ -413,18 +413,7 @@
         <div class="success-content">
             <p class="loading" id="loading-message">Получаем ваш QR-код...</p>
         
-        <div id="force-qr-section" style="display: none; margin: 20px 0;">
-            <p style="color: #666; margin-bottom: 10px;">Ожидание подтверждения оплаты...</p>
-            <button id="force-qr-btn" style="
-                background: #2196F3;
-                color: white;
-                border: none;
-                padding: 12px 24px;
-                border-radius: 6px;
-                cursor: pointer;
-                font-size: 16px;
-            ">Получить QR-код сейчас</button>
-        </div>
+        
         
         <div id="order-details" class="order-details" style="display: none;"></div>
         
@@ -624,12 +613,6 @@
                 if (order.status === 'processing') {
                     console.log('Ожидаем подтверждение оплаты...');
                     
-                    // Показываем кнопку для принудительного получения QR-кода
-                    const forceQRSection = document.getElementById('force-qr-section');
-                    if (forceQRSection) {
-                        forceQRSection.style.display = 'block';
-                    }
-                    
                     // Ждем 2 секунды и проверяем снова (максимум 5 попыток = 10 секунд)
                     if (window.checkAttempts === undefined) {
                         window.checkAttempts = 0;
@@ -639,9 +622,8 @@
                     if (window.checkAttempts < 5) {
                         setTimeout(() => getQRCode(), 2000);
                     } else {
-                        console.log('Таймаут ожидания подтверждения. Показываем QR-код принудительно.');
-                        // Принудительно показываем QR-код после таймаута
-                        await assignQRCode(order);
+                        console.log('Таймаут ожидания подтверждения. Показываем сообщение об ожидании.');
+                        showError('Оплата обрабатывается, QR-код будет выслан на email после подтверждения.', order.id);
                     }
                     return;
                 } else if (order.status !== 'paid' && order.status !== 'completed') {
@@ -695,41 +677,7 @@
             }
         }
 
-        // Функция для принудительного назначения QR-кода
-        async function assignQRCode(order) {
-            try {
-                console.log('Принудительно назначаем QR-код для заказа:', order.id);
-                
-                // ВНИМАНИЕ: Эта функция обновляет статус на 'paid' принудительно
-                // Это должно использоваться только в случае проблем с webhook'ами
-                console.warn('ВНИМАНИЕ: Принудительное обновление статуса заказа на paid');
-                
-                // Обновляем статус заказа на 'paid' через серверную функцию
-                const updateResponse = await fetch('/.netlify/functions/order-handler/update-order-status', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        orderId: order.id,
-                        status: 'paid'
-                    })
-                });
-                
-                if (!updateResponse.ok) {
-                    console.error('Ошибка обновления статуса заказа');
-                    showError('Не удалось обновить статус заказа');
-                    return;
-                }
-                
-                // Получаем QR-код с сервера
-                await getQRCodeFromServer(order.id);
-                
-            } catch (error) {
-                console.error('Ошибка принудительного назначения QR-кода:', error);
-                showError('Произошла ошибка при получении QR-кода');
-            }
-        }
+        
         
         
         // Функция для преобразования URL ImgBB в прямую ссылку на изображение
@@ -770,11 +718,7 @@
             // Скрываем сообщение о загрузке
             document.getElementById('loading-message').style.display = 'none';
             
-            // Скрываем кнопку принудительного получения QR-кода
-            const forceQRSection = document.getElementById('force-qr-section');
-            if (forceQRSection) {
-                forceQRSection.style.display = 'none';
-            }
+            
             
             // Показываем контейнер QR-кода
             const qrContainer = document.getElementById('qr-container');
@@ -893,27 +837,7 @@
                 // Получаем QR-код
                 getQRCode();
                 
-                // Добавляем обработчик для кнопки принудительного получения QR-кода
-                const forceQRBtn = document.getElementById('force-qr-btn');
-                if (forceQRBtn) {
-                    forceQRBtn.addEventListener('click', async () => {
-                        console.log('Пользователь нажал кнопку принудительного получения QR-кода');
-                        forceQRBtn.disabled = true;
-                        forceQRBtn.textContent = 'Получаем QR-код...';
-                        
-                        try {
-                            const urlParams = new URLSearchParams(window.location.search);
-                            const orderId = urlParams.get('order');
-                            if (orderId) {
-                                await assignQRCode({ id: orderId });
-                            }
-                        } catch (error) {
-                            console.error('Ошибка принудительного получения QR-кода:', error);
-                            forceQRBtn.disabled = false;
-                            forceQRBtn.textContent = 'Получить QR-код сейчас';
-                        }
-                    });
-                }
+                
                 
             } catch (error) {
                 console.error('Initialization failed:', error);
