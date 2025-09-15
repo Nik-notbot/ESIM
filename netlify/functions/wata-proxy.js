@@ -41,6 +41,8 @@ exports.handler = async (event) => {
       process.env.WATA_CREATE_PAYMENT_URL ||
       process.env.WATA_PAYMENT_URL ||
       process.env.WATA_API_URL ||
+      process.env.WATA_PAYMENT_CREATE_URL ||
+      process.env.WATA_URL ||
       (process.env.WATA_BASE_URL ? `${process.env.WATA_BASE_URL.replace(/\/$/, '')}/api/payments` : undefined) ||
       (process.env.WATA_API_BASE ? `${process.env.WATA_API_BASE.replace(/\/$/, '')}/payments` : undefined)
     );
@@ -49,7 +51,8 @@ exports.handler = async (event) => {
       process.env.WATA_API_KEY ||
       process.env.WATA_KEY ||
       process.env.WATA_TOKEN ||
-      process.env.WATA_SECRET
+      process.env.WATA_SECRET ||
+      process.env.WATA
     );
 
     // Allow overriding header name and scheme, but we'll also try common fallbacks automatically
@@ -57,12 +60,27 @@ exports.handler = async (event) => {
     const configuredAuthScheme = process.env.WATA_AUTH_SCHEME; // e.g. 'Bearer' or ''
 
     if (!apiUrl || !apiKey) {
+      const presentEnv = {
+        WATA_CREATE_PAYMENT_URL: !!process.env.WATA_CREATE_PAYMENT_URL,
+        WATA_PAYMENT_URL: !!process.env.WATA_PAYMENT_URL,
+        WATA_API_URL: !!process.env.WATA_API_URL,
+        WATA_PAYMENT_CREATE_URL: !!process.env.WATA_PAYMENT_CREATE_URL,
+        WATA_URL: !!process.env.WATA_URL,
+        WATA_BASE_URL: !!process.env.WATA_BASE_URL,
+        WATA_API_BASE: !!process.env.WATA_API_BASE,
+        WATA_API_KEY: !!process.env.WATA_API_KEY,
+        WATA_KEY: !!process.env.WATA_KEY,
+        WATA_TOKEN: !!process.env.WATA_TOKEN,
+        WATA_SECRET: !!process.env.WATA_SECRET,
+        WATA: !!process.env.WATA
+      };
       return {
         statusCode: 500,
         headers,
         body: JSON.stringify({
           error: 'Wata API is not configured',
-          message: 'Установите переменные окружения: URL и ключ API. Поддерживаются: WATA_CREATE_PAYMENT_URL | WATA_PAYMENT_URL | WATA_API_URL | WATA_BASE_URL и WATA_API_KEY | WATA_KEY | WATA_TOKEN | WATA_SECRET'
+          message: 'Установите переменные окружения: URL и ключ API. Поддерживаются: WATA_CREATE_PAYMENT_URL | WATA_PAYMENT_URL | WATA_API_URL | WATA_PAYMENT_CREATE_URL | WATA_URL | WATA_BASE_URL и WATA_API_KEY | WATA_KEY | WATA_TOKEN | WATA_SECRET | WATA',
+          detected: presentEnv
         })
       };
     }
