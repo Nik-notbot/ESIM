@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eSIM Store - Европейская eSIM для регистрации в сервисах</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script type="text/javascript">
         (function(m,e,t,r,i,k,a){
             m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -8,402 +15,338 @@
             for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
             k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
         })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=103523686', 'ym');
-    
         ym(103523686, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
-        </script>
+    </script>
     <noscript><div><img src="https://mc.yandex.ru/watch/103523686" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eSIM Store - Европейская eSIM для регистрации в сервисах</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon.svg">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon.svg">
-    <link rel="apple-touch-icon" href="favicon.svg">
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Навигация -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-content">
-                <div class="logo">
-                    <span class="logo-text">eSIM Store</span>
-                </div>
-                <div class="nav-links">
-                    <a href="#features">Преимущества</a>
-                    <a href="#plans">Тарифы</a>
-                    <a href="#how-it-works">Как это работает</a>
-                    <a href="#reviews">Отзывы</a>
-                    <a href="https://t.me/HEYKYCSTORE" target="_blank" class="tg-channel-link">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink: 0;">
-                            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
-                        </svg>
-                        <span>Наш канал</span>
-                    </a>
-                </div>
+    <!-- Header -->
+    <header>
+        <div class="header-left">
+            <div class="logo-section">
+                <img src="favicon.png" alt="HEY, eSIM!" class="logo-image">
+                <a href="https://heystore.net" style="text-decoration: none;">
+                    <h1>HEY, eSIM!</h1>
+                    <p>Часть экосистемы HEY, STORE!</p>
+                </a>
             </div>
+            <nav class="nav-left">
+                <a href="#plans" class="nav-button"><span>Тарифы</span></a>
+                <a href="#how-it-works" class="nav-button"><span>Как это работает</span></a>
+                <a href="#faq" class="nav-button"><span>FAQ</span></a>
+                <a href="https://t.me/hey_store_official" target="_blank" class="nav-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path>
+                        <path d="m21.854 2.147-10.94 10.939"></path>
+                    </svg>
+                    <span>Канал</span>
+                </a>
+                <a href="https://t.me/hey_store_bot" target="_blank" class="nav-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path>
+                    </svg>
+                    <span>Поддержка</span>
+                </a>
+            </nav>
         </div>
-    </nav>
+        <div class="header-right">
+            <button class="theme-toggle nav-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="4"></circle>
+                    <path d="M12 2v2"></path>
+                    <path d="M12 20v2"></path>
+                    <path d="m4.93 4.93 1.41 1.41"></path>
+                    <path d="m17.66 17.66 1.41 1.41"></path>
+                    <path d="M2 12h2"></path>
+                    <path d="M20 12h2"></path>
+                    <path d="m6.34 17.66-1.41 1.41"></path>
+                    <path d="m19.07 4.93-1.41 1.41"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
 
-    <!-- Герой секция -->
+    <!-- Hero -->
     <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1 class="hero-title">Европейская eSIM <span class="gradient-text">без границ</span></h1>
-                <p class="hero-subtitle">Проходите регистрацию в любых сервисах, принимайте звонки и СМС. Полный функционал как в России, так и за границей с нашими европейскими eSIM картами</p>
-                <a href="#plans" class="cta-button">Выбрать тариф</a>
-            </div>
-            <div class="hero-image">
-                <div class="phone-mockup">
-                    <div class="phone-screen">
-                        <div class="signal-bars">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                        <h2 class="phone-main-text">HEY, KYC!</h2>
-                        <p class="connection-text">Подключено</p>
+        <h2>Европейская eSIM <span class="hero-accent">без границ</span></h2>
+        <p style="color: var(--muted); font-size: 18px; max-width: 600px; margin: 20px auto 0;">
+            Регистрируйтесь в любых сервисах, принимайте звонки и СМС. Работает в России и за границей.
+        </p>
+    </section>
+
+    <!-- Тарифы -->
+    <section id="plans" class="popular-section">
+        <div class="section-header">
+            <h3>Выберите тариф</h3>
+            <span class="section-subtitle">Европейские eSIM с мгновенной активацией</span>
+        </div>
+        
+        <div class="cards-row" style="justify-content: center; overflow: visible;">
+            <!-- Тариф Стандарт -->
+            <a href="payment.html?plan=1&name=Стандарт&data=8&price=990" class="service-card" style="max-width: 320px;">
+                <div class="service-icon" style="background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);">
+                    <div style="text-align: center; color: white;">
+                        <div style="font-size: 48px; font-weight: 700;">8</div>
+                        <div style="font-size: 18px; font-weight: 500;">ГБ/мес</div>
                     </div>
                 </div>
-            </div>
+                <div class="service-info" style="flex-direction: column; align-items: flex-start; gap: 12px;">
+                    <div style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+                        <span class="service-name" style="font-size: 18px;">Стандарт</span>
+                        <span class="service-price" style="font-size: 20px;">990 ₽</span>
+                    </div>
+                    <ul style="list-style: none; padding: 0; margin: 0; font-size: 13px; color: var(--muted);">
+                        <li style="padding: 4px 0;">✓ Высокоскоростной интернет</li>
+                        <li style="padding: 4px 0;">✓ Работает бессрочно</li>
+                        <li style="padding: 4px 0;">✓ 200+ стран</li>
+                        <li style="padding: 4px 0;">✓ Мгновенная активация</li>
+                    </ul>
+                </div>
+            </a>
+
+            <!-- Тариф Премиум -->
+            <a href="payment.html?plan=2&name=Премиум&data=25&price=1990" class="service-card" style="max-width: 320px; border: 2px solid var(--primary);">
+                <div class="service-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); position: relative;">
+                    <div style="position: absolute; top: 12px; right: 12px; background: #10b981; color: white; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px;">Популярный</div>
+                    <div style="text-align: center; color: white;">
+                        <div style="font-size: 48px; font-weight: 700;">25</div>
+                        <div style="font-size: 18px; font-weight: 500;">ГБ/мес</div>
+                    </div>
+                </div>
+                <div class="service-info" style="flex-direction: column; align-items: flex-start; gap: 12px;">
+                    <div style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+                        <span class="service-name" style="font-size: 18px;">Премиум</span>
+                        <span class="service-price" style="font-size: 20px;">1990 ₽</span>
+                    </div>
+                    <ul style="list-style: none; padding: 0; margin: 0; font-size: 13px; color: var(--muted);">
+                        <li style="padding: 4px 0;">✓ Высокоскоростной интернет</li>
+                        <li style="padding: 4px 0;">✓ Работает бессрочно</li>
+                        <li style="padding: 4px 0;">✓ 200+ стран</li>
+                        <li style="padding: 4px 0;">✓ Мгновенная активация</li>
+                    </ul>
+                </div>
+            </a>
         </div>
     </section>
 
     <!-- Преимущества -->
-    <section id="features" class="features">
-        <div class="container">
-            <h2 class="section-title">Почему выбирают нас</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <path d="M12 2L12 12L20 8"></path>
-                        </svg>
-                    </div>
-                    <h3>Европейская eSIM</h3>
-                    <p>Полный функционал в России и всех странах Европы без ограничений</p>
+    <section class="category-section">
+        <div class="section-header">
+            <h3>Почему выбирают нас</h3>
+        </div>
+        <div class="cards-row" style="justify-content: center; overflow: visible; flex-wrap: wrap;">
+            <div class="popular-card" style="min-width: 200px; cursor: default;">
+                <div class="popular-icon" style="background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                    </svg>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                        </svg>
-                    </div>
-                    <h3>Оптимальный тариф</h3>
-                    <p>Первые 4 месяца бесплатно, а после 5 евро за полгода использования</p>
+                <div class="popular-info">
+                    <span class="popular-name">Европейская eSIM</span>
+                    <span class="popular-price">Полный функционал</span>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                            <path d="M9 11l3 3L22 4"></path>
-                            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
-                        </svg>
-                    </div>
-                    <h3>Регистрация в сервисах</h3>
-                    <p>Проходите верификацию в любых международных и российских сервисах</p>
+            </div>
+            
+            <div class="popular-card" style="min-width: 200px; cursor: default;">
+                <div class="popular-icon" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                        </svg>
-                    </div>
-                    <h3>Мгновенная активация</h3>
-                    <p>Сканируйте QR-код и Европейская eSIM в вашем телефоне!</p>
+                <div class="popular-info">
+                    <span class="popular-name">Выгодные тарифы</span>
+                    <span class="popular-price">4 мес бесплатно</span>
+                </div>
+            </div>
+            
+            <div class="popular-card" style="min-width: 200px; cursor: default;">
+                <div class="popular-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M9 11l3 3L22 4"></path>
+                        <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
+                    </svg>
+                </div>
+                <div class="popular-info">
+                    <span class="popular-name">Регистрация</span>
+                    <span class="popular-price">В любых сервисах</span>
+                </div>
+            </div>
+            
+            <div class="popular-card" style="min-width: 200px; cursor: default;">
+                <div class="popular-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                </div>
+                <div class="popular-info">
+                    <span class="popular-name">Мгновенно</span>
+                    <span class="popular-price">Активация по QR</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Тарифы -->
-    <section id="plans" class="plans">
-        <div class="container">
-            <h2 class="section-title">Выберите свой тариф</h2>
-            <div class="plans-grid">
-                <!-- Тариф 8 ГБ -->
-                <div class="plan-card">
-                    <div class="plan-header">
-                        <h3 class="plan-name">Стандарт</h3>
-                        <div class="plan-data">
-                            <div class="data-amount-wrapper">
-                                <span class="data-amount">8</span>
-                                <span class="data-unit">ГБ</span>
-                            </div>
-                            <span class="data-period">в месяц</span>
-                        </div>
-                    </div>
-                    <ul class="plan-features">
-                        <li>✓ Высокоскоростной интернет</li>
-                        <li>✓ Работает бессрочно</li>
-                        <li>✓ Работает в 200+ странах</li>
-                        <li>✓ Мгновенная активация</li>
-                    </ul>
-                    <div class="plan-footer">
-                        <a href="payment.html?plan=1&name=Стандарт&data=8&price=990" class="buy-button">
-                            Купить за 990 ₽
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Тариф 25 ГБ -->
-                <div class="plan-card featured">
-                    <div class="badge">Популярный</div>
-                    <div class="plan-header">
-                        <h3 class="plan-name">Премиум</h3>
-                        <div class="plan-data">
-                            <div class="data-amount-wrapper">
-                                <span class="data-amount">25</span>
-                                <span class="data-unit">ГБ</span>
-                            </div>
-                            <span class="data-period">в месяц</span>
-                        </div>
-                    </div>
-                    <ul class="plan-features">
-                        <li>✓ Высокоскоростной интернет</li>
-                        <li>✓ Работает бессрочно</li>
-                        <li>✓ Работает в 200+ странах</li>
-                        <li>✓ Мгновенная активация</li>
-                    </ul>
-                    <div class="plan-footer">
-                        <a href="payment.html?plan=2&name=Премиум&data=25&price=1990" class="buy-button">
-                            Купить за 1990 ₽
-                        </a>
-                    </div>
-                </div>
-            </div>
+    <!-- CTA Banner -->
+    <section class="cta-banner">
+        <div class="cta-content">
+            <h3>Нужна помощь с выбором?</h3>
+            <p>Напишите нам — поможем подобрать оптимальный тариф</p>
+        </div>
+        <div class="cta-right">
+            <a href="https://t.me/hey_store_bot" target="_blank" class="cta-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path>
+                </svg>
+                Написать в Telegram
+            </a>
+            <img src="favicon.png" alt="Arnold" class="arnold-cta">
         </div>
     </section>
 
     <!-- Как это работает -->
-    <section id="how-it-works" class="how-it-works">
-        <div class="container">
-            <h2 class="section-title">Как начать пользоваться</h2>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3>Выберите тариф</h3>
-                    <p>Подберите подходящий план</p>
+    <section id="how-it-works" class="how-to-section">
+        <h3>Как оформить заказ</h3>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h4>Выберите тариф</h4>
+                <p>Подберите подходящий план по объёму трафика</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h4>Оплатите</h4>
+                <p>Можно рублями или криптой — как удобнее</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h4>Получите QR-код</h4>
+                <p>Сканируйте камерой и eSIM активируется</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="faq-section">
+        <h3>Вопросы и ответы</h3>
+        <div class="faq-list">
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    <span>Как активировать eSIM?</span>
+                    <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                <div class="faq-answer">
+                    <p>После оплаты вы получите QR-код на email. Откройте камеру телефона, наведите на QR-код — система предложит установить eSIM. Следуйте инструкциям на экране.</p>
                 </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3>Оплатите</h3>
-                    <p>Можно рублями или криптой!</p>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    <span>В каких странах работает eSIM?</span>
+                    <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                <div class="faq-answer">
+                    <p>Наши европейские eSIM работают в более чем 200 странах мира, включая Россию, все страны Европы, США, Азию и другие регионы.</p>
                 </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3>Получите QR</h3>
-                    <p>Код придет моментально</p>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    <span>Можно ли регистрироваться в сервисах?</span>
+                    <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                <div class="faq-answer">
+                    <p>Да, с нашей eSIM вы сможете проходить верификацию в любых сервисах: банках, криптобиржах, социальных сетях и других платформах.</p>
                 </div>
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <h3>Активируйте</h3>
-                    <p>Сканируйте и пользуйтесь</p>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    <span>Какой срок действия eSIM?</span>
+                    <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                <div class="faq-answer">
+                    <p>eSIM работает бессрочно. Первые 4 месяца обслуживание бесплатно, затем 5 евро за полгода для поддержания активного номера.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    <span>Какие способы оплаты доступны?</span>
+                    <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                <div class="faq-answer">
+                    <p>Принимаем оплату российскими картами, СБП, а также криптовалютой. Выбирайте удобный способ при оформлении заказа.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Отзывы -->
-    <section id="reviews" class="reviews">
-        <div class="container">
-            <h2 class="section-title">Отзывы наших клиентов</h2>
-            <div class="reviews-container">
-                <div class="reviews-slider">
-                    <div class="review-card active" data-review="1">
-                        <div class="review-header">
-                            <div class="review-author">
-                                <div class="review-avatar">А</div>
-                                <div class="review-info">
-                                    <h4>Epic Coins</h4>
-                                    <div class="review-date">Телеграм отзыв</div>
-                                </div>
-                            </div>
-                            <a href="https://t.me/HEYKYCSTORE/99?comment=13" target="_blank" class="review-link">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
-                                </svg>
-                            </a>
-                        </div>
-                        <div class="review-content">
-                            <div class="review-rating">
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                            </div>
-                            <p>Приобрел в данном магазине карту RedotPay и eSIM Все супер, вежливо отвечают на все вопросы, товар предоставляют моментально (это редкость). Лучший сервис, однозначно рекомендую</p>
-                        </div>
-                    </div>
-
-                    <div class="review-card" data-review="2">
-                        <div class="review-header">
-                            <div class="review-author">
-                                <div class="review-avatar">М</div>
-                                <div class="review-info">
-                                    <h4>Михаил</h4>
-                                    <div class="review-date">Телеграм отзыв</div>
-                                </div>
-                            </div>
-                            <a href="https://t.me/HEYKYCSTORE/99?comment=18" target="_blank" class="review-link">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
-                                </svg>
-                            </a>
-                        </div>
-                        <div class="review-content">
-                            <div class="review-rating">
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                            </div>
-                            <p>Крутая команда! Все делают быстро и качественно! Помогают на разных уровнях верификации. Отличная система скидок. Расширения ассортимента и побольше заявок! Крайне рекомендую!!!!!!</p>
-                        </div>
-                    </div>
-
-                    <div class="review-card" data-review="3">
-                        <div class="review-header">
-                            <div class="review-author">
-                                <div class="review-avatar">Е</div>
-                                <div class="review-info">
-                                    <h4>Михаил Сериков</h4>
-                                    <div class="review-date">Телеграм отзыв</div>
-                                </div>
-                            </div>
-                            <a href="https://t.me/HEYKYCSTORE/99?comment=22" target="_blank" class="review-link">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
-                                </svg>
-                            </a>
-                        </div>
-                        <div class="review-content">
-                            <div class="review-rating">
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                            </div>
-                            <p>Делал карту wise,eşim ,Skrill. Все четко,без задержек. Низкий поклон ,что выручили !!!!</p>
-                        </div>
-                    </div>
-
-                    <div class="review-card" data-review="4">
-                        <div class="review-header">
-                            <div class="review-author">
-                                <div class="review-avatar">Д</div>
-                                <div class="review-info">
-                                    <h4>lilla katten</h4>
-                                    <div class="review-date">Телеграм отзыв</div>
-                                </div>
-                            </div>
-                            <a href="https://t.me/HEYKYCSTORE/99?comment=27" target="_blank" class="review-link">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
-                                </svg>
-                            </a>
-                        </div>
-                        <div class="review-content">
-                            <div class="review-rating">
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                            </div>
-                            <p>Все супер, очень быстро и четко✅ пользуюсь сейчас, все ок работает🙂‍↕️</p>
-                        </div>
-                    </div>
-
-                    <div class="review-card" data-review="5">
-                        <div class="review-header">
-                            <div class="review-author">
-                                <div class="review-avatar">К</div>
-                                <div class="review-info">
-                                    <h4>Volodymyr Veselovskyi</h4>
-                                    <div class="review-date">Телеграм отзыв</div>
-                                </div>
-                            </div>
-                            <a href="https://t.me/HEYKYCSTORE/99?comment=52" target="_blank" class="review-link">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
-                                </svg>
-                            </a>
-                        </div>
-                        <div class="review-content">
-                            <div class="review-rating">
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                            </div>
-                            <p>Заказывал Wise и eSim Всем доволен. Хочу отметить регулярную послепродажную поддержку и оперативную консультацию по множеству вопросов. Планирую заказывать еще.</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="reviews-navigation">
-                    <button class="review-nav-btn prev" onclick="changeReview(-1)">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="15 18 9 12 15 6"></polyline>
-                        </svg>
-                    </button>
-                    <div class="review-dots">
-                        <span class="dot active" onclick="goToReview(1)"></span>
-                        <span class="dot" onclick="goToReview(2)"></span>
-                        <span class="dot" onclick="goToReview(3)"></span>
-                        <span class="dot" onclick="goToReview(4)"></span>
-                        <span class="dot" onclick="goToReview(5)"></span>
-                    </div>
-                    <button class="review-nav-btn next" onclick="changeReview(1)">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
-                    </button>
-                </div>
-            </div>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="https://heystore.net" target="_blank">HEY, STORE!</a>
+            <a href="https://t.me/hey_store_official" target="_blank">Telegram канал</a>
+            <a href="https://t.me/hey_store_bot" target="_blank">Поддержка</a>
+            <a href="offer.pdf" target="_blank">Оферта</a>
+            <a href="PDN.pdf" target="_blank">Политика конфиденциальности</a>
+            <a href="privacy.pdf" target="_blank">Обработка ПДн</a>
         </div>
-    </section>
-
-    <!-- Футер -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>eSIM Store</h4>
-                    <p>Европейская eSIM: регистрация в сервисах и прием звонков/СМС в России и за границей</p>
-                    <a href="https://heyesim.me/offer.pdf" class="support-link" target="_blank">Публичная офферта</a>
-                    <p></p>
-                    <a href="https://heyesim.me/PDN.pdf" class="support-link" target="_blank">Политика конфиденциальности</a>
-                    <p></p>
-                    <a href="https://heyesim.me/privacy.pdf" class="support-link" target="_blank">Политика обработки ПДн</a>
-                </div>
-                <div class="footer-section">
-                    <h4>Поддержка</h4>
-                    <p>Есть вопросы? Напишите нам в Telegram</p>
-                    <a href="https://t.me/m/s3YBfElRZGRk" class="support-link" target="_blank">Написать в поддержку</a>
-                    <div class="social-links">
-                        <a href="https://t.me/HEYKYCSTORE" target="_blank" class="tg-channel-footer">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
-                            </svg>
-                            Подписаться на канал
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 eSIM Store. Все права защищены.</p>
-            </div>
-        </div>
+        <p>© 2025 HEY, eSIM! Часть экосистемы HEY, STORE! Все права защищены.</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        // FAQ Toggle
+        function toggleFaq(button) {
+            const item = button.parentElement;
+            const isActive = item.classList.contains('active');
+            
+            // Закрываем все
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+            
+            // Открываем текущий, если он был закрыт
+            if (!isActive) {
+                item.classList.add('active');
+            }
+        }
+
+        // Theme Toggle
+        const themeToggle = document.querySelector('.theme-toggle');
+        const sunIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>`;
+        const moonIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>`;
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeToggle.innerHTML = sunIcon;
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                themeToggle.innerHTML = moonIcon;
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeToggle.innerHTML = sunIcon;
+            }
+        });
+
+        if (!savedTheme || savedTheme === 'light') {
+            themeToggle.innerHTML = moonIcon;
+        }
+    </script>
 </body>
 </html>
