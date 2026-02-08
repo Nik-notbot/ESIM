@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eSIM Великобритания - HEY, eSIM!</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <div class="logo-section">
+                <img src="favicon.png" alt="HEY, eSIM!" class="logo-image">
+                <a href="index.html" style="text-decoration: none;">
+                    <h1>HEY, eSIM!</h1>
+                    <p>Часть экосистемы HEY, STORE!</p>
+                </a>
+            </div>
+        </div>
+        <div class="header-right">
+            <nav class="nav-left">
+                <a href="https://t.me/hey_store_bot" target="_blank" class="nav-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path>
+                    </svg>
+                    <span>Поддержка</span>
+                </a>
+            </nav>
+            <button class="theme-toggle nav-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="4"></circle>
+                    <path d="M12 2v2"></path>
+                    <path d="M12 20v2"></path>
+                    <path d="m4.93 4.93 1.41 1.41"></path>
+                    <path d="m17.66 17.66 1.41 1.41"></path>
+                    <path d="M2 12h2"></path>
+                    <path d="M20 12h2"></path>
+                    <path d="m6.34 17.66-1.41 1.41"></path>
+                    <path d="m19.07 4.93-1.41 1.41"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <section class="service-page">
+        <a href="index.html" class="back-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m15 18-6-6 6-6"/>
+            </svg>
+            Назад к странам
+        </a>
+        
+        <div class="service-page-content">
+            
+            <div class="service-page-info">
+                <h1>eSIM Великобритания</h1>
+                <p class="service-page-description">
+                    Британский номер с безлимитными звонками в UK и 500 минут в ЕС. Интернет от 5 до 100 ГБ.
+                </p>
+            </div>
+
+            <form class="service-form" id="orderForm">
+                <div class="plans-group">
+                    <label>Выберите тариф</label>
+                    <div class="plan-grid" style="grid-template-columns: repeat(2, 1fr);">
+                        
+                        <label class="plan-option">
+                            <input type="radio" name="plan" value="uk-5" data-price="540" data-name="spusu 5">
+                            <div class="plan-card">
+                                <span class="plan-name">spusu 5</span>
+                                <span class="plan-price">540 ₽</span>
+                                <ul class="plan-features">
+                                    <li>5 ГБ в UK</li>
+                                    <li>3 ГБ в ЕС</li>
+                                    <li>Безлимит UK + 500 мин EU</li>
+                                </ul>
+                            </div>
+                        </label>
+                        
+                        <label class="plan-option">
+                            <input type="radio" name="plan" value="uk-10" data-price="760" data-name="spusu 10">
+                            <div class="plan-card">
+                                <span class="plan-name">spusu 10</span>
+                                <span class="plan-price">760 ₽</span>
+                                <ul class="plan-features">
+                                    <li>10 ГБ в UK</li>
+                                    <li>6 ГБ в ЕС</li>
+                                    <li>Безлимит UK + 500 мин EU</li>
+                                </ul>
+                            </div>
+                        </label>
+
+                        <label class="plan-option">
+                            <input type="radio" name="plan" value="uk-20" data-price="870" data-name="spusu 20" checked>
+                            <div class="plan-card">
+                                <span class="plan-badge">Выгодный</span>
+                                <span class="plan-name">spusu 20</span>
+                                <span class="plan-price">870 ₽</span>
+                                <ul class="plan-features">
+                                    <li>20 ГБ в UK</li>
+                                    <li>8 ГБ в ЕС</li>
+                                    <li>Безлимит UK + 500 мин EU</li>
+                                </ul>
+                            </div>
+                        </label>
+
+                        <label class="plan-option">
+                            <input type="radio" name="plan" value="uk-30" data-price="1090" data-name="spusu 30">
+                            <div class="plan-card">
+                                <span class="plan-name">spusu 30</span>
+                                <span class="plan-price">1090 ₽</span>
+                                <ul class="plan-features">
+                                    <li>30 ГБ в UK</li>
+                                    <li>10 ГБ в ЕС</li>
+                                    <li>Безлимит UK + 500 мин EU</li>
+                                </ul>
+                            </div>
+                        </label>
+
+                        <label class="plan-option">
+                            <input type="radio" name="plan" value="uk-80" data-price="1425" data-name="spusu 80">
+                            <div class="plan-card">
+                                <span class="plan-badge go">Популярный</span>
+                                <span class="plan-name">spusu 80</span>
+                                <span class="plan-price">1425 ₽</span>
+                                <ul class="plan-features">
+                                    <li>80 ГБ в UK</li>
+                                    <li>15 ГБ в ЕС</li>
+                                    <li>Безлимит UK + 500 мин EU</li>
+                                </ul>
+                            </div>
+                        </label>
+
+                        <label class="plan-option">
+                            <input type="radio" name="plan" value="uk-100" data-price="1650" data-name="spusu 100">
+                            <div class="plan-card">
+                                <span class="plan-badge pro">Максимум</span>
+                                <span class="plan-name">spusu 100</span>
+                                <span class="plan-price">1650 ₽</span>
+                                <ul class="plan-features">
+                                    <li>100 ГБ в UK</li>
+                                    <li>20 ГБ в ЕС</li>
+                                    <li>Безлимит UK + 500 мин EU</li>
+                                </ul>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 32px;">
+                    <label for="email">Email для получения eSIM</label>
+                    <input type="email" id="email" name="email" required placeholder="your@email.com">
+                </div>
+
+                <button type="submit" class="pay-button" id="payButton">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect width="20" height="14" x="2" y="5" rx="2"/>
+                        <line x1="2" x2="22" y1="10" y2="10"/>
+                    </svg>
+                    Оплатить <span id="priceDisplay">870 ₽</span>
+                </button>
+
+                <p class="form-note">QR-код для активации придёт на указанный email</p>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="https://heystore.net" target="_blank">HEY, STORE!</a>
+            <a href="https://t.me/hey_store_official" target="_blank">Telegram канал</a>
+            <a href="https://t.me/hey_store_bot" target="_blank">Поддержка</a>
+        </div>
+        <p>© 2025 HEY, eSIM! Часть экосистемы HEY, STORE!</p>
+    </footer>
+
+    <script>
+        // Update price display when plan changes
+        const planInputs = document.querySelectorAll('input[name="plan"]');
+        const priceDisplay = document.getElementById('priceDisplay');
+        
+        planInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                const price = this.dataset.price;
+                priceDisplay.textContent = price + ' ₽';
+            });
+        });
+
+        // Form submit
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const selectedPlan = document.querySelector('input[name="plan"]:checked');
+            const email = document.getElementById('email').value;
+            
+            if (selectedPlan && email) {
+                const price = selectedPlan.dataset.price;
+                const name = selectedPlan.dataset.name;
+                window.location.href = `payment.html?plan=${selectedPlan.value}&name=UK - ${encodeURIComponent(name)}&price=${price}&email=${encodeURIComponent(email)}`;
+            }
+        });
+
+        // Theme Toggle
+        const themeToggle = document.querySelector('.theme-toggle');
+        const sunIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>`;
+        const moonIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>`;
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeToggle.innerHTML = sunIcon;
+        } else {
+            themeToggle.innerHTML = moonIcon;
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                themeToggle.innerHTML = moonIcon;
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeToggle.innerHTML = sunIcon;
+            }
+        });
+    </script>
+</body>
+</html>

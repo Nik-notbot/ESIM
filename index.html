@@ -75,55 +75,55 @@
     </section>
 
     <!-- Тарифы -->
-    <section id="plans" class="popular-section">
+    <section id="plans" class="category-section">
         <div class="section-header">
-            <h3>Выберите тариф</h3>
-            <span class="section-subtitle">Европейские eSIM с мгновенной активацией</span>
+            <h3>Выберите страну</h3>
+            <span class="section-subtitle">eSIM с мгновенной активацией</span>
         </div>
         
-        <div class="cards-row" style="justify-content: center; overflow: visible;">
-            <!-- Тариф Стандарт -->
-            <a href="payment.html?plan=1&name=Стандарт&data=8&price=990" class="service-card" style="max-width: 320px;">
-                <div class="service-icon" style="background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);">
-                    <div style="text-align: center; color: white;">
-                        <div style="font-size: 48px; font-weight: 700;">8</div>
-                        <div style="font-size: 18px; font-weight: 500;">ГБ/мес</div>
-                    </div>
+        <div class="cards-grid" style="grid-template-columns: repeat(4, 1fr);">
+            <!-- Испания -->
+            <a href="payment.html?plan=1&name=Испания&country=ES&price=990" class="service-card">
+                <div class="service-icon">
+                    <img src="flags/spain.svg" alt="Испания">
                 </div>
-                <div class="service-info" style="flex-direction: column; align-items: flex-start; gap: 12px;">
-                    <div style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
-                        <span class="service-name" style="font-size: 18px;">Стандарт</span>
-                        <span class="service-price" style="font-size: 20px;">990 ₽</span>
-                    </div>
-                    <ul style="list-style: none; padding: 0; margin: 0; font-size: 13px; color: var(--muted);">
-                        <li style="padding: 4px 0;">✓ Высокоскоростной интернет</li>
-                        <li style="padding: 4px 0;">✓ Работает бессрочно</li>
-                        <li style="padding: 4px 0;">✓ 200+ стран</li>
-                        <li style="padding: 4px 0;">✓ Мгновенная активация</li>
-                    </ul>
+                <div class="service-info">
+                    <span class="service-name">Испания</span>
+                    <span class="service-price">990 ₽</span>
                 </div>
             </a>
 
-            <!-- Тариф Премиум -->
-            <a href="payment.html?plan=2&name=Премиум&data=25&price=1990" class="service-card" style="max-width: 320px; border: 2px solid var(--primary);">
-                <div class="service-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); position: relative;">
-                    <div style="position: absolute; top: 12px; right: 12px; background: #10b981; color: white; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px;">Популярный</div>
-                    <div style="text-align: center; color: white;">
-                        <div style="font-size: 48px; font-weight: 700;">25</div>
-                        <div style="font-size: 18px; font-weight: 500;">ГБ/мес</div>
-                    </div>
+            <!-- Финляндия -->
+            <a href="finland.html" class="service-card">
+                <div class="service-icon" style="background: #fff;">
+                    <img src="flags/finland.svg" alt="Финляндия">
                 </div>
-                <div class="service-info" style="flex-direction: column; align-items: flex-start; gap: 12px;">
-                    <div style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
-                        <span class="service-name" style="font-size: 18px;">Премиум</span>
-                        <span class="service-price" style="font-size: 20px;">1990 ₽</span>
-                    </div>
-                    <ul style="list-style: none; padding: 0; margin: 0; font-size: 13px; color: var(--muted);">
-                        <li style="padding: 4px 0;">✓ Высокоскоростной интернет</li>
-                        <li style="padding: 4px 0;">✓ Работает бессрочно</li>
-                        <li style="padding: 4px 0;">✓ 200+ стран</li>
-                        <li style="padding: 4px 0;">✓ Мгновенная активация</li>
-                    </ul>
+                <div class="service-info">
+                    <span class="service-name">Финляндия</span>
+                    <span class="service-price">от 750 ₽</span>
+                </div>
+            </a>
+
+            <!-- США -->
+            <a href="payment.html?plan=3&name=США&country=US&price=1490" class="service-card" style="border: 2px solid var(--primary);">
+                <div class="service-icon" style="position: relative;">
+                    <div style="position: absolute; top: 8px; right: 8px; background: #10b981; color: white; font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 20px; z-index: 1;">Популярный</div>
+                    <img src="flags/usa.svg" alt="США">
+                </div>
+                <div class="service-info">
+                    <span class="service-name">США</span>
+                    <span class="service-price">1490 ₽</span>
+                </div>
+            </a>
+
+            <!-- Великобритания -->
+            <a href="uk.html" class="service-card">
+                <div class="service-icon" style="background: #012169;">
+                    <img src="flags/uk.svg" alt="UK">
+                </div>
+                <div class="service-info">
+                    <span class="service-name">UK</span>
+                    <span class="service-price">от 540 ₽</span>
                 </div>
             </a>
         </div>
@@ -156,7 +156,7 @@
                 </div>
                 <div class="popular-info">
                     <span class="popular-name">Выгодные тарифы</span>
-                    <span class="popular-price">4 мес бесплатно</span>
+                    <span class="popular-price">Лучшие на рынке</span>
                 </div>
             </div>
             
@@ -266,17 +266,6 @@
                 </div>
             </div>
             
-            <div class="faq-item">
-                <button class="faq-question" onclick="toggleFaq(this)">
-                    <span>Какой срок действия eSIM?</span>
-                    <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
-                </button>
-                <div class="faq-answer">
-                    <p>eSIM работает бессрочно. Первые 4 месяца обслуживание бесплатно, затем 5 евро за полгода для поддержания активного номера.</p>
-                </div>
-            </div>
             
             <div class="faq-item">
                 <button class="faq-question" onclick="toggleFaq(this)">
