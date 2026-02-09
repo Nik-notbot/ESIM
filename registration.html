@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eSIM Финляндия - HEY, eSIM!</title>
+    <title>eSIM для регистрации в сервисах - HEY, eSIM!</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
                 <img src="favicon.png" alt="HEY, eSIM!" class="logo-image">
                 <a href="index.html" style="text-decoration: none;">
                     <h1>HEY, eSIM!</h1>
-                    <p>Часть экосистемы HEY, STORE!</p>
+                    <p>Сервисы без санкций</p>
                 </a>
             </div>
         </div>
@@ -49,59 +49,48 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="m15 18-6-6 6-6"/>
             </svg>
-            Назад к странам
+            Назад
         </a>
         
         <div class="service-page-content">
             
             <div class="service-page-info">
-                <h1>eSIM Финляндия</h1>
+                <h1>eSIM для регистрации в сервисах</h1>
                 <p class="service-page-description">
-                    Безлимитный интернет более чем в 50 странах
+                    Европейский номер для регистрации в зарубежных сервисах. Приём SMS и звонков.
                 </p>
             </div>
 
             <form class="service-form" id="orderForm">
                 <div class="plans-group">
                     <label>Выберите тариф</label>
-                    <div class="plan-grid" style="grid-template-columns: repeat(3, 1fr);">
-                        <!-- 12 ГБ -->
+                    <div class="plan-grid" style="grid-template-columns: repeat(2, 1fr);">
+                        
+                        <!-- Финляндия -->
                         <label class="plan-option">
-                            <input type="radio" name="plan" value="fi-7d-4g" data-price="3190" data-name="12 ГБ (7 дней)">
+                            <input type="radio" name="plan" value="fi-reg" data-price="2800" data-name="Финляндия" checked>
                             <div class="plan-card">
                                 <span class="plan-badge">Стандартный</span>
-                                <span class="plan-price">3190 ₽</span>
+                                <span class="plan-name">SMS и звонки</span>
+                                <span class="plan-price">2800 ₽</span>
                                 <ul class="plan-features">
                                     <li>1 год бесплатного обслуживания</li>
                                     <li>Для регистрации на сервисах</li>
                                 </ul>
                             </div>
                         </label>
-
-                        <!-- 44 ГБ -->
+                        
+                        <!-- Год бесплатного обслуживания -->
                         <label class="plan-option">
-                            <input type="radio" name="plan" value="fi-30d-5g" data-price="4490" data-name="44 ГБ (30 дней)" checked>
+                            <input type="radio" name="plan" value="reg-1y" data-price="4000" data-name="Год бесплатного обслуживания">
                             <div class="plan-card">
-                                <span class="plan-badge go">Популярный</span>
-                                <span class="plan-name">44 ГБ</span>
-                                <span class="plan-price">4490 ₽</span>
+                                <span class="plan-badge go">Год бесплатного обслуживания</span>
+                                <span class="plan-name">SMS и звонки</span>
+                                <span class="plan-price">4000 ₽</span>
                                 <ul class="plan-features">
-                                    <li>1 год бесплатного обслуживания</li>
-                                    <li>44 ГБ в ЕС</li>
-                                </ul>
-                            </div>
-                        </label>
-
-                        <!-- 66 ГБ -->
-                        <label class="plan-option">
-                            <input type="radio" name="plan" value="fi-30d-5g-1000" data-price="5990" data-name="66 ГБ (30 дней)">
-                            <div class="plan-card">
-                                <span class="plan-badge pro">Премиум</span>
-                                <span class="plan-name">66 ГБ</span>
-                                <span class="plan-price">5990 ₽</span>
-                                <ul class="plan-features">
-                                    <li>1 год бесплатного обслуживания</li>
-                                    <li>66 ГБ в ЕС</li>
+                                    <li>Европейский номер</li>
+                                    <li>Приём SMS</li>
+                                    <li>Входящие звонки</li>
                                 </ul>
                             </div>
                         </label>
@@ -118,7 +107,7 @@
                         <rect width="20" height="14" x="2" y="5" rx="2"/>
                         <line x1="2" x2="22" y1="10" y2="10"/>
                     </svg>
-                    Оплатить <span id="priceDisplay">2850 ₽</span>
+                    Оплатить <span id="priceDisplay">2800 ₽</span>
                 </button>
 
                 <p class="form-note">QR-код для активации придёт на указанный email</p>
@@ -132,7 +121,7 @@
             <a href="https://t.me/hey_store_official" target="_blank">Telegram канал</a>
             <a href="https://t.me/hey_store_bot" target="_blank">Поддержка</a>
         </div>
-        <p>© 2025 HEY, eSIM! Часть экосистемы HEY, STORE!</p>
+        <p>© 2025 HEY, eSIM! Сервисы без санкций</p>
     </footer>
 
     <script>
@@ -156,7 +145,7 @@
             if (selectedPlan && email) {
                 const price = selectedPlan.dataset.price;
                 const name = selectedPlan.dataset.name;
-                window.location.href = `payment.html?plan=${selectedPlan.value}&name=Финляндия - ${encodeURIComponent(name)}&price=${price}&email=${encodeURIComponent(email)}`;
+                window.location.href = `payment.html?plan=${selectedPlan.value}&name=Регистрация - ${encodeURIComponent(name)}&price=${price}&email=${encodeURIComponent(email)}`;
             }
         });
 
