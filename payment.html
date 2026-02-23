@@ -3,214 +3,213 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Оплата eSIM - eSIM Store</title>
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Оплата - HEY, eSIM!</title>
     <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
     <link rel="shortcut icon" type="image/png" href="/favicon.png">
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .payment-container {
-            max-width: 600px;
-            margin: 100px auto 50px;
-            padding: 40px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        .payment-section {
+            max-width: 500px;
+            margin: 40px auto 60px;
+            padding: 0 20px;
         }
-        
-        .payment-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        
-        .payment-header h1 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .order-summary {
-            background: var(--bg-light);
-            padding: 30px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-        }
-        
-        .order-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-        }
-        
-        .order-item:last-child {
-            margin-bottom: 0;
-            padding-top: 15px;
-            border-top: 2px solid var(--border-color);
-            font-weight: 600;
-        }
-        
-        .payment-form {
-            margin-bottom: 30px;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--text-dark);
-        }
-        
-        .form-group input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid var(--border-color);
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-        
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-        }
-        
-        .payment-button {
-            width: 100%;
-            padding: 16px;
-            background: var(--gradient-1);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .payment-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
-        }
-        
-        .payment-button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        
-        .loading {
-            display: none;
-            text-align: center;
-            margin-top: 20px;
-        }
-        
-        .loading.active {
-            display: block;
-        }
-        
-        .spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid var(--primary-color);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .error-message {
-            color: #ef4444;
-            text-align: center;
-            margin-top: 20px;
-            padding: 15px;
-            background: #fee;
-            border-radius: 10px;
-            display: none;
-        }
-        
-        .back-link {
+        .payment-back {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            color: var(--text-light);
+            gap: 6px;
+            color: #6b7280;
             text-decoration: none;
-            margin-bottom: 30px;
-            transition: color 0.3s;
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+            transition: color 0.2s;
         }
-        
-        .back-link:hover {
-            color: var(--primary-color);
+        .payment-back:hover { color: #6366f1; }
+        .payment-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        .payment-card-header {
+            padding: 28px 32px 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .payment-card-header h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 4px;
+        }
+        .payment-card-header p {
+            font-size: 0.9rem;
+            color: #9ca3af;
+        }
+        .payment-card-body {
+            padding: 40px 32px;
+            text-align: center;
+        }
+        .payment-spinner {
+            width: 44px;
+            height: 44px;
+            border: 3px solid #e5e7eb;
+            border-top-color: #6366f1;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .payment-status {
+            font-size: 1rem;
+            color: #374151;
+        }
+        .payment-trust {
+            text-align: center;
+            padding: 16px 32px 24px;
+            border-top: 1px solid #f0f0f0;
+        }
+        .payment-trust p {
+            font-size: 0.8rem;
+            color: #9ca3af;
+        }
+        .payment-trust svg { vertical-align: middle; margin-right: 4px; }
+        .pay-error {
+            color: #dc2626;
+            font-size: 0.95rem;
+        }
+        .pay-error a {
+            display: inline-block;
+            margin-top: 16px;
+            color: #6366f1;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .pay-error a:hover { text-decoration: underline; }
+        @media (max-width: 540px) {
+            .payment-card-header, .payment-card-body { padding-left: 20px; padding-right: 20px; }
         }
     </style>
 </head>
 <body>
-    <div class="payment-container">
-        <a href="/" class="back-link">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M19 12H5"></path>
-                <path d="M12 19l-7-7 7-7"></path>
-            </svg>
+    <header>
+        <div class="header-left">
+            <div class="logo-section">
+                <img src="favicon.png" alt="HEY, eSIM!" class="logo-image">
+                <a href="index.html" style="text-decoration: none;">
+                    <h1>HEY, eSIM!</h1>
+                    <p>Часть экосистемы HEY, STORE!</p>
+                </a>
+            </div>
+        </div>
+        <div class="header-right">
+            <nav class="nav-left">
+                <a href="https://t.me/hey_store_bot" target="_blank" class="nav-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path>
+                    </svg>
+                    <span>Поддержка</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="payment-section">
+        <a href="javascript:history.back()" class="payment-back">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
             Вернуться к выбору тарифа
         </a>
-        
-        <div class="payment-header">
-            <h1>Оформление заказа</h1>
-            <p>Заполните данные для получения eSIM</p>
-        </div>
-        
-        <div class="order-summary">
-            <h3>Ваш заказ:</h3>
-            <div class="order-item">
-                <span>Тариф:</span>
-                <span id="planName">-</span>
+
+        <div class="payment-card">
+            <div class="payment-card-header">
+                <h1>Оплата заказа</h1>
+                <p id="paySubtitle"></p>
             </div>
-            <div class="order-item">
-                <span>Объем данных:</span>
-                <span id="planData">-</span>
+            <div class="payment-card-body" id="payBody">
+                <div class="payment-spinner"></div>
+                <p class="payment-status">Создаём платёж...</p>
             </div>
-            <div class="order-item">
-                <strong>К оплате:</strong>
-                <strong id="planPrice">-</strong>
+            <div class="payment-trust">
+                <p>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    Безопасная оплата через WATA
+                </p>
             </div>
         </div>
-        
-        <form id="paymentForm" class="payment-form">
-            <div class="form-group">
-                <label for="email">Email для получения QR-кода</label>
-                <input type="email" id="email" name="email" required placeholder="your@email.com">
-            </div>
-            
-            <div class="form-group">
-                <label for="phone">Телефон (необязательно)</label>
-                <input type="tel" id="phone" name="phone" placeholder="+7 (999) 123-45-67">
-            </div>
-            
-            <button type="submit" class="payment-button" id="payButton">
-                Перейти к оплате
-            </button>
-        </form>
-        
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p>Создаем платеж...</p>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="https://heystore.net" target="_blank">HEY, STORE!</a>
+            <a href="https://t.me/hey_store_official" target="_blank">Telegram канал</a>
+            <a href="https://t.me/hey_store_bot" target="_blank">Поддержка</a>
         </div>
-        
-        <div class="error-message" id="errorMessage"></div>
-    </div>
-    
-    <!-- Интеграция с бэкендом отключена, страница работает как статичная -->
-    <!-- Скрипты оплаты отключены: сайт работает как статичная витрина -->
+        <p>© 2025 HEY, eSIM! Часть экосистемы HEY, STORE!</p>
+    </footer>
+
+    <script src="baserow-config.js"></script>
+    <script>
+        (function() {
+            var params = new URLSearchParams(window.location.search);
+            var tariff = params.get('tariff') || '';
+            var price = parseFloat(params.get('price')) || 0;
+            var email = params.get('email') || '';
+            var description = params.get('description') || 'eSIM';
+            var country = params.get('country') || 'finland';
+            var wata = window.WATA_CONFIG || {};
+            var body = document.getElementById('payBody');
+            var tariffNames = { '1': '\u0421\u0442\u0430\u043d\u0434\u0430\u0440\u0442\u043d\u044b\u0439', '2': '\u041f\u043e\u043f\u0443\u043b\u044f\u0440\u043d\u044b\u0439', '3': '\u041f\u0440\u0435\u043c\u0438\u0443\u043c' };
+
+            var subtitle = document.getElementById('paySubtitle');
+            if (tariffNames[tariff] && price) {
+                subtitle.textContent = tariffNames[tariff] + ' \u2014 ' + price.toLocaleString('ru-RU') + ' \u20BD';
+            }
+
+            function showError(msg) {
+                body.innerHTML = '<div class="pay-error">' + msg + '<br><a href="finland.html">\u0412\u0435\u0440\u043d\u0443\u0442\u044c\u0441\u044f</a></div>';
+            }
+
+            if (!price) {
+                showError('\u041e\u0448\u0438\u0431\u043a\u0430 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 \u043e\u043f\u043b\u0430\u0442\u044b.');
+                return;
+            }
+
+            var baseUrl = window.location.origin + window.location.pathname.replace(/[^\/]*$/, '');
+            var orderId = 'fi-' + tariff + '-' + Date.now();
+            var successUrl = baseUrl + 'success.html?' + new URLSearchParams({
+                country: country, tariff: tariff, email: email, paid: '1'
+            }).toString();
+            var failUrl = baseUrl + 'finland.html?error=payment';
+
+            fetch('/api/create-payment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    amount: price,
+                    currency: (wata && wata.currency) || 'RUB',
+                    orderId: orderId,
+                    description: description,
+                    successRedirectUrl: successUrl,
+                    failRedirectUrl: failUrl
+                })
+            })
+            .then(function(r) {
+                if (!r.ok) throw new Error('HTTP ' + r.status);
+                return r.json();
+            })
+            .then(function(data) {
+                if (data && data.url) {
+                    window.location.href = data.url;
+                } else {
+                    showError('\u041d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c \u0441\u043e\u0437\u0434\u0430\u0442\u044c \u043f\u043b\u0430\u0442\u0451\u0436.');
+                }
+            })
+            .catch(function(err) {
+                showError('\u041e\u0448\u0438\u0431\u043a\u0430 \u043f\u0440\u0438 \u0441\u043e\u0437\u0434\u0430\u043d\u0438\u0438 \u043f\u043b\u0430\u0442\u0435\u0436\u0430. \u041f\u043e\u043f\u0440\u043e\u0431\u0443\u0439\u0442\u0435 \u0435\u0449\u0451 \u0440\u0430\u0437.');
+            });
+        })();
+    </script>
 </body>
 </html>

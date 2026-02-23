@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     <title>eSIM Финляндия - HEY, eSIM!</title>
     <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
     <link rel="shortcut icon" type="image/png" href="/favicon.png">
@@ -137,29 +138,47 @@
     </footer>
 
     <script>
-        // Update price display when plan changes
-        const planInputs = document.querySelectorAll('input[name="plan"]');
-        const priceDisplay = document.getElementById('priceDisplay');
-        
-        planInputs.forEach(input => {
+        var planInputs = document.querySelectorAll('input[name="plan"]');
+        var priceDisplay = document.getElementById('priceDisplay');
+
+        planInputs.forEach(function(input) {
             input.addEventListener('change', function() {
-                const price = this.dataset.price;
-                priceDisplay.textContent = price + ' ₽';
+                priceDisplay.textContent = this.dataset.price + ' \u20BD';
             });
         });
 
-        // Form submit
+        var planToTariff = { 'fi-7d-4g': 1, 'fi-30d-5g': 2, 'fi-30d-5g-1000': 3 };
+        var tariffDescriptions = {
+            1: 'eSIM \u0424\u0438\u043d\u043b\u044f\u043d\u0434\u0438\u044f \u2014 \u0421\u0442\u0430\u043d\u0434\u0430\u0440\u0442\u043d\u044b\u0439',
+            2: 'eSIM \u0424\u0438\u043d\u043b\u044f\u043d\u0434\u0438\u044f \u2014 \u041f\u043e\u043f\u0443\u043b\u044f\u0440\u043d\u044b\u0439',
+            3: 'eSIM \u0424\u0438\u043d\u043b\u044f\u043d\u0434\u0438\u044f \u2014 \u041f\u0440\u0435\u043c\u0438\u0443\u043c'
+        };
+
         document.getElementById('orderForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const selectedPlan = document.querySelector('input[name="plan"]:checked');
-            const email = document.getElementById('email').value;
-            
-            if (selectedPlan && email) {
-                const price = selectedPlan.dataset.price;
-                const name = selectedPlan.dataset.name;
-                window.location.href = `payment.html?plan=${selectedPlan.value}&name=Финляндия - ${encodeURIComponent(name)}&price=${price}&email=${encodeURIComponent(email)}`;
-            }
+            var selectedPlan = document.querySelector('input[name="plan"]:checked');
+            var email = document.getElementById('email').value;
+            if (!selectedPlan || !email) return;
+
+            var tariff = planToTariff[selectedPlan.value];
+            var price = selectedPlan.dataset.price;
+            var params = new URLSearchParams({
+                country: 'finland',
+                tariff: String(tariff),
+                price: price,
+                email: email,
+                description: tariffDescriptions[tariff] || 'eSIM'
+            });
+            window.location.href = 'payment.html?' + params.toString();
         });
+
+        if (new URLSearchParams(window.location.search).get('error') === 'payment') {
+            var note = document.querySelector('.form-note');
+            if (note) {
+                note.textContent = '\u041e\u043f\u043b\u0430\u0442\u0430 \u043d\u0435 \u043f\u0440\u043e\u0448\u043b\u0430. \u041f\u043e\u043f\u0440\u043e\u0431\u0443\u0439\u0442\u0435 \u0435\u0449\u0451 \u0440\u0430\u0437.';
+                note.style.color = '#ef4444';
+            }
+        }
 
         // Theme Toggle
         const themeToggle = document.querySelector('.theme-toggle');

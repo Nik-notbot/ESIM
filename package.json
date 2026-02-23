@@ -8,8 +8,22 @@
   "dependencies": {
     "node-fetch": "^2.6.7"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "netlify-cli": "^23.15.1"
+  },
   "engines": {
     "node": ">=14.0.0"
-  }
+  },
+  "main": "baserow-config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nik-notbot/ESIM.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nik-notbot/ESIM/issues"
+  },
+  "homepage": "https://github.com/Nik-notbot/ESIM#readme"
 }
