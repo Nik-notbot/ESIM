@@ -177,7 +177,7 @@
             }
 
             var baseUrl = window.location.origin + window.location.pathname.replace(/[^\/]*$/, '');
-            var orderId = 'HES-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+            var orderId = String(Date.now()) + String(Math.floor(Math.random() * 9000) + 1000);
             var successUrl = baseUrl + 'success.html?' + new URLSearchParams({
                 country: country, tariff: tariff, email: email, paid: '1', order: orderId
             }).toString();

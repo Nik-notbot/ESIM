@@ -275,7 +275,7 @@
                 var body = {};
                 body['\u041e\u043f\u043b\u0430\u0442\u0430'] = true;
                 if (email) body['Email'] = email;
-                if (orderId) body['ID \u043a\u043b\u0438\u0435\u043d\u0442\u0430'] = orderId;
+                if (orderId) body['ID \u043a\u043b\u0438\u0435\u043d\u0442\u0430'] = parseInt(orderId, 10) || 0;
                 fetch(url, {
                     method: 'PATCH',
                     headers: { 'Authorization': 'Token ' + config.token, 'Content-Type': 'application/json' },
