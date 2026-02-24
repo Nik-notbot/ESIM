@@ -183,7 +183,7 @@
             }).toString();
             var failUrl = baseUrl + 'finland.html?error=payment';
 
-            fetch('/api/create-payment', {
+            fetch('/api/create-payment.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
