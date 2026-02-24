@@ -177,9 +177,9 @@
             }
 
             var baseUrl = window.location.origin + window.location.pathname.replace(/[^\/]*$/, '');
-            var orderId = 'fi-' + tariff + '-' + Date.now();
+            var orderId = 'HES-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substring(2, 6).toUpperCase();
             var successUrl = baseUrl + 'success.html?' + new URLSearchParams({
-                country: country, tariff: tariff, email: email, paid: '1'
+                country: country, tariff: tariff, email: email, paid: '1', order: orderId
             }).toString();
             var failUrl = baseUrl + 'finland.html?error=payment';
 

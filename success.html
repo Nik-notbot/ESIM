@@ -205,6 +205,7 @@
             var tariff = params.get('tariff');
             var email = params.get('email') || '';
             var paid = params.get('paid') === '1';
+            var orderId = params.get('order') || '';
             var container = document.getElementById('mainContainer');
             var config = window.BASEROW_CONFIG || {};
 
@@ -231,9 +232,11 @@
                         '<a href="' + qrUrl + '" target="_blank" rel="noopener" class="download-button" style="display:none;">\u041e\u0442\u043a\u0440\u044b\u0442\u044c QR-\u043a\u043e\u0434</a>' +
                         '</div>';
                 }
+                var orderLine = orderId ? '<p style="font-size:0.85rem;color:#9ca3af;margin-bottom:24px;">\u0417\u0430\u043a\u0430\u0437 ' + orderId + '</p>' : '';
                 container.innerHTML =
                     '<div class="success-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3"/></svg></div>' +
                     '<h1 class="success-title">\u041e\u043f\u043b\u0430\u0442\u0430 \u043f\u0440\u043e\u0448\u043b\u0430 \u0443\u0441\u043f\u0435\u0448\u043d\u043e</h1>' +
+                    orderLine +
                     '<p class="success-message">\u0412\u0430\u0448\u0430 eSIM \u0433\u043e\u0442\u043e\u0432\u0430 \u043a \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u044e</p>' +
                     '<div class="qr-section">' +
                     '<h2 class="qr-title">QR-\u043a\u043e\u0434 \u0434\u043b\u044f \u0430\u043a\u0442\u0438\u0432\u0430\u0446\u0438\u0438 eSIM' + (tariffName ? ' \u2014 ' + tariffName : '') + '</h2>' +
@@ -272,6 +275,7 @@
                 var body = {};
                 body['\u041e\u043f\u043b\u0430\u0442\u0430'] = true;
                 if (email) body['Email'] = email;
+                if (orderId) body['ID \u043a\u043b\u0438\u0435\u043d\u0442\u0430'] = orderId;
                 fetch(url, {
                     method: 'PATCH',
                     headers: { 'Authorization': 'Token ' + config.token, 'Content-Type': 'application/json' },
