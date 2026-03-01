@@ -9,8 +9,3 @@ window.BASEROW_CONFIG = {
     registration: {}
   }
 };
-
-window.WATA_CONFIG = {
-  publicId: '3a1bf961-8cbc-bb0d-b2dc-3f145b5fb7e8',
-  currency: 'RUB'
-};
