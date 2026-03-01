@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     <title>eSIM Великобритания - HEY, eSIM!</title>
     <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
     <link rel="shortcut icon" type="image/png" href="/favicon.png">
@@ -58,92 +59,49 @@
             <div class="service-page-info">
                 <h1>eSIM Великобритания</h1>
                 <p class="service-page-description">
-                    Надёжная связь для жизни, работы и путешествий. Мгновенная активация, удобное управление.
+                    Мобильный интернет для путешествий по UK
                 </p>
             </div>
 
             <form class="service-form" id="orderForm">
                 <div class="plans-group">
-                    <label>Для регистрации на сервисах</label>
-                    <div class="plan-grid" style="grid-template-columns: repeat(2, 1fr);">
-                        
-                        <!-- 1 месяц -->
-                        <label class="plan-option">
-                            <input type="radio" name="plan" value="uk-sms-1m" data-price="2400" data-name="SMS и звонки (1 мес)" checked>
-                            <div class="plan-card">
-                                <span class="plan-badge">Ежемесячное продление</span>
-                                <span class="plan-name">SMS и звонки</span>
-                                <span class="plan-price">2400 ₽</span>
-                                <ul class="plan-features">
-                                    <li>Британский номер</li>
-                                    <li>Приём SMS</li>
-                                    <li>Входящие звонки</li>
-                                </ul>
-                            </div>
-                        </label>
-                        
-                        <!-- 1 год -->
-                        <label class="plan-option">
-                            <input type="radio" name="plan" value="uk-sms-1y" data-price="4000" data-name="SMS и звонки (1 год)">
-                            <div class="plan-card">
-                                <span class="plan-badge go">Год бесплатного обслуживания</span>
-                                <span class="plan-name">SMS и звонки</span>
-                                <span class="plan-price">4000 ₽</span>
-                                <ul class="plan-features">
-                                    <li>Британский номер</li>
-                                    <li>Приём SMS</li>
-                                    <li>Входящие звонки</li>
-                                </ul>
-                            </div>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="plans-group" style="margin-top: 24px;">
                     <label>Для путешествий</label>
                     <div class="plan-grid" style="grid-template-columns: repeat(3, 1fr);">
-                        
-                        <!-- 3 ГБ -->
                         <label class="plan-option">
-                            <input type="radio" name="plan" value="uk-5" data-price="2400" data-name="3 ГБ">
+                            <input type="radio" name="plan" value="uk-7d" data-price="3200" data-name="12 ГБ (7 дней)">
                             <div class="plan-card">
                                 <span class="plan-badge">Стандартный</span>
-                                <span class="plan-name">3 ГБ</span>
-                                <span class="plan-price">2400 ₽</span>
+                                <span class="plan-name">12 ГБ</span>
+                                <span class="plan-price">3 200 ₽</span>
                                 <ul class="plan-features">
-                                    <li>500 минут в ЕС</li>
-                                    <li>Безлимитные звонки в UK</li>
-                                    <li>Помесячное продление</li>
-                                </ul>
-                            </div>
-                        </label>
-                        
-                        <!-- 10 ГБ -->
-                        <label class="plan-option">
-                            <input type="radio" name="plan" value="uk-10" data-price="3200" data-name="10 ГБ">
-                            <div class="plan-card">
-                                <span class="plan-badge go">Популярный</span>
-                                <span class="plan-name">10 ГБ</span>
-                                <span class="plan-price">3200 ₽</span>
-                                <ul class="plan-features">
-                                    <li>500 минут в ЕС</li>
-                                    <li>Безлимитные звонки в UK</li>
-                                    <li>Помесячное продление</li>
+                                    <li>7 дней</li>
+                                    <li>Интернет по всей UK</li>
                                 </ul>
                             </div>
                         </label>
 
-                        <!-- 20 ГБ -->
                         <label class="plan-option">
-                            <input type="radio" name="plan" value="uk-20" data-price="4600" data-name="20 ГБ">
+                            <input type="radio" name="plan" value="uk-30d" data-price="4500" data-name="44 ГБ (30 дней)" checked>
                             <div class="plan-card">
-                                <span class="plan-badge pro">Оптимальный</span>
-                                <span class="plan-name">20 ГБ</span>
-                                <span class="plan-price">4600 ₽</span>
+                                <span class="plan-badge go">Популярный</span>
+                                <span class="plan-name">44 ГБ</span>
+                                <span class="plan-price">4 500 ₽</span>
                                 <ul class="plan-features">
-                                    <li>500 минут в ЕС</li>
-                                    <li>Безлимитные звонки в UK</li>
-                                    <li>Помесячное продление</li>
+                                    <li>30 дней</li>
+                                    <li>Интернет по всей UK</li>
+                                </ul>
+                            </div>
+                        </label>
+
+                        <label class="plan-option">
+                            <input type="radio" name="plan" value="uk-30d-pro" data-price="5900" data-name="66 ГБ (30 дней)">
+                            <div class="plan-card">
+                                <span class="plan-badge pro">Премиум</span>
+                                <span class="plan-name">66 ГБ</span>
+                                <span class="plan-price">5 900 ₽</span>
+                                <ul class="plan-features">
+                                    <li>30 дней</li>
+                                    <li>Интернет по всей UK</li>
                                 </ul>
                             </div>
                         </label>
@@ -160,7 +118,7 @@
                         <rect width="20" height="14" x="2" y="5" rx="2"/>
                         <line x1="2" x2="22" y1="10" y2="10"/>
                     </svg>
-                    Оплатить <span id="priceDisplay">2400 ₽</span>
+                    Оплатить <span id="priceDisplay">4 500 ₽</span>
                 </button>
 
                 <p class="form-note">QR-код для активации придёт на указанный email</p>
@@ -177,30 +135,120 @@
         <p>© 2025 HEY, eSIM! Часть экосистемы HEY, STORE!</p>
     </footer>
 
+    <script src="baserow-config.js"></script>
     <script>
-        // Update price display when plan changes
-        const planInputs = document.querySelectorAll('input[name="plan"]');
-        const priceDisplay = document.getElementById('priceDisplay');
-        
-        planInputs.forEach(input => {
+        var planInputs = document.querySelectorAll('input[name="plan"]');
+        var priceDisplay = document.getElementById('priceDisplay');
+        var payButton = document.getElementById('payButton');
+
+        planInputs.forEach(function(input) {
             input.addEventListener('change', function() {
-                const price = this.dataset.price;
-                priceDisplay.textContent = price + ' ₽';
+                priceDisplay.textContent = this.dataset.price + ' \u20BD';
+                updateButtonState();
             });
         });
 
-        // Form submit
+        var planToTariff = { 'uk-7d': 1, 'uk-30d': 2, 'uk-30d-pro': 3 };
+        var tariffToplan = { 1: 'uk-7d', 2: 'uk-30d', 3: 'uk-30d-pro' };
+        var tariffDescriptions = {
+            1: 'eSIM UK \u2014 \u0421\u0442\u0430\u043d\u0434\u0430\u0440\u0442\u043d\u044b\u0439',
+            2: 'eSIM UK \u2014 \u041f\u043e\u043f\u0443\u043b\u044f\u0440\u043d\u044b\u0439',
+            3: 'eSIM UK \u2014 \u041f\u0440\u0435\u043c\u0438\u0443\u043c'
+        };
+
+        var stock = { 1: 0, 2: 0, 3: 0 };
+
+        function updateButtonState() {
+            var selected = document.querySelector('input[name="plan"]:checked');
+            if (!selected) return;
+            var tariff = planToTariff[selected.value];
+            if (stock[tariff] <= 0) {
+                payButton.disabled = true;
+                payButton.textContent = '\u041d\u0435\u0442 \u0432 \u043d\u0430\u043b\u0438\u0447\u0438\u0438';
+                payButton.style.opacity = '0.5';
+            } else {
+                payButton.disabled = false;
+                payButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg> \u041e\u043f\u043b\u0430\u0442\u0438\u0442\u044c <span id="priceDisplay">' + selected.dataset.price + ' \u20BD</span>';
+                payButton.style.opacity = '1';
+                priceDisplay = document.getElementById('priceDisplay');
+            }
+        }
+
+        function checkStock() {
+            var config = window.BASEROW_CONFIG || {};
+            if (!config.token || !config.tableIdUK) return;
+            var url = config.apiUrl + '/api/database/rows/table/' + config.tableIdUK + '/?user_field_names=true&size=200';
+            fetch(url, { headers: { 'Authorization': 'Token ' + config.token } })
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    var rows = Array.isArray(data) ? data : (data && data.results ? data.results : []);
+                    stock = { 1: 0, 2: 0, 3: 0 };
+                    for (var i = 0; i < rows.length; i++) {
+                        var t = parseInt(rows[i]['\u0422\u0430\u0440\u0438\u0444'], 10);
+                        var paid = rows[i]['\u041e\u043f\u043b\u0430\u0442\u0430'];
+                        if (t >= 1 && t <= 3 && !paid) {
+                            stock[t]++;
+                        }
+                    }
+                    for (var tf = 1; tf <= 3; tf++) {
+                        var planVal = tariffToplan[tf];
+                        var card = document.querySelector('input[value="' + planVal + '"]');
+                        if (card) {
+                            var badge = card.closest('.plan-option').querySelector('.plan-card');
+                            var existing = badge.querySelector('.stock-badge');
+                            if (existing) existing.remove();
+                            var el = document.createElement('span');
+                            el.className = 'stock-badge';
+                            el.style.cssText = 'display:block;font-size:0.8rem;margin-top:8px;font-weight:600;';
+                            if (stock[tf] > 0) {
+                                el.style.color = '#10b981';
+                                el.textContent = '\u0412 \u043d\u0430\u043b\u0438\u0447\u0438\u0438: ' + stock[tf];
+                            } else {
+                                el.style.color = '#ef4444';
+                                el.textContent = '\u041d\u0435\u0442 \u0432 \u043d\u0430\u043b\u0438\u0447\u0438\u0438';
+                                card.disabled = true;
+                                badge.style.opacity = '0.5';
+                            }
+                            badge.appendChild(el);
+                        }
+                    }
+                    updateButtonState();
+                })
+                .catch(function() {});
+        }
+
+        checkStock();
+
         document.getElementById('orderForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const selectedPlan = document.querySelector('input[name="plan"]:checked');
-            const email = document.getElementById('email').value;
-            
-            if (selectedPlan && email) {
-                const price = selectedPlan.dataset.price;
-                const name = selectedPlan.dataset.name;
-                window.location.href = `payment.html?plan=${selectedPlan.value}&name=UK - ${encodeURIComponent(name)}&price=${price}&email=${encodeURIComponent(email)}`;
+            var selectedPlan = document.querySelector('input[name="plan"]:checked');
+            var email = document.getElementById('email').value;
+            if (!selectedPlan || !email) return;
+
+            var tariff = planToTariff[selectedPlan.value];
+            if (stock[tariff] <= 0) {
+                alert('\u042d\u0442\u043e\u0442 \u0442\u0430\u0440\u0438\u0444 \u0437\u0430\u043a\u043e\u043d\u0447\u0438\u043b\u0441\u044f. \u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0434\u0440\u0443\u0433\u043e\u0439.');
+                return;
             }
+
+            var price = selectedPlan.dataset.price;
+            var params = new URLSearchParams({
+                country: 'uk',
+                tariff: String(tariff),
+                price: price,
+                email: email,
+                description: tariffDescriptions[tariff] || 'eSIM'
+            });
+            window.location.href = 'payment.html?' + params.toString();
         });
+
+        if (new URLSearchParams(window.location.search).get('error') === 'payment') {
+            var note = document.querySelector('.form-note');
+            if (note) {
+                note.textContent = '\u041e\u043f\u043b\u0430\u0442\u0430 \u043d\u0435 \u043f\u0440\u043e\u0448\u043b\u0430. \u041f\u043e\u043f\u0440\u043e\u0431\u0443\u0439\u0442\u0435 \u0435\u0449\u0451 \u0440\u0430\u0437.';
+                note.style.color = '#ef4444';
+            }
+        }
 
         // Theme Toggle
         const themeToggle = document.querySelector('.theme-toggle');

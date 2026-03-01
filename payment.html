@@ -167,8 +167,11 @@
                 subtitle.textContent = tariffNames[tariff] + ' \u2014 ' + price.toLocaleString('ru-RU') + ' \u20BD';
             }
 
+            var countryPages = { finland: 'finland.html', uk: 'uk.html' };
+            var backPage = countryPages[country] || 'index.html';
+
             function showError(msg) {
-                body.innerHTML = '<div class="pay-error">' + msg + '<br><a href="finland.html">\u0412\u0435\u0440\u043d\u0443\u0442\u044c\u0441\u044f</a></div>';
+                body.innerHTML = '<div class="pay-error">' + msg + '<br><a href="' + backPage + '">\u0412\u0435\u0440\u043d\u0443\u0442\u044c\u0441\u044f</a></div>';
             }
 
             if (!price) {
@@ -181,7 +184,7 @@
             var successUrl = baseUrl + 'success.html?' + new URLSearchParams({
                 country: country, tariff: tariff, email: email, paid: '1', order: orderId
             }).toString();
-            var failUrl = baseUrl + 'finland.html?error=payment';
+            var failUrl = baseUrl + backPage + '?error=payment';
 
             fetch('/api/create-payment.php', {
                 method: 'POST',
