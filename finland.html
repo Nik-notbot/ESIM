@@ -137,7 +137,7 @@
         <p>© 2025 HEY, eSIM! Часть экосистемы HEY, STORE!</p>
     </footer>
 
-    <script src="baserow-config.js?v=2"></script>
+    <script src="baserow-config.js?v=3"></script>
     <script>
         var planInputs = document.querySelectorAll('input[name="plan"]');
         var priceDisplay = document.getElementById('priceDisplay');
@@ -176,47 +176,47 @@
             }
         }
 
+        function applyBadges() {
+            for (var tf = 1; tf <= 3; tf++) {
+                var planVal = tariffToplan[tf];
+                var card = document.querySelector('input[value="' + planVal + '"]');
+                if (card) {
+                    var badge = card.closest('.plan-option').querySelector('.plan-card');
+                    var existing = badge.querySelector('.stock-badge');
+                    if (existing) existing.remove();
+                    var el = document.createElement('span');
+                    el.className = 'stock-badge';
+                    el.style.cssText = 'display:block;font-size:0.8rem;margin-top:8px;font-weight:600;';
+                    if (stock[tf] > 0) {
+                        el.style.color = '#10b981';
+                        el.textContent = '\u0415\u0441\u0442\u044c \u0432 \u043d\u0430\u043b\u0438\u0447\u0438\u0438';
+                    } else {
+                        el.style.color = '#ef4444';
+                        el.textContent = '\u041d\u0435\u0442 \u0432 \u043d\u0430\u043b\u0438\u0447\u0438\u0438';
+                        card.disabled = true;
+                        badge.style.opacity = '0.5';
+                    }
+                    badge.appendChild(el);
+                }
+            }
+            updateButtonState();
+        }
+
         function checkStock() {
-            var config = window.BASEROW_CONFIG || {};
-            if (!config.token || !config.tableIdFinland) return;
-            var url = config.apiUrl + '/api/database/rows/table/' + config.tableIdFinland + '/?user_field_names=true&size=200';
-            fetch(url, { headers: { 'Authorization': 'Token ' + config.token } })
+            fetch('/api/check-stock.php?country=finland')
                 .then(function(r) { return r.json(); })
                 .then(function(data) {
-                    var rows = Array.isArray(data) ? data : (data && data.results ? data.results : []);
                     stock = { 1: 0, 2: 0, 3: 0 };
-                    for (var i = 0; i < rows.length; i++) {
-                        var t = parseInt(rows[i]['\u0422\u0430\u0440\u0438\u0444'], 10);
-                        var paid = rows[i]['\u041e\u043f\u043b\u0430\u0442\u0430'];
-                        if (t >= 1 && t <= 3 && !paid) {
-                            stock[t]++;
+                    if (data && data.stock) {
+                        for (var k in data.stock) {
+                            stock[parseInt(k, 10)] = data.stock[k];
                         }
                     }
-                    for (var tf = 1; tf <= 3; tf++) {
-                        var planVal = tariffToplan[tf];
-                        var card = document.querySelector('input[value="' + planVal + '"]');
-                        if (card) {
-                            var badge = card.closest('.plan-option').querySelector('.plan-card');
-                            var existing = badge.querySelector('.stock-badge');
-                            if (existing) existing.remove();
-                            var el = document.createElement('span');
-                            el.className = 'stock-badge';
-                            el.style.cssText = 'display:block;font-size:0.8rem;margin-top:8px;font-weight:600;';
-                            if (stock[tf] > 0) {
-                                el.style.color = '#10b981';
-                                el.textContent = '\u0415\u0441\u0442\u044c \u0432 \u043d\u0430\u043b\u0438\u0447\u0438\u0438';
-                            } else {
-                                el.style.color = '#ef4444';
-                                el.textContent = '\u041d\u0435\u0442 \u0432 \u043d\u0430\u043b\u0438\u0447\u0438\u0438';
-                                card.disabled = true;
-                                badge.style.opacity = '0.5';
-                            }
-                            badge.appendChild(el);
-                        }
-                    }
-                    updateButtonState();
+                    applyBadges();
                 })
-                .catch(function() {});
+                .catch(function() {
+                    applyBadges();
+                });
         }
 
         checkStock();

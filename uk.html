@@ -165,7 +165,7 @@
         <p>© 2025 HEY, eSIM! Часть экосистемы HEY, STORE!</p>
     </footer>
 
-    <script src="baserow-config.js?v=2"></script>
+    <script src="baserow-config.js?v=3"></script>
     <script>
         var planInputs = document.querySelectorAll('input[name="plan"]');
         var priceDisplay = document.getElementById('priceDisplay');
@@ -234,37 +234,20 @@
             updateButtonState();
         }
 
-        function countStock(rows) {
-            var s = {};
-            for (var i = 0; i < rows.length; i++) {
-                var t = parseInt(rows[i]['\u0422\u0430\u0440\u0438\u0444'], 10);
-                if (t >= 1 && !rows[i]['\u041e\u043f\u043b\u0430\u0442\u0430']) {
-                    s[t] = (s[t] || 0) + 1;
-                }
-            }
-            return s;
-        }
-
-        function fetchTable(tableId) {
-            var config = window.BASEROW_CONFIG || {};
-            if (!config.token || !tableId) return Promise.resolve([]);
-            var url = config.apiUrl + '/api/database/rows/table/' + tableId + '/?user_field_names=true&size=200';
-            return fetch(url, { headers: { 'Authorization': 'Token ' + config.token } })
+        function fetchStock(country) {
+            return fetch('/api/check-stock.php?country=' + country)
                 .then(function(r) { return r.json(); })
-                .then(function(data) {
-                    return Array.isArray(data) ? data : (data && data.results ? data.results : []);
-                })
-                .catch(function() { return []; });
+                .then(function(data) { return (data && data.stock) || {}; })
+                .catch(function() { return {}; });
         }
 
         (function checkStock() {
-            var config = window.BASEROW_CONFIG || {};
             Promise.all([
-                fetchTable(config.tableIdUK),
-                fetchTable(config.tableIdRegistration)
+                fetchStock('uk'),
+                fetchStock('registration')
             ]).then(function(results) {
-                stockTravel = countStock(results[0]);
-                stockReg = countStock(results[1]);
+                stockTravel = results[0];
+                stockReg = results[1];
                 applyStockBadges();
             });
         })();

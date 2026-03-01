@@ -255,7 +255,7 @@
         </div>
     </div>
 
-    <script src="baserow-config.js?v=2"></script>
+    <script src="baserow-config.js?v=3"></script>
     <script>
         (function() {
             var params = new URLSearchParams(window.location.search);
@@ -268,9 +268,7 @@
             var config = window.BASEROW_CONFIG || {};
 
             var tariffNames = { 1: '\u0421\u0442\u0430\u043d\u0434\u0430\u0440\u0442\u043d\u044b\u0439', 2: '\u041f\u043e\u043f\u0443\u043b\u044f\u0440\u043d\u044b\u0439', 3: '\u041f\u0440\u0435\u043c\u0438\u0443\u043c' };
-            var countryTables = { finland: config.tableIdFinland, uk: config.tableIdUK, registration: config.tableIdRegistration };
             var countryPages = { finland: 'finland.html', uk: 'uk.html', registration: 'registration.html' };
-            var tableId = countryTables[country] || 0;
             var tariffNum = parseInt(tariff, 10) || 0;
             var tariffName = tariffNames[tariffNum] || '';
             var fallback = config.fallbackQR && config.fallbackQR[country] && config.fallbackQR[country][tariffNum];
@@ -350,55 +348,39 @@
                 return;
             }
 
-            function updateBaserow(rowId) {
-                if (!rowId) return;
-                var url = config.apiUrl + '/api/database/rows/table/' + tableId + '/' + rowId + '/?user_field_names=true';
-                var body = {};
-                body['\u041e\u043f\u043b\u0430\u0442\u0430'] = true;
-                if (email) body['Email'] = email;
-                if (orderId) body['ID \u043a\u043b\u0438\u0435\u043d\u0442\u0430'] = parseInt(orderId, 10) || 0;
-                fetch(url, {
-                    method: 'PATCH',
-                    headers: { 'Authorization': 'Token ' + config.token, 'Content-Type': 'application/json' },
-                    body: JSON.stringify(body)
-                }).catch(function() {});
-            }
-
-            function loadFromBaserow() {
-                var url = config.apiUrl + '/api/database/rows/table/' + tableId + '/?user_field_names=true&size=200';
-                fetch(url, { headers: { 'Authorization': 'Token ' + config.token } })
-                    .then(function(r) { return r.json(); })
-                    .then(function(data) {
-                        var rows = Array.isArray(data) ? data : (data && data.results ? data.results : []);
-                        var row = null;
-                        for (var i = 0; i < rows.length; i++) {
-                            var r = rows[i];
-                            if (String(r['\u0422\u0430\u0440\u0438\u0444']) === String(tariffNum) && !r['\u041e\u043f\u043b\u0430\u0442\u0430']) {
-                                row = r;
-                                break;
-                            }
-                        }
-                        if (!row) {
-                            showError('\u0415\u0421\u0418\u041c \u0434\u043b\u044f \u044d\u0442\u043e\u0433\u043e \u0442\u0430\u0440\u0438\u0444\u0430 \u0437\u0430\u043a\u043e\u043d\u0447\u0438\u043b\u0438\u0441\u044c. \u0421\u0432\u044f\u0436\u0438\u0442\u0435\u0441\u044c \u0441 <a href="https://t.me/hey_store_bot">\u043f\u043e\u0434\u0434\u0435\u0440\u0436\u043a\u043e\u0439</a>.');
-                            return;
-                        }
-                        var qr = row['\u0421\u0441\u044b\u043b\u043a\u0430'] || fallback;
-                        updateBaserow(row.id);
-                        render(qr || '');
+            function claimEsim() {
+                fetch('/api/claim-esim.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        country: country,
+                        tariff: tariffNum,
+                        email: email,
+                        orderId: orderId
                     })
-                    .catch(function() {
-                        render(fallback || '');
-                    });
+                })
+                .then(function(r) {
+                    if (r.status === 404) {
+                        showError('\u0415\u0421\u0418\u041c \u0434\u043b\u044f \u044d\u0442\u043e\u0433\u043e \u0442\u0430\u0440\u0438\u0444\u0430 \u0437\u0430\u043a\u043e\u043d\u0447\u0438\u043b\u0438\u0441\u044c. \u0421\u0432\u044f\u0436\u0438\u0442\u0435\u0441\u044c \u0441 <a href="https://t.me/hey_store_bot">\u043f\u043e\u0434\u0434\u0435\u0440\u0436\u043a\u043e\u0439</a>.');
+                        return null;
+                    }
+                    if (!r.ok) throw new Error('HTTP ' + r.status);
+                    return r.json();
+                })
+                .then(function(data) {
+                    if (!data) return;
+                    var qr = data.qr || fallback || '';
+                    render(qr);
+                })
+                .catch(function() {
+                    render(fallback || '');
+                });
             }
 
-            if (config.token && tableId) {
-                loadFromBaserow();
-                setTimeout(function() {
-                    if (container.querySelector('.spinner')) render(fallback || '');
-                }, 6000);
-            } else {
-                render(fallback || '');
-            }
+            claimEsim();
+            setTimeout(function() {
+                if (container.querySelector('.spinner')) render(fallback || '');
+            }, 8000);
         })();
     </script>
 </body>
