@@ -190,7 +190,10 @@
         var stockTravel = {};
         var stockReg = {};
 
+        var alwaysAvailable = { 'reg-std': true };
+
         function getStock(planVal) {
+            if (alwaysAvailable[planVal]) return 1;
             var m = planMeta[planVal];
             if (!m) return 0;
             return m.country === 'uk' ? (stockTravel[m.tariff] || 0) : (stockReg[m.tariff] || 0);
