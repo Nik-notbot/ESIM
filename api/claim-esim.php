@@ -88,4 +88,7 @@ curl_setopt_array($ch, [
 curl_exec($ch);
 curl_close($ch);
 
-echo json_encode(['qr' => $qr, 'rowId' => $rowId]);
+$pin = isset($foundRow['PIN']) ? $foundRow['PIN'] : '';
+$puk = isset($foundRow['PUK']) ? $foundRow['PUK'] : '';
+
+echo json_encode(['qr' => $qr, 'rowId' => $rowId, 'pin' => $pin, 'puk' => $puk]);

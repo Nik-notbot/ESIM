@@ -282,7 +282,7 @@
                 return url;
             }
 
-            function render(qrUrl) {
+            function render(qrUrl, pin, puk) {
                 var qrBlock = '';
                 if (qrUrl) {
                     var imgUrl = toDirectUrl(qrUrl);
@@ -291,6 +291,21 @@
                         '<img src="' + imgUrl + '" alt="QR eSIM" style="max-width:300px;" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'inline-flex\';">' +
                         '<a href="' + qrUrl + '" target="_blank" rel="noopener" class="download-button" style="display:none;">\u041e\u0442\u043a\u0440\u044b\u0442\u044c QR-\u043a\u043e\u0434</a>' +
                         '</div>';
+                }
+                var pinPukBlock = '';
+                if (pin || puk) {
+                    pinPukBlock = '<div style="display:flex;gap:16px;justify-content:center;margin-top:20px;flex-wrap:wrap;">';
+                    if (pin) {
+                        pinPukBlock += '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:14px 24px;text-align:center;">' +
+                            '<span style="display:block;font-size:0.75rem;color:#9ca3af;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">PIN</span>' +
+                            '<span style="font-size:1.3rem;font-weight:700;color:#1e293b;letter-spacing:2px;">' + pin + '</span></div>';
+                    }
+                    if (puk) {
+                        pinPukBlock += '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:14px 24px;text-align:center;">' +
+                            '<span style="display:block;font-size:0.75rem;color:#9ca3af;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">PUK</span>' +
+                            '<span style="font-size:1.3rem;font-weight:700;color:#1e293b;letter-spacing:2px;">' + puk + '</span></div>';
+                    }
+                    pinPukBlock += '</div>';
                 }
                 var orderLine = orderId ? '<p style="font-size:0.85rem;color:#9ca3af;margin-bottom:24px;">\u0417\u0430\u043a\u0430\u0437 ' + orderId + '</p>' : '';
                 container.innerHTML =
@@ -301,6 +316,7 @@
                     '<div class="qr-section">' +
                     '<h2 class="qr-title">QR-\u043a\u043e\u0434 \u0434\u043b\u044f \u0430\u043a\u0442\u0438\u0432\u0430\u0446\u0438\u0438 eSIM' + (tariffName ? ' \u2014 ' + tariffName : '') + '</h2>' +
                     qrBlock +
+                    pinPukBlock +
                     '</div>' +
                     '<div class="instructions">' +
                     '<h3>Инструкция по установке eSIM</h3>' +
@@ -371,16 +387,16 @@
                 .then(function(data) {
                     if (!data) return;
                     var qr = data.qr || fallback || '';
-                    render(qr);
+                    render(qr, data.pin || '', data.puk || '');
                 })
                 .catch(function() {
-                    render(fallback || '');
+                    render(fallback || '', '', '');
                 });
             }
 
             claimEsim();
             setTimeout(function() {
-                if (container.querySelector('.spinner')) render(fallback || '');
+                if (container.querySelector('.spinner')) render(fallback || '', '', '');
             }, 8000);
         })();
     </script>
