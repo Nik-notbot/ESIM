@@ -70,7 +70,7 @@ $rowId = $foundRow['id'];
 $qr    = isset($foundRow['Ссылка']) ? $foundRow['Ссылка'] : '';
 
 $patchUrl  = $BASEROW_API . '/api/database/rows/table/' . $tableId . '/' . $rowId . '/?user_field_names=true';
-$patchBody = ['Оплата' => true, 'Date' => date('Y-m-d')];
+$patchBody = ['Оплата' => true, 'Date' => gmdate('Y-m-d\TH:i:s\Z')];
 if ($email)   $patchBody['Email'] = $email;
 if ($orderId) $patchBody['ID клиента'] = intval($orderId);
 
