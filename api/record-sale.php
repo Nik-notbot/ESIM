@@ -34,6 +34,7 @@ $url = $BASEROW_API . '/api/database/rows/table/' . $tableId . '/?user_field_nam
 $body = [
     'Тариф'      => strval($tariff),
     'Оплата'     => true,
+    'Date'       => date('Y-m-d'),
 ];
 if ($email)   $body['Email'] = $email;
 if ($orderId) $body['ID клиента'] = intval($orderId);
