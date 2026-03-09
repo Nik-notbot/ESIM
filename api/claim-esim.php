@@ -90,5 +90,7 @@ curl_close($ch);
 
 $pin = isset($foundRow['PIN']) ? $foundRow['PIN'] : '';
 $puk = isset($foundRow['PUK']) ? $foundRow['PUK'] : '';
+$number = isset($foundRow['number']) ? $foundRow['number'] : '';
+$countryCode = isset($foundRow['country_code']) ? $foundRow['country_code'] : '';
 
-echo json_encode(['qr' => $qr, 'rowId' => $rowId, 'pin' => $pin, 'puk' => $puk]);
+echo json_encode(['qr' => $qr, 'rowId' => $rowId, 'pin' => $pin, 'puk' => $puk, 'number' => $number, 'country_code' => $countryCode]);

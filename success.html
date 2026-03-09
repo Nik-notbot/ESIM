@@ -282,7 +282,7 @@
                 return url;
             }
 
-            function render(qrUrl, pin, puk) {
+            function render(qrUrl, pin, puk, number, countryCode) {
                 var qrBlock = '';
                 if (qrUrl) {
                     var imgUrl = toDirectUrl(qrUrl);
@@ -307,6 +307,21 @@
                     }
                     pinPukBlock += '</div>';
                 }
+                var phoneBlock = '';
+                if (number || countryCode) {
+                    phoneBlock = '<div style="display:flex;gap:16px;justify-content:center;margin-top:16px;flex-wrap:wrap;">';
+                    if (number) {
+                        phoneBlock += '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:14px 24px;text-align:center;">' +
+                            '<span style="display:block;font-size:0.75rem;color:#9ca3af;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Номер</span>' +
+                            '<span style="font-size:1.3rem;font-weight:700;color:#1e293b;letter-spacing:2px;">' + number + '</span></div>';
+                    }
+                    if (countryCode) {
+                        phoneBlock += '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:14px 24px;text-align:center;">' +
+                            '<span style="display:block;font-size:0.75rem;color:#9ca3af;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Код страны</span>' +
+                            '<span style="font-size:1.3rem;font-weight:700;color:#1e293b;letter-spacing:2px;">' + countryCode + '</span></div>';
+                    }
+                    phoneBlock += '</div>';
+                }
                 var orderLine = orderId ? '<p style="font-size:0.85rem;color:#9ca3af;margin-bottom:24px;">\u0417\u0430\u043a\u0430\u0437 ' + orderId + '</p>' : '';
                 container.innerHTML =
                     '<div class="success-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3"/></svg></div>' +
@@ -317,6 +332,7 @@
                     '<h2 class="qr-title">QR-\u043a\u043e\u0434 \u0434\u043b\u044f \u0430\u043a\u0442\u0438\u0432\u0430\u0446\u0438\u0438 eSIM' + (tariffName ? ' \u2014 ' + tariffName : '') + '</h2>' +
                     qrBlock +
                     pinPukBlock +
+                    phoneBlock +
                     '</div>' +
                     '<div class="instructions">' +
                     '<h3>Инструкция по установке eSIM</h3>' +
@@ -424,16 +440,16 @@
                 .then(function(data) {
                     if (!data) return;
                     var qr = data.qr || fallback || '';
-                    render(qr, data.pin || '', data.puk || '');
+                    render(qr, data.pin || '', data.puk || '', data.number || '', data.country_code || '');
                 })
                 .catch(function() {
-                    render(fallback || '', '', '');
+                    render(fallback || '', '', '', '', '');
                 });
             }
 
             claimEsim();
             setTimeout(function() {
-                if (container.querySelector('.spinner')) render(fallback || '', '', '');
+                if (container.querySelector('.spinner')) render(fallback || '', '', '', '', '');
             }, 8000);
         })();
     </script>
