@@ -60,4 +60,7 @@ if ($httpCode >= 400) {
     exit;
 }
 
-echo json_encode(['ok' => true]);
+$result = json_decode($response, true);
+$rowId = isset($result['id']) ? $result['id'] : null;
+
+echo json_encode(['ok' => true, 'rowId' => $rowId]);
