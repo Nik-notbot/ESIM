@@ -23,7 +23,7 @@ $json = json_encode($payload);
 $ct = openssl_encrypt($json, 'aes-256-gcm', $aesKey, OPENSSL_RAW_DATA, $nonce, $tag, '', 16);
 $result['encrypt_ok'] = ($ct !== false);
 
-$body = rtrim(strtr(base64_encode($nonce . $ct . $tag), '+/', '-_'), '=');
+$body = strtr(base64_encode($nonce . $ct . $tag), '+/', '-_');
 $result['body_length'] = strlen($body);
 
 $ch = curl_init($FANITEL_URL . '/account/balance');

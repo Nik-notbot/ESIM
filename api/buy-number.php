@@ -25,7 +25,7 @@ function fanitelEncrypt($data) {
     $tag   = '';
     $ct    = openssl_encrypt($json, 'aes-256-gcm', $aesKey, OPENSSL_RAW_DATA, $nonce, $tag, '', 16);
     if ($ct === false) return null;
-    return rtrim(strtr(base64_encode($nonce . $ct . $tag), '+/', '-_'), '=');
+    return strtr(base64_encode($nonce . $ct . $tag), '+/', '-_');
 }
 
 function fanitelDecrypt($b64) {
