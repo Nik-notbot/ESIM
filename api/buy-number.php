@@ -61,6 +61,7 @@ function fanitelCall($endpoint, $extra = []) {
         CURLOPT_HTTPHEADER     => [
             'X-API-Key: ' . $FANITEL_API_KEY,
             'Content-Type: application/octet-stream',
+            'User-Agent: Mozilla/5.0',
         ],
     ]);
     $resp = curl_exec($ch);
