@@ -122,8 +122,8 @@ if (!$fanitelId || !$tariff || !$rowId) {
     exit;
 }
 
-// 1. Save Fanitel ID to Baserow
-baserowPatch($rowId, ['Fanitel ID' => $fanitelId]);
+// 1. Save Fanytel ID to Baserow
+baserowPatch($rowId, ['Fanytel ID' => $fanitelId]);
 
 // 2. Verify recipient exists
 $exists = fanitelCall('/account/id-exists', ['target' => $fanitelId]);
@@ -131,7 +131,7 @@ if (isset($exists['_error'])) {
     fail(400, 'id-exists', $exists['_detail'] ?? 'unknown');
 }
 if (!isset($exists['exists']) || !$exists['exists']) {
-    fail(400, 'id-exists', 'Fanitel ID не найден. Убедитесь, что вы правильно ввели ID из приложения.', ['api_response' => $exists]);
+    fail(400, 'id-exists', 'Fanytel ID не найден. Убедитесь, что вы правильно ввели ID из приложения.', ['api_response' => $exists]);
 }
 
 // 3. Get fresh GB number
