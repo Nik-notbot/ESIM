@@ -16,7 +16,7 @@ $FANYTEL_URL     = 'https://gw.globalstatic-node.com';
 $FANYTEL_PHONE   = '+1519629310';
 $FANYTEL_RID     = '89451';
 
-function deriveKey($apiKey) {
+function deriveKey(string $apiKey): string {
     $prk = hash_hmac('sha256', $apiKey, 'fanytel-api-v1', true);
     $info = 'aes-key';
     $t = '';
@@ -30,64 +30,62 @@ function deriveKey($apiKey) {
 
 $AES_KEY = deriveKey($FANYTEL_API_KEY);
 
-function fanytelEncrypt($data) {
+function encrypt(array $data): string {
     global $AES_KEY;
-    $json  = json_encode($data, JSON_UNESCAPED_UNICODE);
+    $plaintext = json_encode($data, JSON_UNESCAPED_UNICODE);
     $nonce = random_bytes(12);
-    $tag   = '';
-    $ct    = openssl_encrypt($json, 'aes-256-gcm', $AES_KEY, OPENSSL_RAW_DATA, $nonce, $tag, '', 16);
-    if ($ct === false) return null;
-    return rtrim(strtr(base64_encode($nonce . $ct . $tag), '+/', '-_'), '=');
+    $tag = '';
+    $ciphertext = openssl_encrypt($plaintext, 'aes-256-gcm', $AES_KEY, OPENSSL_RAW_DATA, $nonce, $tag, '', 16);
+    $raw = $nonce . $ciphertext . $tag;
+    return rtrim(strtr(base64_encode($raw), '+/', '-_'), '=');
 }
 
-function fanytelDecrypt($b64) {
+function decrypt(string $b64): ?array {
     global $AES_KEY;
     if (!$b64 || !is_string($b64)) return null;
     $raw = base64_decode(strtr($b64, '-_', '+/'));
     if ($raw === false || strlen($raw) < 28) return null;
     $nonce = substr($raw, 0, 12);
-    $tag   = substr($raw, -16);
-    $ct    = substr($raw, 12, -16);
-    $plain = openssl_decrypt($ct, 'aes-256-gcm', $AES_KEY, OPENSSL_RAW_DATA, $nonce, $tag);
-    if ($plain === false) return null;
-    return json_decode($plain, true);
+    $tag = substr($raw, -16);
+    $ciphertext = substr($raw, 12, -16);
+    $plaintext = openssl_decrypt($ciphertext, 'aes-256-gcm', $AES_KEY, OPENSSL_RAW_DATA, $nonce, $tag);
+    if ($plaintext === false) return null;
+    return json_decode($plaintext, true);
 }
 
-function fanytelCall($endpoint, $extra = []) {
+function fanytelCall(string $endpoint, array $extra = []) {
     global $FANYTEL_URL, $FANYTEL_API_KEY, $FANYTEL_PHONE, $FANYTEL_RID;
     $payload = array_merge(['phone' => $FANYTEL_PHONE, 'rid' => $FANYTEL_RID], $extra);
-    $body = fanytelEncrypt($payload);
-    if ($body === null) {
-        return ['_error' => true, '_code' => 0, '_detail' => 'Encryption failed'];
-    }
+    $body = encrypt($payload);
 
     $ch = curl_init($FANYTEL_URL . $endpoint);
     curl_setopt_array($ch, [
-        CURLOPT_POST           => true,
-        CURLOPT_POSTFIELDS     => $body,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => $body,
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT        => 30,
-        CURLOPT_HTTPHEADER     => [
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTPHEADER => [
             'X-API-Key: ' . $FANYTEL_API_KEY,
             'Content-Type: application/octet-stream',
             'User-Agent: FanytelClient/1.0',
         ],
     ]);
-    $resp = curl_exec($ch);
-    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $curlErr = curl_error($ch);
+
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlErr  = curl_error($ch);
     curl_close($ch);
 
-    if ($resp === false) {
+    if ($response === false) {
         return ['_error' => true, '_code' => 0, '_detail' => 'cURL error: ' . $curlErr];
     }
-    if ($code !== 200) {
-        return ['_error' => true, '_code' => $code, '_detail' => 'HTTP ' . $code . ', body: ' . substr($resp ?: '', 0, 500)];
+    if ($httpCode !== 200) {
+        return ['_error' => true, '_code' => $httpCode, '_detail' => 'HTTP ' . $httpCode . ', body: ' . substr($response ?: '', 0, 500)];
     }
 
-    $decoded = fanytelDecrypt($resp);
+    $decoded = decrypt($response);
     if ($decoded === null) {
-        return ['_error' => true, '_code' => $code, '_detail' => 'Decryption failed, raw len=' . strlen($resp)];
+        return ['_error' => true, '_code' => $httpCode, '_detail' => 'Decryption failed, raw len=' . strlen($response)];
     }
     return $decoded;
 }
