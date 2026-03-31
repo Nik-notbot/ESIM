@@ -37,7 +37,7 @@ function encrypt(array $data): string {
     $tag = '';
     $ciphertext = openssl_encrypt($plaintext, 'aes-256-gcm', $AES_KEY, OPENSSL_RAW_DATA, $nonce, $tag, '', 16);
     $raw = $nonce . $ciphertext . $tag;
-    return rtrim(strtr(base64_encode($raw), '+/', '-_'), '=');
+    return strtr(base64_encode($raw), '+/', '-_');
 }
 
 function decrypt(string $b64): ?array {

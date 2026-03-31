@@ -20,18 +20,17 @@ function deriveKey(string $apiKey): string {
 
 $AES_KEY = deriveKey(API_KEY);
 
-function encryptPayload(array $data, bool $keepPadding = false): string {
+function encrypt(array $data): string {
     global $AES_KEY;
     $plaintext = json_encode($data, JSON_UNESCAPED_UNICODE);
     $nonce = random_bytes(12);
     $tag = '';
     $ciphertext = openssl_encrypt($plaintext, 'aes-256-gcm', $AES_KEY, OPENSSL_RAW_DATA, $nonce, $tag, '', 16);
     $raw = $nonce . $ciphertext . $tag;
-    $b64 = strtr(base64_encode($raw), '+/', '-_');
-    return $keepPadding ? $b64 : rtrim($b64, '=');
+    return strtr(base64_encode($raw), '+/', '-_');
 }
 
-function decryptResponse(string $b64): ?array {
+function decrypt(string $b64): ?array {
     global $AES_KEY;
     if (!$b64 || !is_string($b64)) return null;
     $raw = base64_decode(strtr($b64, '-_', '+/'));
@@ -44,64 +43,39 @@ function decryptResponse(string $b64): ?array {
     return json_decode($plaintext, true);
 }
 
-function testCall(string $label, bool $keepPadding, string $userAgent, bool $useOpt): array {
-    $payload = ['phone' => PHONE, 'rid' => RID];
-    $body = encryptPayload($payload, $keepPadding);
+function apiCall(string $endpoint, array $extra = []): array {
+    $payload = array_merge(['phone' => PHONE, 'rid' => RID], $extra);
+    $body = encrypt($payload);
 
-    $ch = curl_init(API_URL . '/account/balance');
-
-    $headers = [
-        'X-API-Key: ' . API_KEY,
-        'Content-Type: application/octet-stream',
-    ];
-    if (!$useOpt) {
-        $headers[] = 'User-Agent: ' . $userAgent;
-    }
-
-    $opts = [
+    $ch = curl_init(API_URL . $endpoint);
+    curl_setopt_array($ch, [
         CURLOPT_POST => true,
         CURLOPT_POSTFIELDS => $body,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_TIMEOUT => 30,
-        CURLOPT_HTTPHEADER => $headers,
-    ];
-    if ($useOpt) {
-        $opts[CURLOPT_USERAGENT] = $userAgent;
-    }
+        CURLOPT_HTTPHEADER => [
+            'X-API-Key: ' . API_KEY,
+            'Content-Type: application/octet-stream',
+            'User-Agent: FanytelClient/1.0',
+        ],
+    ]);
 
-    curl_setopt_array($ch, $opts);
     $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     $curlErr  = curl_error($ch);
     curl_close($ch);
 
-    $decrypted = null;
-    if ($httpCode === 200 && $response) {
-        $decrypted = decryptResponse($response);
-    }
-
     return [
-        'label'     => $label,
-        'padding'   => $keepPadding ? 'YES' : 'NO',
-        'ua'        => $userAgent,
-        'ua_method' => $useOpt ? 'CURLOPT_USERAGENT' : 'CURLOPT_HTTPHEADER',
         'http_code' => $httpCode,
-        'curl_err'  => $curlErr ?: null,
-        'raw_len'   => $response !== false ? strlen($response) : 0,
+        'curl_error' => $curlErr ?: null,
+        'decrypted' => ($httpCode === 200 && $response) ? decrypt($response) : null,
         'raw_preview' => $response !== false ? substr($response, 0, 200) : '',
-        'decrypted' => $decrypted,
     ];
 }
 
-$results = [
+echo json_encode([
     'php_version' => PHP_VERSION,
     'aes_key_hex' => bin2hex($AES_KEY),
-    'tests' => [
-        testCall('A: reference exact', false, 'FanytelClient/1.0', false),
-        testCall('B: reference + padding', true, 'FanytelClient/1.0', false),
-        testCall('C: browser UA via header', false, 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36', false),
-        testCall('D: browser UA via CURLOPT + padding', true, 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36', true),
-    ],
-];
-
-echo json_encode($results, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    'balance'     => apiCall('/account/balance'),
+    'fresh_gb'    => apiCall('/numbers/fresh', ['countries' => ['GB'], 'limit' => 2]),
+], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
