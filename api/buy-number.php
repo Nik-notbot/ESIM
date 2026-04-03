@@ -63,7 +63,7 @@ function fanytelCall(string $endpoint, array $payload = []) {
         CURLOPT_HTTPHEADER => [
             'X-API-Key: ' . $FANYTEL_API_KEY,
             'Content-Type: application/octet-stream',
-            'User-Agent: FanytelClient/1.0',
+            'User-Agent: Mozilla/5.0',
         ],
     ]);
 
