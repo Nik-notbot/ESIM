@@ -3,16 +3,13 @@ header('Content-Type: application/json; charset=utf-8');
 
 const API_URL = 'https://gw.globalstatic-node.com';
 const API_KEY = 'd6230379e0d981548044254461b54be666d478709d9a0d36e14b6a5087fb503c';
-const PHONE = '+1519629310';
-const RID = '89451';
 
 function deriveKey(string $apiKey): string {
     $prk = hash_hmac('sha256', $apiKey, 'fanytel-api-v1', true);
-    $info = 'aes-key';
     $t = '';
     $okm = '';
     for ($i = 1; strlen($okm) < 32; $i++) {
-        $t = hash_hmac('sha256', $t . $info . chr($i), $prk, true);
+        $t = hash_hmac('sha256', $t . 'aes-key' . chr($i), $prk, true);
         $okm .= $t;
     }
     return substr($okm, 0, 32);
@@ -25,8 +22,8 @@ function encrypt(array $data): string {
     $plaintext = json_encode($data, JSON_UNESCAPED_UNICODE);
     $nonce = random_bytes(12);
     $tag = '';
-    $ciphertext = openssl_encrypt($plaintext, 'aes-256-gcm', $AES_KEY, OPENSSL_RAW_DATA, $nonce, $tag, '', 16);
-    $raw = $nonce . $ciphertext . $tag;
+    $ct = openssl_encrypt($plaintext, 'aes-256-gcm', $AES_KEY, OPENSSL_RAW_DATA, $nonce, $tag, '', 16);
+    $raw = $nonce . $ct . $tag;
     return strtr(base64_encode($raw), '+/', '-_');
 }
 
@@ -37,14 +34,13 @@ function decrypt(string $b64): ?array {
     if ($raw === false || strlen($raw) < 28) return null;
     $nonce = substr($raw, 0, 12);
     $tag = substr($raw, -16);
-    $ciphertext = substr($raw, 12, -16);
-    $plaintext = openssl_decrypt($ciphertext, 'aes-256-gcm', $AES_KEY, OPENSSL_RAW_DATA, $nonce, $tag);
-    if ($plaintext === false) return null;
-    return json_decode($plaintext, true);
+    $ct = substr($raw, 12, -16);
+    $pt = openssl_decrypt($ct, 'aes-256-gcm', $AES_KEY, OPENSSL_RAW_DATA, $nonce, $tag);
+    if ($pt === false) return null;
+    return json_decode($pt, true);
 }
 
-function apiCall(string $endpoint, array $extra = []): array {
-    $payload = array_merge(['phone' => PHONE, 'rid' => RID], $extra);
+function apiCall(string $endpoint, array $payload = []): array {
     $body = encrypt($payload);
 
     $ch = curl_init(API_URL . $endpoint);
@@ -76,6 +72,7 @@ function apiCall(string $endpoint, array $extra = []): array {
 echo json_encode([
     'php_version' => PHP_VERSION,
     'aes_key_hex' => bin2hex($AES_KEY),
+    'health'      => apiCall('/account/health'),
     'balance'     => apiCall('/account/balance'),
     'fresh_gb'    => apiCall('/numbers/fresh', ['countries' => ['GB'], 'limit' => 2]),
 ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);

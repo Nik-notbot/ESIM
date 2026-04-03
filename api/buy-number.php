@@ -13,16 +13,13 @@ $REG_TABLE_ID  = 857563;
 
 $FANYTEL_API_KEY = 'd6230379e0d981548044254461b54be666d478709d9a0d36e14b6a5087fb503c';
 $FANYTEL_URL     = 'https://gw.globalstatic-node.com';
-$FANYTEL_PHONE   = '+1519629310';
-$FANYTEL_RID     = '89451';
 
 function deriveKey(string $apiKey): string {
     $prk = hash_hmac('sha256', $apiKey, 'fanytel-api-v1', true);
-    $info = 'aes-key';
     $t = '';
     $okm = '';
     for ($i = 1; strlen($okm) < 32; $i++) {
-        $t = hash_hmac('sha256', $t . $info . chr($i), $prk, true);
+        $t = hash_hmac('sha256', $t . 'aes-key' . chr($i), $prk, true);
         $okm .= $t;
     }
     return substr($okm, 0, 32);
@@ -35,8 +32,8 @@ function encrypt(array $data): string {
     $plaintext = json_encode($data, JSON_UNESCAPED_UNICODE);
     $nonce = random_bytes(12);
     $tag = '';
-    $ciphertext = openssl_encrypt($plaintext, 'aes-256-gcm', $AES_KEY, OPENSSL_RAW_DATA, $nonce, $tag, '', 16);
-    $raw = $nonce . $ciphertext . $tag;
+    $ct = openssl_encrypt($plaintext, 'aes-256-gcm', $AES_KEY, OPENSSL_RAW_DATA, $nonce, $tag, '', 16);
+    $raw = $nonce . $ct . $tag;
     return strtr(base64_encode($raw), '+/', '-_');
 }
 
@@ -47,15 +44,14 @@ function decrypt(string $b64): ?array {
     if ($raw === false || strlen($raw) < 28) return null;
     $nonce = substr($raw, 0, 12);
     $tag = substr($raw, -16);
-    $ciphertext = substr($raw, 12, -16);
-    $plaintext = openssl_decrypt($ciphertext, 'aes-256-gcm', $AES_KEY, OPENSSL_RAW_DATA, $nonce, $tag);
-    if ($plaintext === false) return null;
-    return json_decode($plaintext, true);
+    $ct = substr($raw, 12, -16);
+    $pt = openssl_decrypt($ct, 'aes-256-gcm', $AES_KEY, OPENSSL_RAW_DATA, $nonce, $tag);
+    if ($pt === false) return null;
+    return json_decode($pt, true);
 }
 
-function fanytelCall(string $endpoint, array $extra = []) {
-    global $FANYTEL_URL, $FANYTEL_API_KEY, $FANYTEL_PHONE, $FANYTEL_RID;
-    $payload = array_merge(['phone' => $FANYTEL_PHONE, 'rid' => $FANYTEL_RID], $extra);
+function fanytelCall(string $endpoint, array $payload = []) {
+    global $FANYTEL_URL, $FANYTEL_API_KEY;
     $body = encrypt($payload);
 
     $ch = curl_init($FANYTEL_URL . $endpoint);
@@ -78,6 +74,12 @@ function fanytelCall(string $endpoint, array $extra = []) {
 
     if ($response === false) {
         return ['_error' => true, '_code' => 0, '_detail' => 'cURL error: ' . $curlErr];
+    }
+    if ($httpCode === 444) {
+        return ['_error' => true, '_code' => 444, '_detail' => 'API 444 — неверный ключ, шифрование или User-Agent'];
+    }
+    if ($httpCode === 503) {
+        return ['_error' => true, '_code' => 503, '_detail' => 'Нет доступных номеров или аккаунтов'];
     }
     if ($httpCode !== 200) {
         return ['_error' => true, '_code' => $httpCode, '_detail' => 'HTTP ' . $httpCode . ', body: ' . substr($response ?: '', 0, 500)];
