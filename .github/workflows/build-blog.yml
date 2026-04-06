@@ -1,0 +1,37 @@
+name: Build Blog
+
+on:
+  push:
+    paths:
+      - 'blog-src/content/blog/**'
+    branches:
+      - cursor/check-directory-visibility-bc56
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: cd blog-src && npm install
+
+      - name: Generate posts JSON
+        run: cd blog-src && npx tsx scripts/generate-posts-json.ts
+
+      - name: Build blog
+        run: cd blog-src && npx vite build
+
+      - name: Copy build to blog/
+        run: rm -rf blog && cp -r blog-src/dist blog
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add blog/
+          git diff --cached --quiet || (git commit -m "Блог пересобран" && git push)

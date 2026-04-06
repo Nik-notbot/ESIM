@@ -1,5 +1,4 @@
 [build]
-  command = "cd blog-src && npm install && npx tsx scripts/generate-posts-json.ts && npx vite build && rm -rf ../blog && cp -r dist ../blog"
   publish = "."
   functions = "netlify/functions"
 

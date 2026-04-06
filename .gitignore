@@ -1,6 +1,5 @@
 .env
 node_modules/
 .netlify/
-blog/
 blog-src/node_modules/
 blog-src/dist/
