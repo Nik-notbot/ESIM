@@ -157,6 +157,27 @@ def fetch_generic(url: str) -> dict:
     return {"title": title, "author": "", "description": description, "html": html}
 
 
+def extract_description(md_content: str) -> str:
+    """Берёт первое осмысленное предложение из текста статьи."""
+    for line in md_content.split('\n'):
+        line = line.strip()
+        if not line or line.startswith('#') or line.startswith('![') or line.startswith('---'):
+            continue
+        line = re.sub(r'\*\*|__|\*|_|`', '', line)
+        line = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', line)
+        line = line.strip()
+        if len(line) < 20:
+            continue
+        if len(line) > 160:
+            cut = line[:157].rfind(' ')
+            if cut > 80:
+                line = line[:cut] + '...'
+            else:
+                line = line[:157] + '...'
+        return line
+    return ""
+
+
 def html_to_markdown(html: str) -> str:
     converter = html2text.HTML2Text()
     converter.body_width = 0
@@ -175,6 +196,7 @@ def make_md_file(title: str, description: str, content: str) -> str:
     date = datetime.now().strftime("%Y-%m-%d")
     word_count = len(content.split())
     read_time = max(1, round(word_count / 200))
+    description = extract_description(content) or description
     tags = extract_tags(title, description, content)
 
     frontmatter = f'''---
