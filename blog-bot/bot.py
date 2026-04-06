@@ -22,13 +22,55 @@ BOT_TOKEN = os.environ.get("BLOG_BOT_TOKEN", "")
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+TRANSLIT_MAP = {
+    'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'yo',
+    'ж': 'zh', 'з': 'z', 'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm',
+    'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u',
+    'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch',
+    'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ю': 'yu', 'я': 'ya',
+}
+
+KNOWN_TAGS = {
+    "redotpay": "RedotPay", "grey": "Grey", "kolo": "Kolo",
+    "usdt": "USDT", "крипт": "крипто", "криптовалют": "крипто",
+    "bitcoin": "Bitcoin", "btc": "Bitcoin", "ethereum": "Ethereum",
+    "tron": "TRON", "trc-20": "TRC-20", "trc20": "TRC-20",
+    "vpn": "VPN", "esim": "eSIM", "apple pay": "Apple Pay",
+    "сбп": "СБП", "wise": "Wise", "revolut": "Revolut",
+    "telegram": "Telegram", "altyn": "Altyn",
+    "карт": "карты", "кошелёк": "кошельки", "кошелек": "кошельки",
+    "пополн": "пополнение", "верификац": "KYC", "kyc": "KYC",
+    "финтех": "финтех", "mastercard": "Mastercard", "visa": "Visa",
+}
+
+
+def transliterate(text: str) -> str:
+    result = []
+    for ch in text.lower():
+        if ch in TRANSLIT_MAP:
+            result.append(TRANSLIT_MAP[ch])
+        elif ch.isascii() and (ch.isalnum() or ch in '-_ '):
+            result.append(ch)
+        else:
+            result.append('-')
+    return ''.join(result)
+
 
 def slugify(text: str) -> str:
-    text = text.lower().strip()
-    text = re.sub(r'[^\w\s-]', '', text)
+    text = transliterate(text)
+    text = re.sub(r'[^a-z0-9\s-]', '', text)
     text = re.sub(r'[\s_]+', '-', text)
     text = re.sub(r'-+', '-', text)
     return text[:80].strip('-')
+
+
+def extract_tags(title: str, description: str, content: str) -> list:
+    full_text = f"{title} {description} {content}".lower()
+    found = set()
+    for keyword, tag in KNOWN_TAGS.items():
+        if keyword in full_text:
+            found.add(tag)
+    return sorted(found)[:6]
 
 
 def fetch_telegraph(url: str) -> dict:
@@ -70,6 +112,7 @@ def fetch_teletype(url: str) -> dict:
     """Парсинг статьи с teletype.in."""
     resp = requests.get(url, timeout=15, headers={"User-Agent": "Mozilla/5.0"})
     resp.raise_for_status()
+    resp.encoding = "utf-8"
     soup = BeautifulSoup(resp.text, "html.parser")
 
     title_el = soup.find("h1") or soup.find("meta", property="og:title")
@@ -90,6 +133,7 @@ def fetch_generic(url: str) -> dict:
     """Парсинг любой веб-страницы."""
     resp = requests.get(url, timeout=15, headers={"User-Agent": "Mozilla/5.0"})
     resp.raise_for_status()
+    resp.encoding = resp.apparent_encoding or "utf-8"
     soup = BeautifulSoup(resp.text, "html.parser")
 
     title_el = soup.find("meta", property="og:title") or soup.find("title")
@@ -126,12 +170,12 @@ def html_to_markdown(html: str) -> str:
     return md.strip()
 
 
-def make_md_file(title: str, description: str, content: str, tags: list[str] | None = None) -> str:
+def make_md_file(title: str, description: str, content: str) -> str:
     slug = slugify(title)
     date = datetime.now().strftime("%Y-%m-%d")
     word_count = len(content.split())
     read_time = max(1, round(word_count / 200))
-    tags_list = tags or []
+    tags = extract_tags(title, description, content)
 
     frontmatter = f'''---
 title: "{title}"
@@ -139,7 +183,7 @@ description: "{description}"
 date: "{date}"
 slug: "{slug}"
 published: true
-tags: {json.dumps(tags_list, ensure_ascii=False)}
+tags: {json.dumps(tags, ensure_ascii=False)}
 readTime: "{read_time} мин"
 ---'''
 
