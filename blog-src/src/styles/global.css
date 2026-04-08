@@ -7404,6 +7404,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center !important;
+  padding-top: 1rem !important;
 }
 
 .home-hero-logo {
