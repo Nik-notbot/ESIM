@@ -227,12 +227,25 @@
         }
         .plan:last-child { border-right: none; }
         .plan:hover { background: var(--surface); }
-        .plan-flag { width: 48px; height: 48px; border-radius: 12px; overflow: hidden; background: #f3f4f6; display: grid; place-items: center; }
-        .plan-flag img { width: 100%; height: 100%; object-fit: cover; }
-        .plan-flag.blue { background: #012169; }
-        .plan-flag.accent { background: var(--accent); }
-        .plan-flag.accent svg, .plan-flag.orange svg { width: 22px; height: 22px; stroke: white; }
-        .plan-flag.orange { background: linear-gradient(135deg, #f97316, #eab308); }
+        .plan-flag {
+            width: 56px; height: 56px;
+            border-radius: 16px;
+            overflow: hidden;
+            display: grid; place-items: center;
+            position: relative;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.06);
+            background: #f5f5f5;
+            transition: transform .25s ease;
+        }
+        .plan-flag::after {
+            content: '';
+            position: absolute; inset: 0;
+            border-radius: inherit;
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
+            pointer-events: none;
+        }
+        .plan-flag img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .plan:hover .plan-flag { transform: scale(1.05) rotate(-2deg); }
         .plan h3 { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
         .plan p { font-size: 14px; color: var(--text-muted); flex: 1; line-height: 1.5; }
         .plan-foot { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--border); }
@@ -342,7 +355,8 @@
             .plan { padding: 24px 20px; min-height: auto; gap: 14px; }
             .plan h3 { font-size: 20px; }
             .plan p { font-size: 14px; }
-            .plan-flag { width: 44px; height: 44px; border-radius: 10px; }
+            .plan-flag { width: 48px; height: 48px; border-radius: 14px; }
+            .plan:hover .plan-flag { transform: none; }
 
             .features { gap: 12px; }
             .feat-big { padding: 28px 24px; border-radius: 16px; }
@@ -469,7 +483,7 @@
                 </div>
                 <div class="plans-grid">
                     <a href="finland.html" class="plan">
-                        <div class="plan-flag"><img src="flags/finland.svg" alt="Финляндия"></div>
+                        <div class="plan-flag"><img src="flags/finland.svg" alt="Флаг Финляндии" width="56" height="56"></div>
                         <h3>Финляндия</h3>
                         <p>Финский номер +358 для путешествий и приёма СМС по миру</p>
                         <div class="plan-foot">
@@ -478,7 +492,7 @@
                         </div>
                     </a>
                     <a href="uk.html" class="plan">
-                        <div class="plan-flag blue"><img src="flags/uk.svg" alt="UK"></div>
+                        <div class="plan-flag"><img src="flags/uk.svg" alt="Флаг Великобритании" width="56" height="56"></div>
                         <h3>Великобритания</h3>
                         <p>Британский номер +44 для регистрации и международных звонков</p>
                         <div class="plan-foot">
@@ -487,7 +501,7 @@
                         </div>
                     </a>
                     <a href="registration.html" class="plan">
-                        <div class="plan-flag accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+                        <div class="plan-flag"><img src="flags/eu.svg" alt="Флаг Евросоюза" width="56" height="56"></div>
                         <h3>Для регистрации</h3>
                         <p>Верификация в банках, криптобиржах, соцсетях и любых сервисах</p>
                         <div class="plan-foot">
@@ -496,7 +510,7 @@
                         </div>
                     </a>
                     <a href="https://t.me/hey_store_bot" target="_blank" rel="noopener" class="plan">
-                        <div class="plan-flag orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+                        <div class="plan-flag"><img src="flags/globe.svg" alt="Глобус" width="56" height="56"></div>
                         <h3>Индивидуально</h3>
                         <p>Нужна другая страна или особые условия? Соберём решение под вас</p>
                         <div class="plan-foot">
