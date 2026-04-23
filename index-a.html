@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ВсемСим — Связь, которая работает везде</title>
+    <meta name="description" content="ВсемСим — европейские eSIM с мгновенной активацией. Для путешествий и регистрации в любых сервисах.">
+    <link rel="icon" href="//heyesim.net/favicon.ico">
+    <link rel="apple-touch-icon" href="//heyesim.net/apple-touch-icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --surface: #fafafa;
+            --border: #ececec;
+            --border-strong: #d4d4d4;
+            --text: #0a0a0a;
+            --text-muted: #525252;
+            --text-dim: #a3a3a3;
+            --accent: #0066ff;
+            --accent-hover: #0052cc;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            font-feature-settings: "ss01", "cv11";
+        }
+        a { color: inherit; text-decoration: none; }
+        button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+
+        header {
+            position: sticky; top: 0; z-index: 50;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        .header-inner { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+        .logo { font-size: 20px; font-weight: 800; letter-spacing: -0.03em; display: flex; align-items: center; gap: 10px; }
+        .logo-mark { width: 28px; height: 28px; background: var(--accent); border-radius: 8px; display: grid; place-items: center; }
+        .logo-mark svg { width: 16px; height: 16px; stroke: white; }
+        .nav { display: flex; align-items: center; gap: 4px; }
+        .nav a { padding: 8px 14px; font-size: 14px; font-weight: 500; color: var(--text-muted); border-radius: 8px; transition: all .15s; }
+        .nav a:hover { color: var(--text); background: var(--surface); }
+        .nav .cta { background: var(--text); color: white; margin-left: 8px; }
+        .nav .cta:hover { background: #262626; color: white; }
+
+        /* Hero */
+        .hero { padding: 120px 0 100px; position: relative; overflow: hidden; }
+        .hero-inner { display: grid; grid-template-columns: 1.1fr 1fr; gap: 80px; align-items: center; }
+        .hero h1 {
+            font-size: clamp(48px, 7vw, 96px);
+            line-height: 0.95;
+            letter-spacing: -0.05em;
+            font-weight: 800;
+            margin-bottom: 32px;
+        }
+        .hero h1 em {
+            font-style: normal;
+            background: linear-gradient(135deg, #0066ff 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 20px;
+            color: var(--text-muted);
+            max-width: 480px;
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+        .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+
+        .btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 14px 24px; font-size: 15px; font-weight: 600;
+            border-radius: 10px; transition: all .2s;
+        }
+        .btn-primary { background: var(--text); color: white; }
+        .btn-primary:hover { background: #262626; transform: translateY(-1px); box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+        .btn-link { color: var(--text); padding: 14px 8px; }
+        .btn-link:hover { color: var(--accent); }
+
+        .hero-visual {
+            aspect-ratio: 1;
+            max-width: 480px;
+            margin-left: auto;
+            position: relative;
+            display: grid;
+            place-items: center;
+        }
+        .phone-mockup {
+            width: 280px;
+            height: 560px;
+            background: #0a0a0a;
+            border-radius: 48px;
+            padding: 12px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.1);
+            position: relative;
+            transform: rotate(-6deg);
+        }
+        .phone-screen {
+            width: 100%; height: 100%;
+            background: linear-gradient(180deg, #f5f5f7 0%, #e5e7eb 100%);
+            border-radius: 36px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 40px 20px;
+            gap: 16px;
+            position: relative;
+        }
+        .phone-notch { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 100px; height: 28px; background: #0a0a0a; border-radius: 20px; }
+        .qr-box { width: 180px; height: 180px; background: white; border-radius: 16px; padding: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); display: grid; place-items: center; }
+        .qr-pattern { width: 100%; height: 100%; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='white'/%3E%3Cg fill='black'%3E%3Crect x='4' y='4' width='18' height='18'/%3E%3Crect x='8' y='8' width='10' height='10' fill='white'/%3E%3Crect x='10' y='10' width='6' height='6'/%3E%3Crect x='42' y='4' width='18' height='18'/%3E%3Crect x='46' y='8' width='10' height='10' fill='white'/%3E%3Crect x='48' y='10' width='6' height='6'/%3E%3Crect x='4' y='42' width='18' height='18'/%3E%3Crect x='8' y='46' width='10' height='10' fill='white'/%3E%3Crect x='10' y='48' width='6' height='6'/%3E%3Crect x='26' y='4' width='4' height='4'/%3E%3Crect x='32' y='4' width='4' height='4'/%3E%3Crect x='26' y='10' width='4' height='4'/%3E%3Crect x='34' y='12' width='4' height='4'/%3E%3Crect x='26' y='18' width='4' height='4'/%3E%3Crect x='32' y='18' width='4' height='4'/%3E%3Crect x='4' y='26' width='4' height='4'/%3E%3Crect x='12' y='26' width='4' height='4'/%3E%3Crect x='18' y='28' width='4' height='4'/%3E%3Crect x='26' y='26' width='4' height='4'/%3E%3Crect x='34' y='28' width='4' height='4'/%3E%3Crect x='40' y='26' width='4' height='4'/%3E%3Crect x='48' y='28' width='4' height='4'/%3E%3Crect x='56' y='26' width='4' height='4'/%3E%3Crect x='30' y='34' width='4' height='4'/%3E%3Crect x='38' y='36' width='4' height='4'/%3E%3Crect x='46' y='34' width='4' height='4'/%3E%3Crect x='54' y='36' width='4' height='4'/%3E%3Crect x='26' y='42' width='4' height='4'/%3E%3Crect x='34' y='44' width='4' height='4'/%3E%3Crect x='42' y='42' width='4' height='4'/%3E%3Crect x='50' y='44' width='4' height='4'/%3E%3Crect x='58' y='42' width='4' height='4'/%3E%3Crect x='26' y='50' width='4' height='4'/%3E%3Crect x='38' y='52' width='4' height='4'/%3E%3Crect x='46' y='50' width='4' height='4'/%3E%3Crect x='54' y='52' width='4' height='4'/%3E%3C/g%3E%3C/svg%3E"); background-size: contain; background-repeat: no-repeat; }
+        .phone-caption { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+        .phone-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #10b981;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .phone-status::before { content: ''; width: 6px; height: 6px; background: white; border-radius: 50%; }
+
+        /* Logo marquee */
+        .marquee {
+            padding: 48px 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            background: var(--surface);
+        }
+        .marquee-label { text-align: center; font-size: 13px; color: var(--text-dim); font-weight: 500; margin-bottom: 24px; letter-spacing: 0.05em; text-transform: uppercase; }
+        .marquee-row { display: flex; justify-content: center; align-items: center; gap: 48px; flex-wrap: wrap; }
+        .marquee-item { font-size: 20px; font-weight: 700; color: var(--text-dim); letter-spacing: -0.02em; }
+
+        /* Sections */
+        section { padding: 100px 0; }
+        .section-head { max-width: 640px; margin-bottom: 60px; }
+        .section-tag { font-size: 13px; font-weight: 600; color: var(--accent); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 16px; display: block; }
+        .section-head h2 { font-size: clamp(36px, 4.5vw, 56px); line-height: 1.05; letter-spacing: -0.03em; font-weight: 800; }
+        .section-head p { font-size: 19px; color: var(--text-muted); margin-top: 20px; line-height: 1.5; }
+
+        /* Plans */
+        .plans-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
+        .plan {
+            padding: 32px 28px;
+            border-right: 1px solid var(--border);
+            transition: background .2s;
+            display: flex; flex-direction: column; gap: 16px;
+            min-height: 280px;
+        }
+        .plan:last-child { border-right: none; }
+        .plan:hover { background: var(--surface); }
+        .plan-flag { width: 48px; height: 48px; border-radius: 12px; overflow: hidden; background: #f3f4f6; display: grid; place-items: center; }
+        .plan-flag img { width: 100%; height: 100%; object-fit: cover; }
+        .plan-flag.blue { background: #012169; }
+        .plan-flag.accent { background: var(--accent); }
+        .plan-flag.accent svg, .plan-flag.orange svg { width: 22px; height: 22px; stroke: white; }
+        .plan-flag.orange { background: linear-gradient(135deg, #f97316, #eab308); }
+        .plan h3 { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+        .plan p { font-size: 14px; color: var(--text-muted); flex: 1; line-height: 1.5; }
+        .plan-foot { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--border); }
+        .plan-price { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; }
+        .plan-price em { font-style: normal; font-size: 13px; color: var(--text-dim); font-weight: 500; margin-right: 4px; }
+        .plan-arrow { width: 32px; height: 32px; border-radius: 50%; background: var(--text); color: white; display: grid; place-items: center; transition: transform .2s; }
+        .plan:hover .plan-arrow { transform: translateX(4px); }
+        .plan-arrow svg { width: 14px; height: 14px; stroke: white; }
+
+        @media (max-width: 960px) {
+            .plans-grid { grid-template-columns: repeat(2, 1fr); }
+            .plan:nth-child(2) { border-right: none; }
+            .plan:nth-child(-n+2) { border-bottom: 1px solid var(--border); }
+            .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+            .hero-visual { max-width: 360px; margin: 0 auto; }
+        }
+        @media (max-width: 600px) { .plans-grid { grid-template-columns: 1fr; } .plan { border-right: none; border-bottom: 1px solid var(--border); } .plan:last-child { border-bottom: none; } .nav { display: none; } }
+
+        /* Features big */
+        .features { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+        .feat-big {
+            padding: 48px 40px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            transition: all .25s;
+        }
+        .feat-big:hover { border-color: var(--border-strong); transform: translateY(-4px); }
+        .feat-ico { width: 56px; height: 56px; border-radius: 14px; background: white; border: 1px solid var(--border); display: grid; place-items: center; margin-bottom: 28px; }
+        .feat-ico svg { width: 26px; height: 26px; stroke: var(--text); }
+        .feat-big h3 { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px; }
+        .feat-big p { font-size: 16px; color: var(--text-muted); line-height: 1.6; }
+        @media (max-width: 800px) { .features { grid-template-columns: 1fr; } }
+
+        /* Steps */
+        .steps-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+        .step-item { padding: 32px; border-left: 2px solid var(--text); }
+        .step-item .num { font-size: 13px; color: var(--accent); font-weight: 700; margin-bottom: 16px; letter-spacing: 0.05em; }
+        .step-item h4 { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
+        .step-item p { color: var(--text-muted); font-size: 15px; line-height: 1.5; }
+        @media (max-width: 800px) { .steps-row { grid-template-columns: 1fr; } }
+
+        /* CTA */
+        .cta-block { background: var(--text); color: white; padding: 80px 60px; border-radius: 24px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center; }
+        .cta-block h2 { font-size: clamp(32px, 4vw, 48px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; }
+        .cta-block p { font-size: 18px; color: rgba(255,255,255,0.7); margin-top: 16px; line-height: 1.5; }
+        .cta-block .btn-primary { background: white; color: var(--text); }
+        .cta-block .btn-primary:hover { background: #f5f5f5; }
+        @media (max-width: 800px) { .cta-block { grid-template-columns: 1fr; text-align: left; padding: 48px 32px; } }
+
+        /* FAQ */
+        .faq-wrap { max-width: 760px; }
+        .faq-item { border-bottom: 1px solid var(--border); }
+        .faq-item:first-child { border-top: 1px solid var(--border); }
+        .faq-q { width: 100%; padding: 28px 0; display: flex; justify-content: space-between; align-items: center; font-size: 18px; font-weight: 600; text-align: left; gap: 16px; }
+        .faq-q .plus { width: 24px; height: 24px; flex-shrink: 0; position: relative; }
+        .faq-q .plus::before, .faq-q .plus::after { content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: var(--text); transform: translateY(-50%); transition: transform .3s; }
+        .faq-q .plus::after { transform: translateY(-50%) rotate(90deg); }
+        .faq-item.open .plus::after { transform: translateY(-50%) rotate(0deg); }
+        .faq-a { max-height: 0; overflow: hidden; transition: max-height .35s ease, padding .35s; color: var(--text-muted); font-size: 16px; line-height: 1.6; }
+        .faq-item.open .faq-a { max-height: 400px; padding: 0 0 28px; }
+
+        footer { border-top: 1px solid var(--border); padding: 48px 0; }
+        .footer-inner { display: flex; flex-wrap: wrap; gap: 32px; justify-content: space-between; align-items: center; }
+        .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+        .footer-links a { font-size: 14px; color: var(--text-muted); }
+        .footer-links a:hover { color: var(--text); }
+        .footer-copy { font-size: 14px; color: var(--text-dim); }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg></span>
+                ВсемСим
+            </a>
+            <nav class="nav">
+                <a href="#plans">Тарифы</a>
+                <a href="#how">Как работает</a>
+                <a href="#faq">FAQ</a>
+                <a href="https://t.me/hey_store_bot" target="_blank" rel="noopener" class="cta">Купить eSIM</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-inner">
+                <div>
+                    <h1>Связь, которая работает <em>везде</em></h1>
+                    <p>Европейская eSIM с мгновенной активацией. Для путешествий, регистрации в сервисах и приёма звонков по всему миру.</p>
+                    <div class="hero-cta">
+                        <a href="#plans" class="btn btn-primary">
+                            Выбрать тариф
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </a>
+                        <a href="#how" class="btn btn-link">Как это работает →</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="phone-mockup">
+                        <div class="phone-screen">
+                            <div class="phone-notch"></div>
+                            <span class="phone-status">eSIM активна</span>
+                            <div class="qr-box"><div class="qr-pattern"></div></div>
+                            <p class="phone-caption">Сканируйте камерой</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="marquee">
+            <p class="marquee-label">Работает в любом устройстве с поддержкой eSIM</p>
+            <div class="marquee-row">
+                <span class="marquee-item">iPhone</span>
+                <span class="marquee-item">Samsung</span>
+                <span class="marquee-item">Google Pixel</span>
+                <span class="marquee-item">Xiaomi</span>
+                <span class="marquee-item">iPad</span>
+                <span class="marquee-item">Apple Watch</span>
+            </div>
+        </section>
+
+        <section id="plans">
+            <div class="container">
+                <div class="section-head">
+                    <span class="section-tag">Тарифы</span>
+                    <h2>Выберите страну и начните пользоваться</h2>
+                    <p>QR-код для активации приходит сразу после оплаты. Без регистрации, без подписок, без скрытых комиссий.</p>
+                </div>
+                <div class="plans-grid">
+                    <a href="finland.html" class="plan">
+                        <div class="plan-flag"><img src="flags/finland.svg" alt="Финляндия"></div>
+                        <h3>Финляндия</h3>
+                        <p>Финский номер +358 для путешествий и приёма СМС по миру</p>
+                        <div class="plan-foot">
+                            <div class="plan-price"><em>от</em>3200 ₽</div>
+                            <span class="plan-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                        </div>
+                    </a>
+                    <a href="uk.html" class="plan">
+                        <div class="plan-flag blue"><img src="flags/uk.svg" alt="UK"></div>
+                        <h3>Великобритания</h3>
+                        <p>Британский номер +44 для регистрации и международных звонков</p>
+                        <div class="plan-foot">
+                            <div class="plan-price"><em>от</em>600 ₽</div>
+                            <span class="plan-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                        </div>
+                    </a>
+                    <a href="registration.html" class="plan">
+                        <div class="plan-flag accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+                        <h3>Для регистрации</h3>
+                        <p>Верификация в банках, криптобиржах, соцсетях и любых сервисах</p>
+                        <div class="plan-foot">
+                            <div class="plan-price"><em>от</em>600 ₽</div>
+                            <span class="plan-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                        </div>
+                    </a>
+                    <a href="https://t.me/hey_store_bot" target="_blank" rel="noopener" class="plan">
+                        <div class="plan-flag orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+                        <h3>Индивидуально</h3>
+                        <p>Нужна другая страна или особые условия? Соберём решение под вас</p>
+                        <div class="plan-foot">
+                            <div class="plan-price">Написать</div>
+                            <span class="plan-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <div class="section-head">
+                    <span class="section-tag">Преимущества</span>
+                    <h2>Сделано для людей, которым нужна надёжная связь</h2>
+                </div>
+                <div class="features">
+                    <div class="feat-big">
+                        <div class="feat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+                        <h3>Работает в 200+ странах</h3>
+                        <p>Европа, Америка, Азия, Россия. Везде, где есть мобильная сеть — есть и ваш номер. Без переключения операторов.</p>
+                    </div>
+                    <div class="feat-big">
+                        <div class="feat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                        <h3>Проходит верификацию везде</h3>
+                        <p>Wise, PayPal, Revolut, Binance, Telegram, Apple ID — везде, где требуется настоящий европейский номер.</p>
+                    </div>
+                    <div class="feat-big">
+                        <div class="feat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+                        <h3>Активация за 30 секунд</h3>
+                        <p>Оплатили → получили QR-код на странице → навели камеру → всё. Никаких физических карт и поездок в офис.</p>
+                    </div>
+                    <div class="feat-big">
+                        <div class="feat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+                        <h3>Честные цены, без абонплаты</h3>
+                        <p>Платите один раз за тариф и пользуетесь. Никаких автосписаний, подписок или скрытых комиссий.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="how">
+            <div class="container">
+                <div class="section-head">
+                    <span class="section-tag">Процесс</span>
+                    <h2>Три шага до вашего нового номера</h2>
+                </div>
+                <div class="steps-row">
+                    <div class="step-item">
+                        <div class="num">ШАГ 01</div>
+                        <h4>Выберите тариф</h4>
+                        <p>Страна, объём трафика, срок. Всё прозрачно и без звёздочек в условиях.</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="num">ШАГ 02</div>
+                        <h4>Оплатите</h4>
+                        <p>Российские карты, СБП или криптовалюта. Принимаем удобный вам способ.</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="num">ШАГ 03</div>
+                        <h4>Активируйте</h4>
+                        <p>QR-код появится на экране сразу после оплаты. Наводите камеру — готово.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <div class="cta-block">
+                    <div>
+                        <h2>Не знаете, что выбрать?</h2>
+                        <p>Напишите в поддержку — подскажем тариф под ваши задачи и поможем с активацией.</p>
+                    </div>
+                    <div>
+                        <a href="https://t.me/hey_store_bot" target="_blank" rel="noopener" class="btn btn-primary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/></svg>
+                            Написать в Telegram
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq">
+            <div class="container">
+                <div class="section-head">
+                    <span class="section-tag">FAQ</span>
+                    <h2>Частые вопросы</h2>
+                </div>
+                <div class="faq-wrap">
+                    <div class="faq-item">
+                        <button class="faq-q" onclick="toggleFaq(this)">Как активировать eSIM? <span class="plus"></span></button>
+                        <div class="faq-a"><p>После оплаты получите QR-код на странице и на email. Откройте Настройки → Сотовая связь → Добавить тариф → наведите камеру на QR. Готово.</p></div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-q" onclick="toggleFaq(this)">В каких странах работает? <span class="plus"></span></button>
+                        <div class="faq-a"><p>Более чем в 200 странах: Россия, вся Европа, США, Азия. Работает в роуминге без дополнительных настроек.</p></div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-q" onclick="toggleFaq(this)">Можно ли регистрироваться в банках и криптобиржах? <span class="plus"></span></button>
+                        <div class="faq-a"><p>Да. Европейский номер проходит верификацию в Wise, Revolut, PayPal, Binance, OKX, Bybit, Telegram, Apple ID и других сервисах.</p></div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-q" onclick="toggleFaq(this)">Мой телефон поддерживает eSIM? <span class="plus"></span></button>
+                        <div class="faq-a"><p>iPhone XS и новее, Samsung Galaxy S20+, Pixel 3+, Xiaomi 12+ и большинство современных Android. Проверить можно в настройках или спросить у нас.</p></div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-q" onclick="toggleFaq(this)">Какие способы оплаты? <span class="plus"></span></button>
+                        <div class="faq-a"><p>Российские карты всех банков, СБП, криптовалюта. Можно оплатить через Telegram — напишите в поддержку.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-inner">
+            <a href="/" class="logo"><span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg></span>ВсемСим</a>
+            <div class="footer-links">
+                <a href="https://t.me/hey_store_bot" target="_blank" rel="noopener">Поддержка</a>
+                <a href="offer.pdf" target="_blank">Оферта</a>
+                <a href="PDN.pdf" target="_blank">Политика</a>
+                <a href="privacy.pdf" target="_blank">ПДн</a>
+            </div>
+            <p class="footer-copy">© 2025 ВсемСим</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleFaq(btn) {
+            const item = btn.parentElement;
+            const wasOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+            if (!wasOpen) item.classList.add('open');
+        }
+    </script>
+</body>
+</html>

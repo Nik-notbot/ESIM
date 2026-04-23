@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ВсемСим — eSIM для путешествий по всему миру</title>
+    <meta name="description" content="ВсемСим — европейская eSIM. Путешествуйте по 200+ странам без смены карты. Мгновенная активация.">
+    <link rel="icon" href="//heyesim.net/favicon.ico">
+    <link rel="apple-touch-icon" href="//heyesim.net/apple-touch-icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ocean: #0a1628;
+            --ocean-2: #0f1f38;
+            --surface: rgba(255, 255, 255, 0.04);
+            --surface-2: rgba(255, 255, 255, 0.08);
+            --border: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(6, 182, 212, 0.4);
+            --cyan: #06b6d4;
+            --cyan-glow: #22d3ee;
+            --teal: #14b8a6;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--ocean);
+            color: var(--text);
+            line-height: 1.5;
+            font-size: 16px;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background:
+                radial-gradient(ellipse 800px 400px at 20% 10%, rgba(6, 182, 212, 0.12) 0%, transparent 60%),
+                radial-gradient(ellipse 600px 500px at 90% 90%, rgba(20, 184, 166, 0.08) 0%, transparent 60%);
+            pointer-events: none; z-index: 0;
+        }
+        main, header, footer { position: relative; z-index: 1; }
+        a { color: inherit; text-decoration: none; }
+        button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+
+        header {
+            position: sticky; top: 0; z-index: 50;
+            background: rgba(10, 22, 40, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        .header-inner { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+        .logo { display: flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 700; letter-spacing: -0.02em; }
+        .logo-mark { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--cyan), var(--teal)); display: grid; place-items: center; box-shadow: 0 0 30px rgba(6, 182, 212, 0.5); }
+        .logo-mark svg { width: 20px; height: 20px; stroke: white; }
+        .nav { display: flex; gap: 4px; align-items: center; }
+        .nav a { padding: 10px 16px; font-size: 14px; font-weight: 500; color: var(--text-muted); border-radius: 10px; transition: all .2s; }
+        .nav a:hover { color: var(--text); background: var(--surface); }
+        .nav .live { display: flex; align-items: center; gap: 8px; padding: 8px 14px; background: rgba(34, 211, 238, 0.1); border: 1px solid rgba(34, 211, 238, 0.3); border-radius: 100px; font-size: 13px; color: var(--cyan-glow); font-weight: 500; margin-right: 12px; }
+        .live-dot { width: 6px; height: 6px; background: var(--cyan-glow); border-radius: 50%; box-shadow: 0 0 10px var(--cyan-glow); animation: blink 1.5s ease-in-out infinite; }
+        @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        /* Hero with globe */
+        .hero { padding: 60px 0 40px; position: relative; }
+        .hero-container { text-align: center; max-width: 900px; margin: 0 auto; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 8px 18px; background: var(--surface); border: 1px solid var(--border);
+            border-radius: 100px; font-size: 13px; color: var(--text-muted); font-weight: 500;
+            margin-bottom: 24px;
+        }
+        .hero h1 {
+            font-size: clamp(40px, 6.5vw, 76px);
+            line-height: 1.05; letter-spacing: -0.03em; font-weight: 700; margin-bottom: 20px;
+        }
+        .hero h1 em {
+            font-style: normal;
+            background: linear-gradient(135deg, #06b6d4 0%, #22d3ee 50%, #67e8f9 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 19px; color: var(--text-muted);
+            max-width: 600px; margin: 0 auto 32px;
+        }
+
+        /* Globe */
+        .globe-wrap { position: relative; width: 100%; max-width: 900px; margin: 40px auto 0; aspect-ratio: 2/1; }
+        .globe-wrap svg { width: 100%; height: 100%; }
+        .globe-bg { fill: var(--surface); stroke: var(--border); stroke-width: 1; }
+        .globe-line { stroke: rgba(255,255,255,0.04); stroke-width: 1; fill: none; }
+        .dot-country {
+            fill: var(--cyan);
+            filter: drop-shadow(0 0 8px var(--cyan));
+            cursor: pointer;
+            transition: transform .3s;
+        }
+        .dot-country:hover { fill: var(--cyan-glow); }
+        .dot-pulse {
+            animation: pulseDot 2s ease-in-out infinite;
+            transform-origin: center;
+            transform-box: fill-box;
+        }
+        @keyframes pulseDot { 0%,100% { opacity: 0.4; r: 3; } 50% { opacity: 0.9; r: 5; } }
+        .dot-label {
+            fill: var(--text-muted);
+            font-size: 11px;
+            font-weight: 500;
+            pointer-events: none;
+        }
+        .globe-arc {
+            fill: none;
+            stroke: url(#arcGrad);
+            stroke-width: 1.5;
+            stroke-dasharray: 4 4;
+            animation: dash 20s linear infinite;
+        }
+        @keyframes dash { to { stroke-dashoffset: -100; } }
+
+        /* Stats bar */
+        .stats {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 60px auto 0;
+            max-width: 1100px;
+        }
+        .stat {
+            background: var(--ocean);
+            padding: 32px 24px;
+            text-align: center;
+        }
+        .stat-num { font-size: clamp(32px, 4vw, 48px); font-weight: 700; letter-spacing: -0.03em; background: linear-gradient(135deg, var(--cyan), var(--teal)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .stat-label { font-size: 13px; color: var(--text-muted); margin-top: 8px; text-transform: uppercase; letter-spacing: 0.08em; }
+
+        @media (max-width: 800px) { .stats { grid-template-columns: repeat(2, 1fr); } .nav .live { display: none; } .nav a:not(.live) { display: none; } }
+
+        /* Sections */
+        section.section { padding: 100px 0; }
+        .section-head { text-align: center; max-width: 720px; margin: 0 auto 56px; }
+        .section-tag { display: inline-block; padding: 6px 14px; background: rgba(6, 182, 212, 0.12); border: 1px solid rgba(6, 182, 212, 0.3); color: var(--cyan-glow); border-radius: 100px; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px; }
+        .section-head h2 { font-size: clamp(32px, 4.5vw, 52px); line-height: 1.1; letter-spacing: -0.02em; font-weight: 700; }
+        .section-head p { font-size: 17px; color: var(--text-muted); margin-top: 16px; }
+
+        /* Destinations grid */
+        .dest-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; max-width: 1100px; margin: 0 auto;
+        }
+        .dest-card {
+            position: relative; padding: 28px; background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+            transition: all .3s; overflow: hidden; cursor: pointer;
+            display: flex; flex-direction: column; gap: 16px; min-height: 240px;
+        }
+        .dest-card::after {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(6, 182, 212, 0.15) 0%, transparent 60%);
+            opacity: 0; transition: opacity .3s;
+            pointer-events: none;
+        }
+        .dest-card:hover { border-color: var(--border-hover); transform: translateY(-4px); }
+        .dest-card:hover::after { opacity: 1; }
+        .dest-flag { width: 56px; height: 56px; border-radius: 14px; overflow: hidden; display: grid; place-items: center; background: var(--surface-2); }
+        .dest-flag img { width: 100%; height: 100%; object-fit: cover; }
+        .dest-flag.uk { background: #012169; }
+        .dest-flag.cyan { background: linear-gradient(135deg, var(--cyan), var(--teal)); }
+        .dest-flag.amber { background: linear-gradient(135deg, #f97316, #eab308); }
+        .dest-flag svg { width: 28px; height: 28px; stroke: white; }
+        .dest-card h3 { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+        .dest-card p { font-size: 14px; color: var(--text-muted); flex: 1; position: relative; z-index: 1; }
+        .dest-foot { display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 1; }
+        .dest-price { font-size: 18px; font-weight: 600; }
+        .dest-price em { font-style: normal; font-size: 12px; color: var(--text-dim); margin-right: 4px; font-weight: 500; }
+        .dest-link { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: var(--cyan); }
+        .dest-card:hover .dest-link svg { transform: translateX(4px); }
+        .dest-link svg { width: 16px; height: 16px; stroke: var(--cyan); transition: transform .2s; }
+
+        /* How with timeline */
+        .timeline { max-width: 900px; margin: 0 auto; position: relative; }
+        .timeline::before { content: ''; position: absolute; left: 30px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--cyan), var(--teal), transparent); }
+        .tl-step { display: flex; gap: 32px; padding: 24px 0; align-items: flex-start; }
+        .tl-dot { width: 60px; height: 60px; border-radius: 50%; background: var(--ocean); border: 2px solid var(--cyan); display: grid; place-items: center; flex-shrink: 0; position: relative; z-index: 1; box-shadow: 0 0 30px rgba(6, 182, 212, 0.3); }
+        .tl-dot span { font-size: 20px; font-weight: 700; color: var(--cyan); }
+        .tl-content { padding-top: 8px; }
+        .tl-content h3 { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 8px; }
+        .tl-content p { color: var(--text-muted); font-size: 16px; max-width: 500px; }
+
+        /* CTA */
+        .cta-card {
+            max-width: 1100px; margin: 0 auto;
+            padding: 64px 48px;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(20, 184, 166, 0.1) 100%), var(--ocean-2);
+            border: 1px solid var(--border-hover);
+            border-radius: 32px;
+            text-align: center;
+            position: relative; overflow: hidden;
+        }
+        .cta-card::before { content: ''; position: absolute; width: 400px; height: 400px; background: radial-gradient(circle, rgba(6, 182, 212, 0.25) 0%, transparent 70%); top: -200px; left: 50%; transform: translateX(-50%); }
+        .cta-card > * { position: relative; z-index: 1; }
+        .cta-card h2 { font-size: clamp(28px, 4vw, 44px); line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 16px; }
+        .cta-card p { color: var(--text-muted); font-size: 18px; margin-bottom: 32px; max-width: 520px; margin-left: auto; margin-right: auto; }
+
+        .btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 16px 32px; font-size: 16px; font-weight: 600;
+            border-radius: 14px; transition: all .25s;
+        }
+        .btn-primary { background: linear-gradient(135deg, var(--cyan), var(--teal)); color: white; box-shadow: 0 10px 30px rgba(6, 182, 212, 0.35); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(6, 182, 212, 0.5); }
+        .btn-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+        .btn-secondary:hover { background: var(--surface-2); }
+
+        /* FAQ */
+        .faq-list { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+        .faq-item { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; transition: all .2s; }
+        .faq-item:hover, .faq-item.open { border-color: var(--border-hover); }
+        .faq-q { width: 100%; padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; font-size: 16px; font-weight: 600; text-align: left; gap: 16px; }
+        .faq-sign { width: 24px; height: 24px; border-radius: 50%; background: var(--surface-2); display: grid; place-items: center; flex-shrink: 0; transition: all .3s; }
+        .faq-item.open .faq-sign { background: linear-gradient(135deg, var(--cyan), var(--teal)); transform: rotate(180deg); }
+        .faq-sign svg { width: 12px; height: 12px; stroke: var(--text); }
+        .faq-item.open .faq-sign svg { stroke: white; }
+        .faq-a { max-height: 0; overflow: hidden; transition: max-height .35s; padding: 0 24px; color: var(--text-muted); font-size: 15px; line-height: 1.6; }
+        .faq-item.open .faq-a { max-height: 400px; padding: 0 24px 20px; }
+
+        footer { border-top: 1px solid var(--border); padding: 40px 0; margin-top: 60px; }
+        .footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px; }
+        .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+        .footer-links a { font-size: 14px; color: var(--text-muted); }
+        .footer-links a:hover { color: var(--text); }
+        .footer-copy { font-size: 13px; color: var(--text-dim); }
+
+        .hero-cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 8px; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
+                ВсемСим
+            </a>
+            <nav class="nav">
+                <span class="live"><span class="live-dot"></span>247 eSIM онлайн</span>
+                <a href="#dest">Направления</a>
+                <a href="#how">Как работает</a>
+                <a href="#faq">FAQ</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-container">
+                <span class="hero-badge">🌍 Работает в 200+ странах мира</span>
+                <h1>Одна eSIM — <br><em>весь мир на связи</em></h1>
+                <p>Европейский номер для путешествий, регистрации в сервисах и приёма СМС. Активация по QR-коду за 30 секунд.</p>
+                <div class="hero-cta">
+                    <a href="#dest" class="btn btn-primary">Выбрать направление</a>
+                    <a href="#how" class="btn btn-secondary">Как работает</a>
+                </div>
+
+                <div class="globe-wrap">
+                    <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="arcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#06b6d4" stop-opacity="0"/>
+                                <stop offset="50%" stop-color="#22d3ee" stop-opacity="1"/>
+                                <stop offset="100%" stop-color="#06b6d4" stop-opacity="0"/>
+                            </linearGradient>
+                            <radialGradient id="dotGlow">
+                                <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.6"/>
+                                <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>
+                            </radialGradient>
+                        </defs>
+                        <ellipse class="globe-bg" cx="400" cy="200" rx="380" ry="180"/>
+                        <path class="globe-line" d="M 20 200 Q 400 100 780 200"/>
+                        <path class="globe-line" d="M 20 200 Q 400 300 780 200"/>
+                        <path class="globe-line" d="M 150 80 Q 400 200 650 320"/>
+                        <path class="globe-line" d="M 150 320 Q 400 200 650 80"/>
+                        <line class="globe-line" x1="20" y1="200" x2="780" y2="200"/>
+                        <line class="globe-line" x1="400" y1="20" x2="400" y2="380"/>
+
+                        <!-- Europe -->
+                        <circle cx="420" cy="140" r="60" fill="url(#dotGlow)"/>
+                        <circle class="dot-country dot-pulse" cx="420" cy="140" r="4"/>
+                        <text class="dot-label" x="432" y="145">Европа</text>
+
+                        <!-- Russia -->
+                        <circle cx="520" cy="120" r="50" fill="url(#dotGlow)"/>
+                        <circle class="dot-country dot-pulse" cx="520" cy="120" r="4" style="animation-delay: .3s"/>
+                        <text class="dot-label" x="532" y="125">Россия</text>
+
+                        <!-- USA -->
+                        <circle cx="200" cy="160" r="50" fill="url(#dotGlow)"/>
+                        <circle class="dot-country dot-pulse" cx="200" cy="160" r="4" style="animation-delay: .6s"/>
+                        <text class="dot-label" x="148" y="150" text-anchor="end">США</text>
+
+                        <!-- Asia -->
+                        <circle cx="620" cy="200" r="55" fill="url(#dotGlow)"/>
+                        <circle class="dot-country dot-pulse" cx="620" cy="200" r="4" style="animation-delay: .9s"/>
+                        <text class="dot-label" x="632" y="205">Азия</text>
+
+                        <!-- South America -->
+                        <circle cx="270" cy="290" r="45" fill="url(#dotGlow)"/>
+                        <circle class="dot-country dot-pulse" cx="270" cy="290" r="4" style="animation-delay: 1.2s"/>
+                        <text class="dot-label" x="282" y="295">Ю. Америка</text>
+
+                        <!-- Africa -->
+                        <circle cx="440" cy="260" r="50" fill="url(#dotGlow)"/>
+                        <circle class="dot-country dot-pulse" cx="440" cy="260" r="4" style="animation-delay: 1.5s"/>
+                        <text class="dot-label" x="452" y="265">Африка</text>
+
+                        <!-- Australia -->
+                        <circle cx="680" cy="310" r="40" fill="url(#dotGlow)"/>
+                        <circle class="dot-country dot-pulse" cx="680" cy="310" r="4" style="animation-delay: 1.8s"/>
+                        <text class="dot-label" x="692" y="315">Австралия</text>
+
+                        <!-- Arcs -->
+                        <path class="globe-arc" d="M 420 140 Q 310 100 200 160"/>
+                        <path class="globe-arc" d="M 420 140 Q 520 120 620 200"/>
+                        <path class="globe-arc" d="M 420 140 Q 380 250 440 260"/>
+                        <path class="globe-arc" d="M 620 200 Q 650 250 680 310"/>
+                    </svg>
+                </div>
+
+                <div class="stats">
+                    <div class="stat"><div class="stat-num">200+</div><div class="stat-label">стран</div></div>
+                    <div class="stat"><div class="stat-num">30 сек</div><div class="stat-label">активация</div></div>
+                    <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">поддержка</div></div>
+                    <div class="stat"><div class="stat-num">100%</div><div class="stat-label">анонимно</div></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="dest" class="section">
+            <div class="container">
+                <div class="section-head">
+                    <span class="section-tag">Направления</span>
+                    <h2>Выберите страну</h2>
+                    <p>Каждая eSIM активируется за считанные секунды и работает в любой точке мира</p>
+                </div>
+                <div class="dest-grid">
+                    <a href="finland.html" class="dest-card" onmousemove="handleMouse(event, this)">
+                        <div class="dest-flag"><img src="flags/finland.svg" alt="Финляндия"></div>
+                        <h3>Финляндия</h3>
+                        <p>Номер +358 — Скандинавия, путешествия, приём СМС в любой точке</p>
+                        <div class="dest-foot">
+                            <div class="dest-price"><em>от</em>3200 ₽</div>
+                            <span class="dest-link">Подробнее <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                        </div>
+                    </a>
+                    <a href="uk.html" class="dest-card" onmousemove="handleMouse(event, this)">
+                        <div class="dest-flag uk"><img src="flags/uk.svg" alt="Великобритания"></div>
+                        <h3>Великобритания</h3>
+                        <p>Номер +44 — самый универсальный для верификации в западных сервисах</p>
+                        <div class="dest-foot">
+                            <div class="dest-price"><em>от</em>600 ₽</div>
+                            <span class="dest-link">Подробнее <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                        </div>
+                    </a>
+                    <a href="registration.html" class="dest-card" onmousemove="handleMouse(event, this)">
+                        <div class="dest-flag cyan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+                        <h3>Для регистрации</h3>
+                        <p>Банки, криптобиржи, мессенджеры — пройдёте проверку с первого раза</p>
+                        <div class="dest-foot">
+                            <div class="dest-price"><em>от</em>600 ₽</div>
+                            <span class="dest-link">Подробнее <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                        </div>
+                    </a>
+                    <a href="https://t.me/hey_store_bot" target="_blank" rel="noopener" class="dest-card" onmousemove="handleMouse(event, this)">
+                        <div class="dest-flag amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+                        <h3>Нужна другая страна?</h3>
+                        <p>Подберём eSIM под любую страну и задачу. Напишите нам в Telegram</p>
+                        <div class="dest-foot">
+                            <div class="dest-price">Индивидуально</div>
+                            <span class="dest-link">Связаться <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="how" class="section">
+            <div class="container">
+                <div class="section-head">
+                    <span class="section-tag">Как это работает</span>
+                    <h2>От выбора до активации — 2 минуты</h2>
+                </div>
+                <div class="timeline">
+                    <div class="tl-step">
+                        <div class="tl-dot"><span>01</span></div>
+                        <div class="tl-content">
+                            <h3>Выбираете тариф</h3>
+                            <p>Страна, объём трафика и срок — всё на одной странице. Никаких скрытых условий.</p>
+                        </div>
+                    </div>
+                    <div class="tl-step">
+                        <div class="tl-dot"><span>02</span></div>
+                        <div class="tl-content">
+                            <h3>Оплачиваете</h3>
+                            <p>Российской картой, СБП или криптовалютой. Деньги за услугу, а не за бюрократию.</p>
+                        </div>
+                    </div>
+                    <div class="tl-step">
+                        <div class="tl-dot"><span>03</span></div>
+                        <div class="tl-content">
+                            <h3>Получаете QR-код</h3>
+                            <p>Сразу после оплаты. Сканируете камерой — профиль eSIM устанавливается автоматически.</p>
+                        </div>
+                    </div>
+                    <div class="tl-step">
+                        <div class="tl-dot"><span>04</span></div>
+                        <div class="tl-content">
+                            <h3>Пользуетесь</h3>
+                            <p>Звонки, СМС, интернет, верификация в сервисах. Всё работает как обычная симка — только без карточки.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="cta-card">
+                    <h2>Готовы путешествовать без проводов?</h2>
+                    <p>Напишите в поддержку — поможем выбрать тариф, активировать eSIM и решить любой вопрос.</p>
+                    <a href="https://t.me/hey_store_bot" target="_blank" rel="noopener" class="btn btn-primary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/></svg>
+                        Написать в поддержку
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="section">
+            <div class="container">
+                <div class="section-head">
+                    <span class="section-tag">FAQ</span>
+                    <h2>Частые вопросы</h2>
+                </div>
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <button class="faq-q" onclick="toggleFaq(this)"><span>Как активировать eSIM?</span><span class="faq-sign"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></button>
+                        <div class="faq-a"><p>QR-код приходит сразу после оплаты на страницу и email. Откройте Настройки → Сотовая связь → Добавить тариф → наведите камеру. Готово.</p></div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-q" onclick="toggleFaq(this)"><span>Где работает eSIM?</span><span class="faq-sign"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></button>
+                        <div class="faq-a"><p>В 200+ странах: Россия, Европа, США, Азия, Латинская Америка. Везде, где есть мобильная сеть.</p></div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-q" onclick="toggleFaq(this)"><span>Можно регистрироваться в банках?</span><span class="faq-sign"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></button>
+                        <div class="faq-a"><p>Да. Европейский номер проходит верификацию в Wise, Revolut, Binance, OKX, Bybit, Telegram, Apple ID.</p></div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-q" onclick="toggleFaq(this)"><span>Как оплатить?</span><span class="faq-sign"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></button>
+                        <div class="faq-a"><p>Российские карты всех банков, СБП, криптовалюта. Если что-то не получается — напишите в поддержку.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-inner">
+            <a href="/" class="logo"><span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>ВсемСим</a>
+            <div class="footer-links">
+                <a href="https://t.me/hey_store_bot" target="_blank" rel="noopener">Поддержка</a>
+                <a href="offer.pdf" target="_blank">Оферта</a>
+                <a href="PDN.pdf" target="_blank">Политика</a>
+                <a href="privacy.pdf" target="_blank">ПДн</a>
+            </div>
+            <p class="footer-copy">© 2025 ВсемСим</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleFaq(btn) {
+            const item = btn.parentElement;
+            const wasOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+            if (!wasOpen) item.classList.add('open');
+        }
+        function handleMouse(e, el) {
+            const r = el.getBoundingClientRect();
+            el.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+            el.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+        }
+    </script>
+</body>
+</html>
