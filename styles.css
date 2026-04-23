@@ -551,18 +551,6 @@ button.theme-toggle:hover {
     gap: 16px;
 }
 
-.arnold-cta {
-    width: 140px;
-    height: auto;
-    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));
-}
-
-@media (max-width: 768px) {
-    .arnold-cta {
-        width: 70px;
-    }
-}
-
 /* How To Section */
 .how-to-section {
     max-width: 1200px;
