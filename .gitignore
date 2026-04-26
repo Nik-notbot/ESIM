@@ -1,5 +1,0 @@
-.env
-node_modules/
-.netlify/
-blog-src/node_modules/
-blog-src/dist/

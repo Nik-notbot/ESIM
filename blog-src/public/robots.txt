@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://blog.heystore.net/sitemap.xml
