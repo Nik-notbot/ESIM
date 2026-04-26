@@ -459,7 +459,7 @@ section {
     border-top: 1px solid var(--border);
 }
 .card-price { font-size: 18px; font-weight: 700; }
-.card-price small { color: var(--text-dim); font-size: 13px; font-weight: 500; margin-right: 4px; }
+.card-price small { color: var(--text-dim); font-size: 13px; font-weight: 500; margin-right: 6px; }
 .card-arrow {
     width: 36px; height: 36px;
     border-radius: 50%;
@@ -1922,7 +1922,22 @@ section {
 .svc-row.active .svc-row-name,
 .ctry-row.active .ctry-row-name { color: #fff; }
 
-.svc-row-icon, .ctry-row-flag {
+.svc-row-icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #f8fafc;
+    line-height: 1;
+}
+.svc-row-icon svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+.ctry-row-flag {
     font-size: 22px;
     width: 28px;
     flex-shrink: 0;
@@ -1992,8 +2007,17 @@ section {
     color: #cbd5e1;
     font-weight: 600;
 }
-.rent-picker-combo .combo-icon,
 .rent-picker-combo .combo-flag { font-size: 18px; line-height: 1; }
+.rent-picker-combo .combo-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    color: #f8fafc;
+    line-height: 1;
+}
+.rent-picker-combo .combo-icon svg { width: 18px; height: 18px; display: block; }
 .rent-picker-price {
     font-size: 2rem;
     font-weight: 800;
@@ -2026,7 +2050,17 @@ section {
     color: #cbd5e1;
     margin-bottom: 8px;
 }
-.rent-order-icon, .rent-order-flag { font-size: 22px; line-height: 1; }
+.rent-order-flag { font-size: 22px; line-height: 1; }
+.rent-order-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    color: #f8fafc;
+    line-height: 1;
+}
+.rent-order-icon svg { width: 22px; height: 22px; display: block; }
 .rent-order-price-line {
     display: flex; align-items: baseline; gap: 12px;
     margin-bottom: 16px;

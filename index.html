@@ -101,6 +101,42 @@
             </div>
         </section>
 
+        <section id="rent">
+            <div class="container">
+                <div class="section-head">
+                    <span class="eyebrow">Аренда номера</span>
+                    <h2>SMS для регистрации — от 10&nbsp;₽</h2>
+                    <p>Выберите сервис и страну — получите номер за минуту.</p>
+                </div>
+                <div class="rent-picker rent-picker-mini" data-rent-picker data-variant="mini">
+                    <div class="rent-picker-cols">
+                        <div class="rent-picker-col rent-picker-col-svc">
+                            <div class="rent-picker-head">Сервис</div>
+                            <label class="svc-search">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                                <input type="text" placeholder="Найти сервис..." data-svc-search aria-label="Поиск сервиса">
+                            </label>
+                            <div class="svc-list" data-svc-list role="listbox" aria-label="Сервисы"></div>
+                        </div>
+                        <div class="rent-picker-col rent-picker-col-ctry">
+                            <div class="rent-picker-head">Страна</div>
+                            <div class="ctry-list" data-country-list role="listbox" aria-label="Страны"></div>
+                        </div>
+                    </div>
+                    <div class="rent-picker-result">
+                        <div class="rent-picker-combo">
+                            <span class="combo-icon" data-combo-icon aria-hidden="true"></span>
+                            <span class="combo-flag" data-combo-flag aria-hidden="true">🇺🇸</span>
+                            <span class="combo-name" data-combo-name>Telegram • США</span>
+                        </div>
+                        <div class="rent-picker-price" data-rent-price>15&nbsp;₽</div>
+                        <a href="/rent?service=telegram&amp;country=us" class="btn btn-primary btn-lg" data-rent-cta>Получить номер — 15&nbsp;₽</a>
+                        <p class="rent-picker-note">SMS за 10–60 сек · Гарантия возврата</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section id="how">
             <div class="container">
                 <div class="section-head">
@@ -128,42 +164,6 @@
             </div>
         </section>
 
-        <section id="rent">
-            <div class="container">
-                <div class="section-head">
-                    <span class="eyebrow">Аренда номера</span>
-                    <h2>SMS для регистрации — от 10&nbsp;₽</h2>
-                    <p>Выберите сервис и страну — получите номер за минуту.</p>
-                </div>
-                <div class="rent-picker rent-picker-mini" data-rent-picker data-variant="mini">
-                    <div class="rent-picker-cols">
-                        <div class="rent-picker-col rent-picker-col-svc">
-                            <div class="rent-picker-head">Сервис</div>
-                            <label class="svc-search">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                                <input type="text" placeholder="Найти сервис..." data-svc-search aria-label="Поиск сервиса">
-                            </label>
-                            <div class="svc-list" data-svc-list role="listbox" aria-label="Сервисы"></div>
-                        </div>
-                        <div class="rent-picker-col rent-picker-col-ctry">
-                            <div class="rent-picker-head">Страна</div>
-                            <div class="ctry-list" data-country-list role="listbox" aria-label="Страны"></div>
-                        </div>
-                    </div>
-                    <div class="rent-picker-result">
-                        <div class="rent-picker-combo">
-                            <span class="combo-icon" data-combo-icon aria-hidden="true">✈️</span>
-                            <span class="combo-flag" data-combo-flag aria-hidden="true">🇺🇸</span>
-                            <span class="combo-name" data-combo-name>Telegram • США</span>
-                        </div>
-                        <div class="rent-picker-price" data-rent-price>15&nbsp;₽</div>
-                        <a href="rent.html?service=telegram&amp;country=us" class="btn btn-primary btn-lg" data-rent-cta>Получить номер — 15&nbsp;₽</a>
-                        <p class="rent-picker-note">SMS за 10–60 сек · Гарантия возврата</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <section id="esim">
             <div class="container">
                 <div class="section-head">
@@ -178,7 +178,7 @@
                         <h3>eSIM Финляндия</h3>
                         <p>Финский номер +358, безлимит в 50+ странах ЕС, SMS и звонки. Идеально для Wise и Revolut.</p>
                         <div class="card-meta">
-                            <div class="card-price"><small>от</small>3200 ₽</div>
+                            <div class="card-price"><small>от</small> 3200 ₽</div>
                             <span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
                         </div>
                     </a>
@@ -188,7 +188,7 @@
                         <h3>eSIM Великобритания</h3>
                         <p>Британский номер +44, поддержка SMS и звонков, работает в Wise, PayPal и Bybit.</p>
                         <div class="card-meta">
-                            <div class="card-price"><small>от</small>3200 ₽</div>
+                            <div class="card-price"><small>от</small> 3200 ₽</div>
                             <span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
                         </div>
                     </a>
@@ -198,7 +198,7 @@
                         <h3>eSIM для регистрации</h3>
                         <p>Европейский номер за 1800 руб. Проходит верификацию в банках, биржах и соцсетях.</p>
                         <div class="card-meta">
-                            <div class="card-price"><small>от</small>1800 ₽</div>
+                            <div class="card-price"><small>от</small> 1800 ₽</div>
                             <span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
                         </div>
                     </a>
