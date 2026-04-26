@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f172a">
+    <title>SimOn — Виртуальный номер за секунды. Аренда SMS и eSIM</title>
+    <meta name="description" content="SimOn — аренда виртуальных номеров от 10 руб и eSIM с европейским номером от 1800 руб. Моментальная выдача SMS, поддержка 24/7, гарантия возврата.">
+    <link rel="canonical" href="https://simon.example/">
+    <meta property="og:title" content="SimOn — Виртуальный номер за секунды">
+    <meta property="og:description" content="Аренда номеров от 10 руб и eSIM с европейским номером. Моментальная выдача, гарантия SMS.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ru_RU">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Yandex.Metrika counter (REPLACE 12345678 WITH YOUR METRIKA ID) -->
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+        ym(12345678, "init", {clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/12345678" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika -->
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="index.html" class="brand" aria-label="SimOn">
+                <span class="brand-mark">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+                        <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+                        <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+                        <line x1="12" y1="20" x2="12.01" y2="20"/>
+                    </svg>
+                </span>
+                SimOn
+            </a>
+            <nav class="nav" aria-label="Основная навигация">
+                <a href="rent.html">Аренда</a>
+                <a href="esim-finland.html">eSIM</a>
+                <a href="faq.html">FAQ</a>
+            </nav>
+            <div class="header-actions">
+                <a href="https://t.me/simon_support" target="_blank" rel="noopener" class="btn btn-tg">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/></svg>
+                    Telegram
+                </a>
+                <button class="burger" aria-label="Открыть меню">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Меню">
+        <div class="mobile-menu-head">
+            <a href="index.html" class="brand">
+                <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg></span>
+                SimOn
+            </a>
+            <button class="mobile-menu-close" aria-label="Закрыть меню">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+        <nav class="mobile-nav">
+            <a href="rent.html">Аренда номера<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+            <a href="esim-finland.html">eSIM Финляндия<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+            <a href="esim-uk.html">eSIM UK<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+            <a href="esim-registration.html">eSIM для регистрации<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+            <a href="faq.html">FAQ<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+        </nav>
+        <a href="https://t.me/simon_support" target="_blank" rel="noopener" class="mobile-menu-cta">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/></svg>
+            Поддержка в Telegram
+        </a>
+    </div>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-inner">
+                <span class="hero-badge"><span class="dot"></span> 1000+ номеров в наличии прямо сейчас</span>
+                <h1>Виртуальный номер <em>за секунды</em></h1>
+                <p class="lead">Аренда от 10 руб для приёма SMS или eSIM с европейским номером. Без регистрации, с моментальной выдачей и гарантией возврата.</p>
+                <div class="hero-cta">
+                    <a href="rent.html" class="btn btn-primary btn-lg">
+                        Арендовать — от 10 руб
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </a>
+                    <a href="esim-finland.html" class="btn btn-outline btn-lg">
+                        Купить eSIM — от 1800 руб
+                    </a>
+                </div>
+                <div class="hero-trust">
+                    <span><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Вернём деньги, если SMS не придёт</span>
+                    <span><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Безопасная оплата картой и СБП</span>
+                    <span><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Поддержка 24/7 в Telegram</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="how">
+            <div class="container">
+                <div class="section-head">
+                    <span class="eyebrow">Как это работает</span>
+                    <h2>Три шага до вашего номера</h2>
+                    <p>Без регистрации, подписок и звонков менеджеру. Быстрее чем заварить чай.</p>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+                        <h3>Выберите страну</h3>
+                        <p>США и UK для аренды на одно SMS или Финляндия и eSIM для постоянного европейского номера.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div>
+                        <h3>Оплатите</h3>
+                        <p>Российская карта, СБП или криптовалюта. Без комиссии, без скрытых платежей, без подписок.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+                        <h3>Получите SMS</h3>
+                        <p>Номер активен сразу после оплаты. SMS приходят в личный кабинет, eSIM — QR-кодом на email.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="rent">
+            <div class="container">
+                <div class="section-head">
+                    <span class="eyebrow">Аренда номера</span>
+                    <h2>SMS для регистрации — от 10 руб</h2>
+                    <p>Берёте номер на одно подтверждение и платите только за результат. Если SMS не пришло — возвращаем деньги.</p>
+                </div>
+                <div class="card-grid">
+                    <a href="rent.html?country=us" class="card">
+                        <div class="card-flag"><svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="60" fill="#B22234"/><g fill="#fff"><rect y="5" width="60" height="4"/><rect y="14" width="60" height="4"/><rect y="23" width="60" height="4"/><rect y="32" width="60" height="4"/><rect y="41" width="60" height="4"/><rect y="50" width="60" height="4"/></g><rect width="26" height="32" fill="#3C3B6E"/></svg></div>
+                        <span class="card-badge primary"><span class="dot"></span> Моментальная выдача</span>
+                        <h3>США</h3>
+                        <p>Номер +1 для регистрации в Telegram, WhatsApp, Facebook и сотнях других сервисов.</p>
+                        <div class="card-meta">
+                            <div class="card-price"><small>от</small>10 ₽</div>
+                            <span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                        </div>
+                    </a>
+                    <a href="rent.html?country=uk" class="card">
+                        <div class="card-flag"><svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="60" fill="#012169"/><path d="M0,0 L60,60 M60,0 L0,60" stroke="#fff" stroke-width="12"/><path d="M30,0 v60 M0,30 h60" stroke="#fff" stroke-width="20"/><path d="M30,0 v60 M0,30 h60" stroke="#C8102E" stroke-width="12"/></svg></div>
+                        <span class="card-badge primary"><span class="dot"></span> Моментальная выдача</span>
+                        <h3>Великобритания</h3>
+                        <p>Номер +44 для приёма SMS из европейских сервисов, банков и мессенджеров.</p>
+                        <div class="card-meta">
+                            <div class="card-price"><small>от</small>15 ₽</div>
+                            <span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="esim">
+            <div class="container">
+                <div class="section-head">
+                    <span class="eyebrow">eSIM с номером</span>
+                    <h2>Постоянный европейский номер в телефоне</h2>
+                    <p>QR-код для активации приходит сразу после оплаты. Подходит для путешествий, регистрации в банках и долгосрочного использования.</p>
+                </div>
+                <div class="card-grid">
+                    <a href="esim-finland.html" class="card">
+                        <div class="card-flag"><svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="60" fill="#fff"/><rect x="0" y="24" width="60" height="12" fill="#003580"/><rect x="20" y="0" width="12" height="60" fill="#003580"/></svg></div>
+                        <span class="card-badge"><span class="dot"></span> В наличии</span>
+                        <h3>eSIM Финляндия</h3>
+                        <p>Финский номер +358, безлимит в 50+ странах ЕС, SMS и звонки. Идеально для Wise и Revolut.</p>
+                        <div class="card-meta">
+                            <div class="card-price"><small>от</small>3200 ₽</div>
+                            <span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                        </div>
+                    </a>
+                    <a href="esim-uk.html" class="card">
+                        <div class="card-flag"><svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="60" fill="#012169"/><path d="M0,0 L60,60 M60,0 L0,60" stroke="#fff" stroke-width="12"/><path d="M30,0 v60 M0,30 h60" stroke="#fff" stroke-width="20"/><path d="M30,0 v60 M0,30 h60" stroke="#C8102E" stroke-width="12"/></svg></div>
+                        <span class="card-badge"><span class="dot"></span> В наличии</span>
+                        <h3>eSIM Великобритания</h3>
+                        <p>Британский номер +44, поддержка SMS и звонков, работает в Wise, PayPal и Bybit.</p>
+                        <div class="card-meta">
+                            <div class="card-price"><small>от</small>3200 ₽</div>
+                            <span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                        </div>
+                    </a>
+                    <a href="esim-registration.html" class="card">
+                        <div class="card-flag"><svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="60" fill="#003399"/><g fill="#FFCC00"><g id="hs"><polygon points="0,-3.5 1.03,-0.36 4.33,-0.36 1.65,1.59 2.68,4.73 0,2.78 -2.68,4.73 -1.65,1.59 -4.33,-0.36 -1.03,-0.36"/></g><use href="#hs" transform="translate(30 12)"/><use href="#hs" transform="translate(39 14.4)"/><use href="#hs" transform="translate(45 21)"/><use href="#hs" transform="translate(47.4 30)"/><use href="#hs" transform="translate(45 39)"/><use href="#hs" transform="translate(39 45.6)"/><use href="#hs" transform="translate(30 48)"/><use href="#hs" transform="translate(21 45.6)"/><use href="#hs" transform="translate(15 39)"/><use href="#hs" transform="translate(12.6 30)"/><use href="#hs" transform="translate(15 21)"/><use href="#hs" transform="translate(21 14.4)"/></g></svg></div>
+                        <span class="card-badge accent"><span class="dot"></span> Хит для регистраций</span>
+                        <h3>eSIM для регистрации</h3>
+                        <p>Европейский номер за 1800 руб. Проходит верификацию в банках, биржах и соцсетях.</p>
+                        <div class="card-meta">
+                            <div class="card-price"><small>от</small>1800 ₽</div>
+                            <span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="why">
+            <div class="container">
+                <div class="section-head">
+                    <span class="eyebrow">Почему SimOn</span>
+                    <h2>Сервис, на который можно положиться</h2>
+                    <p>Мы выдаём номера с 2022 года и знаем, как сделать процесс быстрым и безопасным.</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature">
+                        <div class="feature-ico"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+                        <h3>Моментально</h3>
+                        <p>Номер активен в течение 30 секунд после оплаты. Без подтверждений и переписки с менеджером.</p>
+                    </div>
+                    <div class="feature green">
+                        <div class="feature-ico"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                        <h3>Надёжно</h3>
+                        <p>1000+ номеров в наличии каждый день. Мы постоянно мониторим работоспособность всех направлений.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-ico"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+                        <h3>Безопасно</h3>
+                        <p>eSIM закрепляется только за вами. Мы не передаём номера третьим лицам и не храним переписку.</p>
+                    </div>
+                    <div class="feature amber">
+                        <div class="feature-ico"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/></svg></div>
+                        <h3>Поддержка</h3>
+                        <p>Telegram-бот отвечает за пару минут. Решаем любые вопросы — от выбора тарифа до возврата средств.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="compare">
+            <div class="container">
+                <div class="section-head">
+                    <span class="eyebrow">Сравнение</span>
+                    <h2>Бесплатные номера vs Аренда vs eSIM</h2>
+                    <p>Чтобы вы понимали разницу и выбрали то, что подходит именно вашей задаче.</p>
+                </div>
+                <div class="compare-wrap">
+                    <table class="compare">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Бесплатные</th>
+                                <th>Аренда SimOn</th>
+                                <th class="col-best">eSIM SimOn</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Цена</th>
+                                <td>0 ₽</td>
+                                <td>от 10 ₽</td>
+                                <td class="best">от 1800 ₽</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Работает с сервисами</th>
+                                <td><span class="cross">×</span> Часто заблокированы</td>
+                                <td><span class="check">✓</span> Telegram, WhatsApp, FB и др.</td>
+                                <td class="best"><span class="check">✓</span> Все сервисы, включая банки</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Гарантия SMS</th>
+                                <td><span class="cross">×</span> Нет</td>
+                                <td><span class="check">✓</span> Возврат денег</td>
+                                <td class="best"><span class="check">✓</span> 100% доставка</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Приватность</th>
+                                <td>Низкая (общий)</td>
+                                <td>Средняя (только ваше SMS)</td>
+                                <td class="best">Высокая (номер только ваш)</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Голосовые звонки</th>
+                                <td><span class="cross">×</span></td>
+                                <td><span class="cross">×</span></td>
+                                <td class="best"><span class="check">✓</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="reviews">
+            <div class="container">
+                <div class="section-head">
+                    <span class="eyebrow">Отзывы</span>
+                    <h2>Что говорят клиенты</h2>
+                    <p>Более 8000 активных пользователей. Вот несколько недавних отзывов.</p>
+                </div>
+                <div class="reviews">
+                    <div class="reviews-track">
+                        <article class="review">
+                            <div class="review-stars">
+                                <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+                                <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+                                <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+                                <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+                                <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+                            </div>
+                            <p class="review-text">«Зарегал второй Telegram за 10 секунд. SMS пришла моментально, всё работает.»</p>
+                            <div class="review-author">
+                                <div class="review-avatar">А</div>
+                                <div>
+                                    <div class="review-name">Андрей</div>
+                                    <div class="review-meta">Аренда US · Telegram</div>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="review">
+                            <div class="review-stars">
+                                <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+                                <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+                                <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+                                <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+                                <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+                            </div>
+                            <p class="review-text">«Беру eSIM Финляндия третий раз — для путешествий идеально. QR пришёл сразу, активация за минуту.»</p>
+                            <div class="review-author">
+                                <div class="review-avatar" style="background: linear-gradient(135deg,#f97316,#ef4444);">М</div>
+                                <div>
+                                    <div class="review-name">Мария</div>
+                                    <div class="review-meta">eSIM Финляндия · Wise</div>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="review">
+                            <div class="review-stars">
+                                <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+                                <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+                                <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+                                <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+                                <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+                            </div>
+                            <p class="review-text">«WhatsApp на UK номер встал с первой попытки. Пользуюсь больше года — всё стабильно.»</p>
+                            <div class="review-author">
+                                <div class="review-avatar" style="background: linear-gradient(135deg,#10b981,#06b6d4);">Д</div>
+                                <div>
+                                    <div class="review-name">Дмитрий</div>
+                                    <div class="review-meta">eSIM UK · WhatsApp</div>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="review">
+                            <div class="review-stars">
+                                <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+                                <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+                                <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+                                <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+                                <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+                            </div>
+                            <p class="review-text">«Wise открыл за 5 минут — банк сразу принял европейский номер от eSIM. Поддержка ответила за 3 минуты.»</p>
+                            <div class="review-author">
+                                <div class="review-avatar" style="background: linear-gradient(135deg,#f59e0b,#ef4444);">А</div>
+                                <div>
+                                    <div class="review-name">Алексей</div>
+                                    <div class="review-meta">eSIM для регистрации · Wise</div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="reviews-controls">
+                        <button class="reviews-arrow" data-reviews="prev" aria-label="Предыдущий"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+                        <button class="reviews-arrow" data-reviews="next" aria-label="Следующий"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq">
+            <div class="container">
+                <div class="section-head">
+                    <span class="eyebrow">FAQ</span>
+                    <h2>Частые вопросы</h2>
+                    <p>Не нашли ответ? <a href="https://t.me/simon_support" style="color: var(--primary); text-decoration: underline;">Напишите в Telegram</a> — поможем.</p>
+                </div>
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <button class="faq-q" type="button">Чем аренда отличается от eSIM? <span class="plus"></span></button>
+                        <div class="faq-a"><p>Аренда — это получение SMS на чужой временный номер за 10–50 руб. Идеально для одной регистрации. eSIM — это полноценный европейский номер, закреплённый за вашим телефоном. Подходит для постоянного использования, банков, путешествий и звонков.</p></div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-q" type="button">С какими сервисами это работает? <span class="plus"></span></button>
+                        <div class="faq-a"><p>Telegram, WhatsApp, Facebook, Instagram, Twitter/X, Google, Apple ID — для аренды и eSIM. Wise, Revolut, PayPal, Payoneer, Binance, Bybit — только для eSIM, так как банкам и биржам нужен закреплённый номер.</p></div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-q" type="button">Как быстро приходит SMS? <span class="plus"></span></button>
+                        <div class="faq-a"><p>Обычно за 10–30 секунд. На US и UK номера SMS приходит мгновенно после запроса в сервисе. Если SMS не пришло за 5 минут — возвращаем деньги автоматически.</p></div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-q" type="button">А если SMS не пришло? <span class="plus"></span></button>
+                        <div class="faq-a"><p>Полный возврат на карту или баланс SimOn в течение 5 минут. Можно тут же арендовать другой номер — деньги списываются только за успешные SMS.</p></div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-q" type="button">Как установить eSIM? <span class="plus"></span></button>
+                        <div class="faq-a"><p>После оплаты вы получаете QR-код на email и в личном кабинете. Откройте Настройки → Сотовая связь → Добавить тариф → наведите камеру на код. Активация занимает 30 секунд.</p></div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-q" type="button">Это безопасно? <span class="plus"></span></button>
+                        <div class="faq-a"><p>Да. eSIM закрепляется только за вашим устройством, мы не имеем доступа к переписке и звонкам. Аренда работает на одно SMS — после получения никто не сможет восстановить через этот номер.</p></div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-q" type="button">Какие способы оплаты? <span class="plus"></span></button>
+                        <div class="faq-a"><p>Российские карты всех банков (Visa, MasterCard, Мир), СБП, криптовалюта (BTC, USDT, ETH). Оплата проходит через защищённый платёжный шлюз с TLS-шифрованием.</p></div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-q" type="button">Что после окончания тарифа eSIM? <span class="plus"></span></button>
+                        <div class="faq-a"><p>Продление от 500 руб/мес — номер сохраняется за вами. Можно перейти на годовой тариф со скидкой. Если не продлите, номер уйдёт через 30 дней грейс-периода.</p></div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 32px;">
+                    <a href="faq.html" class="btn btn-ghost">Все вопросы и ответы</a>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <div class="cta-block">
+                    <h2>Готовы получить номер?</h2>
+                    <p>Аренда от 10 руб или eSIM с европейским номером — выберите, что подходит под вашу задачу.</p>
+                    <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+                        <a href="rent.html" class="btn btn-primary btn-lg">Арендовать номер</a>
+                        <a href="esim-finland.html" class="btn btn-outline btn-lg" style="background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.3); color: white;">Купить eSIM</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="brand">
+                        <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg></span>
+                        SimOn
+                    </a>
+                    <p>Виртуальные номера и eSIM с моментальной выдачей. Номер за секунды.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Услуги</h4>
+                    <ul>
+                        <li><a href="rent.html">Аренда номера</a></li>
+                        <li><a href="esim-finland.html">eSIM Финляндия</a></li>
+                        <li><a href="esim-uk.html">eSIM UK</a></li>
+                        <li><a href="esim-registration.html">eSIM для регистрации</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Помощь</h4>
+                    <ul>
+                        <li><a href="faq.html">Частые вопросы</a></li>
+                        <li><a href="https://t.me/simon_support" target="_blank" rel="noopener">Поддержка в Telegram</a></li>
+                        <li><a href="mailto:hi@simon.example">hi@simon.example</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Документы</h4>
+                    <ul>
+                        <li><a href="#">Оферта</a></li>
+                        <li><a href="#">Политика конфиденциальности</a></li>
+                        <li><a href="#">Обработка ПДн</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 SimOn. Все права защищены.</span>
+                <span>Платежи обрабатываются защищённым шлюзом · TLS 1.3</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
