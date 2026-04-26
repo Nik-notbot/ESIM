@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#0f172a">
     <title>Аренда виртуального номера для SMS — от 10 руб | SimOn</title>
-    <meta name="description" content="Арендуйте виртуальный номер США или Великобритании за 10–50 руб. Моментальное получение SMS для Telegram, WhatsApp, Facebook и других сервисов. Возврат, если SMS не пришло.">
+    <meta name="description" content="Арендуйте виртуальный номер США или Великобритании от 10 руб. Telegram, WhatsApp, Facebook — выберите сервис и страну, получите код за минуту.">
     <link rel="canonical" href="https://simon.example/rent.html">
     <meta property="og:title" content="Аренда виртуального номера для SMS — SimOn">
-    <meta property="og:description" content="Виртуальный номер от 10 руб для регистрации в любых сервисах. SMS моментально или возврат денег.">
+    <meta property="og:description" content="Виртуальный номер от 10 руб для регистрации в Telegram, WhatsApp и Facebook. Моментальная выдача или возврат.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script type="text/javascript">
@@ -74,246 +74,165 @@
                 На главную
             </a>
 
-            <div class="service-hero">
-                <div class="eyebrow">
-                    <span class="flag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="white"/></svg></span>
-                    <span class="txt">Аренда номера</span>
+            <div class="rent-hero">
+                <span class="eyebrow-pill">Аренда номера</span>
+                <h1>Аренда номера для&nbsp;SMS</h1>
+                <p>Выберите сервис и страну — получите код за минуту.</p>
+            </div>
+
+            <div class="rent-builder" data-rent-builder>
+                <div class="builder-row">
+                    <div class="builder-label"><span class="builder-step">1</span> Выберите сервис</div>
+                    <div class="service-chips">
+                        <button type="button" class="service-chip active" data-service="telegram">
+                            <span class="service-chip-ico tg">
+                                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.04 14.68 8.7 19.4c.5 0 .72-.21.98-.47l2.36-2.25 4.88 3.57c.9.5 1.55.24 1.78-.83l3.22-15.1c.32-1.39-.5-1.93-1.38-1.6L1.27 9.46c-1.34.52-1.32 1.27-.23 1.6l4.95 1.55 11.5-7.25c.54-.36 1.03-.16.63.2"/></svg>
+                            </span>
+                            <span class="service-chip-name">Telegram</span>
+                            <span class="service-chip-hint">Регистрация и второй аккаунт</span>
+                        </button>
+                        <button type="button" class="service-chip" data-service="whatsapp">
+                            <span class="service-chip-ico wa">
+                                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12.05 21.785h-.004a9.87 9.87 0 0 1-5.031-1.378l-.36-.214-3.741.982 1-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+                            </span>
+                            <span class="service-chip-name">WhatsApp</span>
+                            <span class="service-chip-hint">Подтверждение нового аккаунта</span>
+                        </button>
+                        <button type="button" class="service-chip" data-service="facebook">
+                            <span class="service-chip-ico fb">
+                                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+                            </span>
+                            <span class="service-chip-name">Facebook</span>
+                            <span class="service-chip-hint">Регистрация и подтверждение</span>
+                        </button>
+                    </div>
                 </div>
-                <h1>Виртуальный номер для SMS</h1>
-                <p>От 10 рублей. Моментальная выдача номера США или Великобритании для одного SMS. Возврат денег, если код не пришёл за 5 минут.</p>
-            </div>
 
-            <div data-tabs="country">
-                <div class="tabs" role="tablist" aria-label="Страна">
-                    <button class="tab active" data-tab="us" role="tab">
-                        <span class="tab-flag"><svg viewBox="0 0 60 60"><rect width="60" height="60" fill="#B22234"/><g fill="#fff"><rect y="5" width="60" height="4"/><rect y="14" width="60" height="4"/><rect y="23" width="60" height="4"/><rect y="32" width="60" height="4"/><rect y="41" width="60" height="4"/><rect y="50" width="60" height="4"/></g><rect width="26" height="32" fill="#3C3B6E"/></svg></span>
-                        США · от 10 ₽
-                    </button>
-                    <button class="tab" data-tab="uk" role="tab">
-                        <span class="tab-flag"><svg viewBox="0 0 60 60"><rect width="60" height="60" fill="#012169"/><path d="M0,0 L60,60 M60,0 L0,60" stroke="#fff" stroke-width="12"/><path d="M30,0 v60 M0,30 h60" stroke="#fff" stroke-width="20"/><path d="M30,0 v60 M0,30 h60" stroke="#C8102E" stroke-width="12"/></svg></span>
-                        UK · от 15 ₽
-                    </button>
+                <div class="builder-row">
+                    <div class="builder-label"><span class="builder-step">2</span> Выберите страну</div>
+                    <div class="country-chips">
+                        <button type="button" class="country-chip active" data-country="us">
+                            <span class="country-chip-flag">
+                                <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="60" fill="#B22234"/><g fill="#fff"><rect y="5" width="60" height="4"/><rect y="14" width="60" height="4"/><rect y="23" width="60" height="4"/><rect y="32" width="60" height="4"/><rect y="41" width="60" height="4"/><rect y="50" width="60" height="4"/></g><rect width="26" height="32" fill="#3C3B6E"/></svg>
+                            </span>
+                            США <span class="country-chip-code">+1</span>
+                        </button>
+                        <button type="button" class="country-chip" data-country="uk">
+                            <span class="country-chip-flag">
+                                <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="60" fill="#012169"/><path d="M0,0 L60,60 M60,0 L0,60" stroke="#fff" stroke-width="12"/><path d="M30,0 v60 M0,30 h60" stroke="#fff" stroke-width="20"/><path d="M30,0 v60 M0,30 h60" stroke="#C8102E" stroke-width="12"/></svg>
+                            </span>
+                            Великобритания <span class="country-chip-code">+44</span>
+                        </button>
+                    </div>
                 </div>
-            </div>
 
-            <div data-tab-panel="country" data-tab="us" class="tab-panel active">
-                <form class="order-form" data-order-form data-country="us" data-type="rent" novalidate>
-                    <div class="form-row">
-                        <label>Выберите сервис</label>
-                        <div class="service-grid">
-                            <label class="service-option">
-                                <input type="radio" name="service" value="us-telegram" data-name="Telegram (US)" data-price="10" checked>
-                                <div class="service-card">
-                                    <div class="service-logo tg"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.55 7.32c-.12.52-.42.65-.85.4l-2.36-1.74-1.14 1.1c-.13.13-.24.24-.48.24l.17-2.43 4.43-4c.19-.17-.04-.27-.3-.1L9.13 13.4l-2.4-.75c-.52-.16-.53-.52.11-.77l9.4-3.62c.43-.16.81.1.67.74z"/></svg></div>
-                                    <div class="service-name">Telegram</div>
-                                    <div class="service-desc">Регистрация второго аккаунта</div>
-                                    <div class="stock"><span class="dot"></span> 423 номера в наличии</div>
-                                    <div class="service-price"><strong>10</strong><small>₽</small></div>
-                                </div>
-                            </label>
-                            <label class="service-option">
-                                <input type="radio" name="service" value="us-whatsapp" data-name="WhatsApp (US)" data-price="25">
-                                <div class="service-card">
-                                    <div class="service-logo wa"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12.05 21.785h-.004a9.87 9.87 0 01-5.031-1.378l-.36-.214-3.741.982 1-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></div>
-                                    <div class="service-name">WhatsApp</div>
-                                    <div class="service-desc">Подтверждение нового аккаунта</div>
-                                    <div class="stock"><span class="dot"></span> 312 номеров в наличии</div>
-                                    <div class="service-price"><strong>25</strong><small>₽</small></div>
-                                </div>
-                            </label>
-                            <label class="service-option">
-                                <input type="radio" name="service" value="us-facebook" data-name="Facebook (US)" data-price="20">
-                                <div class="service-card">
-                                    <div class="service-logo fb"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg></div>
-                                    <div class="service-name">Facebook</div>
-                                    <div class="service-desc">Регистрация и подтверждение</div>
-                                    <div class="stock"><span class="dot"></span> 287 номеров в наличии</div>
-                                    <div class="service-price"><strong>20</strong><small>₽</small></div>
-                                </div>
-                            </label>
-                            <label class="service-option">
-                                <input type="radio" name="service" value="us-other" data-name="Другой сервис (US)" data-price="50">
-                                <div class="service-card">
-                                    <div class="service-logo other"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
-                                    <div class="service-name">Другой сервис</div>
-                                    <div class="service-desc">Instagram, X, Google и другие</div>
-                                    <div class="stock"><span class="dot"></span> Все сервисы в наличии</div>
-                                    <div class="service-price"><strong>от 30</strong><small>₽</small></div>
-                                </div>
-                            </label>
-                        </div>
+                <div class="builder-result">
+                    <div class="builder-combo">
+                        <span class="builder-combo-icon" data-builder-service-icon aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.04 14.68 8.7 19.4c.5 0 .72-.21.98-.47l2.36-2.25 4.88 3.57c.9.5 1.55.24 1.78-.83l3.22-15.1c.32-1.39-.5-1.93-1.38-1.6L1.27 9.46c-1.34.52-1.32 1.27-.23 1.6l4.95 1.55 11.5-7.25c.54-.36 1.03-.16.63.2"/></svg>
+                        </span>
+                        <span class="builder-combo-flag" data-builder-flag aria-hidden="true"></span>
+                        <span class="builder-combo-name" data-builder-combo-name>Telegram • США</span>
+                    </div>
+                    <div class="builder-price-line">
+                        <span class="builder-price" data-builder-price>15&nbsp;₽</span>
+                        <span class="builder-price-meta">за&nbsp;один SMS-код</span>
                     </div>
 
-                    <div class="form-row" id="otherServiceWrap-us" style="display:none;">
-                        <label for="otherService-us">Какой сервис?</label>
-                        <select id="otherService-us" name="otherService">
-                            <option>Instagram</option>
-                            <option>Twitter / X</option>
-                            <option>Google</option>
-                            <option>Apple ID</option>
-                            <option>TikTok</option>
-                            <option>Discord</option>
-                            <option>Microsoft</option>
-                            <option>Yandex</option>
-                            <option>Yahoo</option>
-                            <option>Другой (уточним в чате)</option>
-                        </select>
-                    </div>
+                    <form class="builder-form" data-rent-builder-form novalidate>
+                        <label class="builder-input">
+                            <span class="builder-input-ico">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            </span>
+                            <input type="email" name="email" autocomplete="email" placeholder="Ваш email для получения кода" required>
+                        </label>
+                        <button type="submit" class="btn btn-primary btn-block btn-lg" data-builder-cta>Оплатить 15&nbsp;₽</button>
+                    </form>
 
-                    <div class="form-row">
-                        <label for="email-us">Email для уведомлений</label>
-                        <input type="email" id="email-us" name="email" placeholder="your@email.com" required autocomplete="email">
-                    </div>
-
-                    <button type="submit" class="btn btn-primary btn-block btn-lg">
-                        Оплатить и получить SMS
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                    </button>
-
-                    <p class="form-note">
-                        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                        Безопасная оплата картой и СБП. SMS придёт в течение 30 секунд или вернём деньги.
-                    </p>
-                </form>
-            </div>
-
-            <div data-tab-panel="country" data-tab="uk" class="tab-panel">
-                <form class="order-form" data-order-form data-country="uk" data-type="rent" novalidate>
-                    <div class="form-row">
-                        <label>Выберите сервис</label>
-                        <div class="service-grid">
-                            <label class="service-option">
-                                <input type="radio" name="service" value="uk-telegram" data-name="Telegram (UK)" data-price="15" checked>
-                                <div class="service-card">
-                                    <div class="service-logo tg"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.55 7.32c-.12.52-.42.65-.85.4l-2.36-1.74-1.14 1.1c-.13.13-.24.24-.48.24l.17-2.43 4.43-4c.19-.17-.04-.27-.3-.1L9.13 13.4l-2.4-.75c-.52-.16-.53-.52.11-.77l9.4-3.62c.43-.16.81.1.67.74z"/></svg></div>
-                                    <div class="service-name">Telegram</div>
-                                    <div class="service-desc">Регистрация второго аккаунта</div>
-                                    <div class="stock"><span class="dot"></span> 198 номеров в наличии</div>
-                                    <div class="service-price"><strong>15</strong><small>₽</small></div>
-                                </div>
-                            </label>
-                            <label class="service-option">
-                                <input type="radio" name="service" value="uk-whatsapp" data-name="WhatsApp (UK)" data-price="35">
-                                <div class="service-card">
-                                    <div class="service-logo wa"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M20.463 3.488A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413zm-8.413 18.297a9.87 9.87 0 01-5.031-1.378l-.36-.214-3.741.982 1-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884z"/></svg></div>
-                                    <div class="service-name">WhatsApp</div>
-                                    <div class="service-desc">Подтверждение нового аккаунта</div>
-                                    <div class="stock"><span class="dot"></span> 156 номеров в наличии</div>
-                                    <div class="service-price"><strong>35</strong><small>₽</small></div>
-                                </div>
-                            </label>
-                            <label class="service-option">
-                                <input type="radio" name="service" value="uk-facebook" data-name="Facebook (UK)" data-price="30">
-                                <div class="service-card">
-                                    <div class="service-logo fb"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg></div>
-                                    <div class="service-name">Facebook</div>
-                                    <div class="service-desc">Регистрация и подтверждение</div>
-                                    <div class="stock"><span class="dot"></span> 142 номера в наличии</div>
-                                    <div class="service-price"><strong>30</strong><small>₽</small></div>
-                                </div>
-                            </label>
-                            <label class="service-option">
-                                <input type="radio" name="service" value="uk-other" data-name="Другой сервис (UK)" data-price="50">
-                                <div class="service-card">
-                                    <div class="service-logo other"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
-                                    <div class="service-name">Другой сервис</div>
-                                    <div class="service-desc">Instagram, X, Google и другие</div>
-                                    <div class="stock"><span class="dot"></span> Все сервисы в наличии</div>
-                                    <div class="service-price"><strong>от 40</strong><small>₽</small></div>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="form-row" id="otherServiceWrap-uk" style="display:none;">
-                        <label for="otherService-uk">Какой сервис?</label>
-                        <select id="otherService-uk" name="otherService">
-                            <option>Instagram</option>
-                            <option>Twitter / X</option>
-                            <option>Google</option>
-                            <option>Apple ID</option>
-                            <option>TikTok</option>
-                            <option>Discord</option>
-                            <option>Microsoft</option>
-                            <option>Yandex</option>
-                            <option>Yahoo</option>
-                            <option>Другой (уточним в чате)</option>
-                        </select>
-                    </div>
-
-                    <div class="form-row">
-                        <label for="email-uk">Email для уведомлений</label>
-                        <input type="email" id="email-uk" name="email" placeholder="your@email.com" required autocomplete="email">
-                    </div>
-
-                    <button type="submit" class="btn btn-primary btn-block btn-lg">
-                        Оплатить и получить SMS
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                    </button>
-
-                    <p class="form-note">
-                        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                        Безопасная оплата картой и СБП. SMS придёт в течение 30 секунд или вернём деньги.
-                    </p>
-                </form>
-            </div>
-
-            <div style="margin-top: 48px;">
-                <div class="trust-strip">
-                    <div class="trust-item green">
-                        <div class="trust-ico"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
-                        <div class="trust-text">
-                            <strong>Гарантия SMS</strong>
-                            <span>Возврат, если код не пришёл</span>
-                        </div>
-                    </div>
-                    <div class="trust-item">
-                        <div class="trust-ico"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-                        <div class="trust-text">
-                            <strong>30 секунд</strong>
-                            <span>Среднее время доставки</span>
-                        </div>
-                    </div>
-                    <div class="trust-item amber">
-                        <div class="trust-ico"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-                        <div class="trust-text">
-                            <strong>Безопасность</strong>
-                            <span>Никто не получит ваш SMS</span>
-                        </div>
-                    </div>
-                    <div class="trust-item">
-                        <div class="trust-ico"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/></svg></div>
-                        <div class="trust-text">
-                            <strong>Поддержка 24/7</strong>
-                            <span>Telegram-бот и оператор</span>
-                        </div>
+                    <div class="builder-pay">
+                        <span class="builder-pay-label">Безопасная оплата:</span>
+                        <span class="pay-badge">VISA</span>
+                        <span class="pay-badge">MasterCard</span>
+                        <span class="pay-badge">МИР</span>
+                        <span class="pay-badge">СБП</span>
                     </div>
                 </div>
             </div>
 
-            <div style="margin-top: 56px;">
-                <div class="section-head" style="margin-bottom: 32px; text-align:left;">
+            <div class="trust-strip" style="margin-top: 56px;">
+                <div class="trust-item green">
+                    <div class="trust-ico"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="trust-text">
+                        <strong>Гарантия SMS</strong>
+                        <span>Если не придёт — вернём деньги</span>
+                    </div>
+                </div>
+                <div class="trust-item amber">
+                    <div class="trust-ico"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+                    <div class="trust-text">
+                        <strong>30 секунд</strong>
+                        <span>Среднее время получения SMS</span>
+                    </div>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-ico"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+                    <div class="trust-text">
+                        <strong>Безопасно</strong>
+                        <span>Номер только ваш</span>
+                    </div>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-ico"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+                    <div class="trust-text">
+                        <strong>Поддержка</strong>
+                        <span>Ответим за 5 минут в Telegram</span>
+                    </div>
+                </div>
+            </div>
+
+            <section class="rent-howto">
+                <div class="section-head" style="text-align:left; margin-bottom: 32px;">
+                    <h2 style="font-size: 28px;">Как это работает</h2>
+                    <p style="margin-top: 8px;">Три шага от выбора до получения SMS — без переписки и подтверждений.</p>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+                        <h3>Выберите сервис и страну</h3>
+                        <p>Цена и доступность обновятся прямо здесь. Никакого личного кабинета — всё на одном экране.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div>
+                        <h3>Оплатите</h3>
+                        <p>Картой, СБП или Apple/Google Pay. Сумма списывается только после успешного резерва номера.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+                        <h3>Получите SMS на этой странице</h3>
+                        <p>Введите номер в нужный сервис, код прилетит к вам на email и в личный кабинет SimOn.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="rent-faq">
+                <div class="section-head" style="text-align:left; margin-bottom: 32px;">
                     <h2 style="font-size: 28px;">Частые вопросы</h2>
                 </div>
                 <div class="faq-list" style="margin: 0;">
                     <div class="faq-item">
-                        <button class="faq-q" type="button">Как быстро придёт SMS? <span class="plus"></span></button>
-                        <div class="faq-a"><p>Обычно за 10–30 секунд после того, как вы запросили код в сервисе. Если SMS не пришло за 5 минут — возвращаем деньги автоматически на баланс или карту.</p></div>
+                        <button class="faq-q" type="button">Что если SMS не придёт? <span class="plus"></span></button>
+                        <div class="faq-a"><p>Предоставим новый номер или вернём деньги — на ваш выбор. Решение приходит автоматически в течение 5 минут.</p></div>
                     </div>
                     <div class="faq-item">
-                        <button class="faq-q" type="button">Можно ли использовать номер повторно? <span class="plus"></span></button>
-                        <div class="faq-a"><p>Аренда работает на одно SMS — это сделано для вашей же безопасности, чтобы никто не смог восстановить аккаунт через тот же номер. Для постоянного использования возьмите eSIM.</p></div>
+                        <button class="faq-q" type="button">Сколько ждать SMS? <span class="plus"></span></button>
+                        <div class="faq-a"><p>10–60 секунд после того, как вы запросите код в сервисе. Большинство SMS приходят в первые 30 секунд.</p></div>
                     </div>
                     <div class="faq-item">
-                        <button class="faq-q" type="button">Какие сервисы поддерживаются? <span class="plus"></span></button>
-                        <div class="faq-a"><p>Telegram, WhatsApp, Facebook, Instagram, Twitter/X, Google, Apple ID, TikTok, Discord — основные. Полный список в выпадающем меню «Другой сервис».</p></div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-q" type="button">А для банков и Wise подойдёт? <span class="plus"></span></button>
-                        <div class="faq-a"><p>Нет — банкам и биржам нужен закреплённый за вами номер. Возьмите <a href="esim-registration.html" style="color: var(--primary);">eSIM для регистрации</a> от 1800 руб — этот номер останется только за вами.</p></div>
+                        <button class="faq-q" type="button">Номер одноразовый? <span class="plus"></span></button>
+                        <div class="faq-a"><p>Да, для получения одного SMS-кода. Если нужен постоянный номер, который останется только за вами — берите <a href="esim-registration.html" style="color: var(--primary);">eSIM для регистрации</a>.</p></div>
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
     </main>
 
@@ -359,20 +278,9 @@
     </footer>
 
     <div class="sticky-cta">
-        <a href="#order" class="btn btn-primary" onclick="document.querySelector('.tab-panel.active button[type=submit]').scrollIntoView({behavior:'smooth',block:'center'})">Получить номер</a>
+        <a href="#" class="btn btn-primary" data-rent-sticky>Оплатить 15&nbsp;₽</a>
     </div>
 
     <script src="script.js"></script>
-    <script>
-        // Показ/скрытие селектора при выборе "Другой сервис"
-        document.querySelectorAll('input[name="service"]').forEach(input => {
-            input.addEventListener('change', () => {
-                const country = input.value.startsWith('uk') ? 'uk' : 'us';
-                const wrap = document.getElementById('otherServiceWrap-' + country);
-                if (!wrap) return;
-                wrap.style.display = input.value.endsWith('-other') ? 'block' : 'none';
-            });
-        });
-    </script>
 </body>
 </html>
