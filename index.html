@@ -79,59 +79,55 @@
     </div>
 
     <main>
-        <section class="hero">
-            <div class="container hero-inner">
-                <span class="hero-badge"><span class="dot"></span> 1000+ номеров в наличии прямо сейчас</span>
-                <h1>Виртуальный номер <em>за секунды</em></h1>
-                <p class="lead">Аренда от 10 руб для приёма SMS или eSIM с европейским номером. Без регистрации, с моментальной выдачей и гарантией возврата.</p>
-                <div class="hero-cta">
-                    <a href="rent.html" class="btn btn-primary btn-lg">
-                        Арендовать — от 10 руб
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                    </a>
-                    <a href="esim-finland.html" class="btn btn-outline btn-lg">
-                        Купить eSIM — от 1800 руб
-                    </a>
-                </div>
-                <div class="hero-trust">
-                    <span><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Вернём деньги, если SMS не придёт</span>
-                    <span><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Безопасная оплата картой и СБП</span>
-                    <span><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Поддержка 24/7 в Telegram</span>
-                </div>
-            </div>
-        </section>
-
-        <section id="rent">
-            <div class="container">
-                <div class="section-head">
-                    <span class="eyebrow">Аренда номера</span>
-                    <h2>SMS для регистрации — от 10&nbsp;₽</h2>
-                    <p>Выберите сервис и страну — получите номер за минуту.</p>
-                </div>
-                <div class="rent-picker rent-picker-mini" data-rent-picker data-variant="mini">
-                    <div class="rent-picker-cols">
-                        <div class="rent-picker-col rent-picker-col-svc">
-                            <div class="rent-picker-head">Сервис</div>
-                            <label class="svc-search">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                                <input type="text" placeholder="Найти сервис..." data-svc-search aria-label="Поиск сервиса">
-                            </label>
-                            <div class="svc-list" data-svc-list role="listbox" aria-label="Сервисы"></div>
-                        </div>
-                        <div class="rent-picker-col rent-picker-col-ctry">
-                            <div class="rent-picker-head">Страна</div>
-                            <div class="ctry-list" data-country-list role="listbox" aria-label="Страны"></div>
-                        </div>
+        <section class="hero hero-split" id="rent">
+            <div class="container hero-split-grid">
+                <div class="hero-split-left">
+                    <span class="hero-badge"><span class="dot"></span> 1000+ номеров в наличии</span>
+                    <h1>Виртуальный номер <em>за&nbsp;секунды</em></h1>
+                    <p class="lead">Аренда от 10&nbsp;₽ для SMS или eSIM с европейским номером.</p>
+                    <div class="hero-cta">
+                        <a href="/rent" class="btn btn-primary btn-lg">
+                            Арендовать — от 10&nbsp;₽
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </a>
+                        <a href="/esim-finland" class="btn btn-outline btn-lg">eSIM — от 1800&nbsp;₽</a>
                     </div>
-                    <div class="rent-picker-result">
-                        <div class="rent-picker-combo">
-                            <span class="combo-icon" data-combo-icon aria-hidden="true"></span>
-                            <span class="combo-flag" data-combo-flag aria-hidden="true">🇺🇸</span>
-                            <span class="combo-name" data-combo-name>Telegram • США</span>
+                    <div class="hero-trust hero-trust-inline">
+                        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg> Гарантия SMS</span>
+                        <span class="hero-trust-sep" aria-hidden="true">·</span>
+                        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg> Возврат денег</span>
+                        <span class="hero-trust-sep" aria-hidden="true">·</span>
+                        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg> Поддержка 24/7</span>
+                    </div>
+                </div>
+                <div class="hero-split-right">
+                    <div class="rent-picker rent-picker-mini hero-rent-picker" data-rent-picker data-variant="mini">
+                        <div class="rent-picker-card-head">
+                            <h3>SMS для регистрации</h3>
+                            <span class="rent-picker-card-badge">от 10&nbsp;₽</span>
                         </div>
-                        <div class="rent-picker-price" data-rent-price>15&nbsp;₽</div>
-                        <a href="/rent?service=telegram&amp;country=us" class="btn btn-primary btn-lg" data-rent-cta>Получить номер — 15&nbsp;₽</a>
-                        <p class="rent-picker-note">SMS за 10–60 сек · Гарантия возврата</p>
+                        <div class="rent-picker-cols">
+                            <div class="rent-picker-col rent-picker-col-svc">
+                                <label class="svc-search">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                                    <input type="text" placeholder="Найти сервис..." data-svc-search aria-label="Поиск сервиса">
+                                </label>
+                                <div class="svc-list" data-svc-list role="listbox" aria-label="Сервисы"></div>
+                            </div>
+                            <div class="rent-picker-col rent-picker-col-ctry">
+                                <div class="ctry-list" data-country-list role="listbox" aria-label="Страны"></div>
+                            </div>
+                        </div>
+                        <div class="rent-picker-result">
+                            <div class="rent-picker-combo">
+                                <span class="combo-icon" data-combo-icon aria-hidden="true"></span>
+                                <span class="combo-flag" data-combo-flag aria-hidden="true">🇺🇸</span>
+                                <span class="combo-name" data-combo-name>Telegram • США</span>
+                            </div>
+                            <div class="rent-picker-price" data-rent-price>15&nbsp;₽</div>
+                            <a href="/rent?service=telegram&amp;country=us" class="btn btn-primary btn-block btn-lg" data-rent-cta>Получить номер — 15&nbsp;₽</a>
+                            <p class="rent-picker-note">SMS за 10–60 сек</p>
+                        </div>
                     </div>
                 </div>
             </div>
