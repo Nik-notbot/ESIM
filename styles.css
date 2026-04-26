@@ -1449,8 +1449,8 @@ section {
 .rent-mini-combo-flag svg { width: 100%; height: 100%; display: block; }
 .rent-mini-price {
     font-size: 2rem;
-    font-weight: 800;
-    color: #f59e0b;
+    font-weight: 700;
+    color: #f8fafc;
     letter-spacing: -0.02em;
     margin: 6px 0 18px;
     transition: opacity 0.3s ease, transform 0.3s ease;
@@ -1684,8 +1684,8 @@ section {
 }
 .builder-price {
     font-size: 2.5rem;
-    font-weight: 800;
-    color: #f59e0b;
+    font-weight: 700;
+    color: #f8fafc;
     letter-spacing: -0.03em;
     line-height: 1;
     transition: opacity 0.3s ease, transform 0.3s ease;
@@ -1971,7 +1971,7 @@ section {
     margin-left: auto;
     font-size: 14px;
     font-weight: 700;
-    color: #f59e0b;
+    color: #a5b4fc;
     flex-shrink: 0;
     white-space: nowrap;
 }
@@ -2020,8 +2020,8 @@ section {
 .rent-picker-combo .combo-icon svg { width: 18px; height: 18px; display: block; }
 .rent-picker-price {
     font-size: 2rem;
-    font-weight: 800;
-    color: #f59e0b;
+    font-weight: 700;
+    color: #f8fafc;
     letter-spacing: -0.02em;
     margin: 6px 0 16px;
     transition: opacity 0.3s ease, transform 0.3s ease;
@@ -2068,8 +2068,8 @@ section {
 }
 .rent-order-price {
     font-size: 2.5rem;
-    font-weight: 800;
-    color: #f59e0b;
+    font-weight: 700;
+    color: #f8fafc;
     letter-spacing: -0.03em;
     line-height: 1;
     transition: opacity 0.3s ease, transform 0.3s ease;
@@ -2122,41 +2122,41 @@ section {
     position: relative;
     z-index: 1;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.5fr 1fr;
     gap: 56px;
     align-items: center;
     width: 100%;
 }
 
-.hero-split-left { text-align: left; max-width: none; }
-.hero-split-left .hero-badge { margin-bottom: 18px; }
-.hero-split-left h1 {
-    font-size: clamp(34px, 4.6vw, 60px);
+.hero-split-text { text-align: left; max-width: none; }
+.hero-split-text .hero-badge { margin-bottom: 18px; }
+.hero-split-text h1 {
+    font-size: clamp(30px, 3.8vw, 48px);
     font-weight: 800;
-    line-height: 1.04;
+    line-height: 1.05;
     letter-spacing: -0.02em;
     margin: 0 0 16px;
 }
-.hero-split-left h1 em {
+.hero-split-text h1 em {
     font-style: italic;
     background: var(--grad-primary);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
 }
-.hero-split-left .lead {
-    font-size: 18px;
+.hero-split-text .lead {
+    font-size: 17px;
     color: var(--text-muted);
-    max-width: 520px;
+    max-width: 460px;
     margin: 0 0 24px;
     line-height: 1.5;
 }
-.hero-split-left .hero-cta {
+.hero-split-text .hero-cta {
     justify-content: flex-start;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     margin: 0 0 18px;
 }
-.hero-split-left .hero-cta .btn {
+.hero-split-text .hero-cta .btn {
     padding: 14px 20px;
     font-size: 15px;
     min-height: 50px;
@@ -2177,7 +2177,7 @@ section {
 .hero-trust-inline svg { width: 14px; height: 14px; stroke: var(--secondary); }
 .hero-trust-inline .hero-trust-sep { color: #475569; }
 
-.hero-split-right { display: flex; }
+.hero-split-widget { display: flex; }
 
 .hero-rent-picker {
     width: 100%;
@@ -2201,14 +2201,15 @@ section {
     margin: 0;
 }
 .rent-picker-card-badge {
-    background: rgba(245, 158, 11, 0.14);
-    color: #f59e0b;
-    border: 1px solid rgba(245, 158, 11, 0.3);
+    background: #6366f1;
+    color: #ffffff;
+    border: 1px solid rgba(99, 102, 241, 0.5);
     border-radius: 999px;
     padding: 4px 10px;
     font-size: 12px;
     font-weight: 700;
     white-space: nowrap;
+    box-shadow: 0 4px 12px -4px rgba(99, 102, 241, 0.6);
 }
 .hero-rent-picker .rent-picker-cols {
     grid-template-columns: 1.7fr 1fr;
@@ -2231,10 +2232,10 @@ section {
 
 @media (max-width: 1024px) {
     .hero-split-grid {
-        grid-template-columns: 0.9fr 1.1fr;
+        grid-template-columns: 1.4fr 1fr;
         gap: 32px;
     }
-    .hero-split-left h1 { font-size: clamp(30px, 4vw, 48px); }
+    .hero-split-text h1 { font-size: clamp(28px, 3.6vw, 42px); }
     .hero-rent-picker .svc-list { max-height: 300px; }
 }
 
@@ -2247,15 +2248,16 @@ section {
         grid-template-columns: 1fr;
         gap: 24px;
     }
-    .hero-split-left { text-align: center; }
-    .hero-split-left h1 { font-size: 2rem; line-height: 1.1; }
-    .hero-split-left .lead { font-size: 15px; margin: 0 auto 20px; }
-    .hero-split-left .hero-cta {
+    .hero-split-text { order: 1; text-align: center; }
+    .hero-split-widget { order: 2; }
+    .hero-split-text h1 { font-size: 2rem; line-height: 1.1; }
+    .hero-split-text .lead { font-size: 15px; margin: 0 auto 20px; }
+    .hero-split-text .hero-cta {
         flex-direction: column;
         gap: 10px;
         justify-content: stretch;
     }
-    .hero-split-left .hero-cta .btn { width: 100%; justify-content: center; }
+    .hero-split-text .hero-cta .btn { width: 100%; justify-content: center; }
     .hero-trust-inline { justify-content: center; gap: 8px; font-size: 12px; }
     .hero-trust-inline .hero-trust-sep { display: none; }
 
