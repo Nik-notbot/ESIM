@@ -2127,7 +2127,7 @@ section {
     position: relative;
     z-index: 1;
     display: grid;
-    grid-template-columns: 1.55fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 48px;
     align-items: center;
     width: 100%;
@@ -2140,7 +2140,7 @@ section {
     padding: 10px 18px;
 }
 .hero-split-text h1 {
-    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    font-size: clamp(2.8rem, 4.5vw, 4rem);
     font-weight: 800;
     line-height: 1.05;
     letter-spacing: -0.02em;
@@ -2154,45 +2154,66 @@ section {
     color: transparent;
 }
 .hero-split-text .lead {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     color: var(--text-muted);
-    max-width: 540px;
-    margin: 0 0 28px;
-    line-height: 1.6;
+    max-width: 480px;
+    margin: 0 0 24px;
+    line-height: 1.7;
 }
+
+.hero-features {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 24px 0;
+}
+.hero-feature {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    color: #cbd5e1;
+}
+.hero-feature svg {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    color: #22c55e;
+}
+
 .hero-split-text .hero-cta {
     justify-content: flex-start;
     flex-wrap: wrap;
-    gap: 12px;
-    margin: 0 0 22px;
+    gap: 16px;
+    margin: 0;
 }
 .hero-split-text .hero-cta .btn {
     padding: 16px 32px;
-    font-size: 17px;
-    min-height: 52px;
+    font-size: 18px;
+    min-height: 54px;
     white-space: nowrap;
 }
 
-.hero-trust-inline {
+.hero-trust-bar {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 12px;
-    justify-content: flex-start;
-    font-size: 14px;
-    color: var(--text-dim, #94a3b8);
-    margin-top: 4px;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 13px;
+    color: #64748b;
+    text-align: center;
 }
-.hero-trust-inline span { display: inline-flex; align-items: center; gap: 6px; }
-.hero-trust-inline svg { width: 16px; height: 16px; stroke: var(--secondary); }
-.hero-trust-inline .hero-trust-sep { color: #475569; }
+.hero-trust-bar .hero-trust-sep { color: #475569; }
 
 .hero-split-widget { display: flex; min-width: 0; }
 
 .hero-rent-picker {
     width: 100%;
     max-width: none;
-    min-width: 520px;
     margin: 0;
     padding: 32px;
     border-radius: 20px;
@@ -2223,20 +2244,22 @@ section {
     box-shadow: 0 4px 12px -4px rgba(99, 102, 241, 0.6);
 }
 .hero-rent-picker .rent-picker-cols {
-    grid-template-columns: minmax(0, 1.6fr) minmax(240px, 1fr);
+    grid-template-columns: minmax(0, 1.6fr) minmax(170px, 1fr);
     gap: 16px;
 }
 .hero-rent-picker .ctry-row {
     gap: 10px;
 }
 .hero-rent-picker .ctry-row-name {
-    padding-right: 8px;
+    padding-right: 6px;
     white-space: normal;
-    overflow: visible;
+    overflow: hidden;
     text-overflow: clip;
     line-height: 1.2;
+    word-break: break-word;
+    overflow-wrap: anywhere;
 }
-.hero-rent-picker .svc-list { max-height: 420px; }
+.hero-rent-picker .svc-list { max-height: 380px; }
 
 .hero-rent-picker .svc-search input {
     height: 44px;
@@ -2285,24 +2308,23 @@ section {
         padding-right: 20px;
     }
     .hero-split-grid {
-        grid-template-columns: 1.5fr 1fr;
+        grid-template-columns: 1fr 1fr;
         gap: 32px;
     }
     .hero-split-text h1 { font-size: clamp(2rem, 4vw, 2.75rem); }
     .hero-split-text .lead { font-size: 1.05rem; }
+    .hero-feature { font-size: 14px; }
     .hero-split-text .hero-cta .btn {
         padding: 14px 22px;
-        font-size: 15px;
-        min-height: 48px;
+        font-size: 16px;
+        min-height: 50px;
     }
     .hero-rent-picker {
-        min-width: 0;
         padding: 24px;
         border-radius: 16px;
     }
-    .hero-rent-picker .svc-list { max-height: 360px; }
-    .hero-rent-picker .svc-row-name,
-    .hero-rent-picker .ctry-row-name { font-size: 15px; }
+    .hero-rent-picker .svc-list { max-height: 340px; }
+    .hero-rent-picker .svc-row-name { font-size: 15px; }
     .hero-rent-picker .svc-row-price { font-size: 16px; }
 }
 
@@ -2321,12 +2343,22 @@ section {
     }
     .hero-split-text { order: 1; text-align: center; }
     .hero-split-widget { order: 2; }
-    .hero-split-text h1 { font-size: 2rem; line-height: 1.15; }
+    .hero-split-text h1 { font-size: 2.2rem; line-height: 1.15; }
     .hero-split-text .lead {
         font-size: 15px;
-        margin: 0 auto 22px;
+        margin: 0 auto 18px;
         max-width: 100%;
     }
+    .hero-features {
+        gap: 8px;
+        margin: 18px 0;
+        align-items: flex-start;
+        text-align: left;
+        max-width: 360px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .hero-feature { font-size: 14px; }
     .hero-split-text .hero-cta {
         flex-direction: column;
         gap: 10px;
@@ -2339,11 +2371,15 @@ section {
         padding: 14px 20px;
         justify-content: center;
     }
-    .hero-trust-inline { justify-content: center; gap: 8px; font-size: 13px; }
-    .hero-trust-inline .hero-trust-sep { display: none; }
+    .hero-trust-bar {
+        gap: 8px;
+        font-size: 12px;
+        margin-top: 24px;
+        padding-top: 18px;
+    }
+    .hero-trust-bar .hero-trust-sep { display: none; }
 
     .hero-rent-picker {
-        min-width: 0;
         padding: 18px;
         border-radius: 14px;
     }
