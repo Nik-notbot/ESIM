@@ -77,78 +77,44 @@
             <div class="rent-hero">
                 <span class="eyebrow-pill">Аренда номера</span>
                 <h1>Аренда номера для&nbsp;SMS</h1>
-                <p>Выберите сервис и страну — получите код за минуту.</p>
+                <p>15 сервисов, 2 страны, моментальная выдача.</p>
             </div>
 
-            <div class="rent-builder" data-rent-builder>
-                <div class="builder-row">
-                    <div class="builder-label"><span class="builder-step">1</span> Выберите сервис</div>
-                    <div class="service-chips">
-                        <button type="button" class="service-chip active" data-service="telegram">
-                            <span class="service-chip-ico tg">
-                                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.04 14.68 8.7 19.4c.5 0 .72-.21.98-.47l2.36-2.25 4.88 3.57c.9.5 1.55.24 1.78-.83l3.22-15.1c.32-1.39-.5-1.93-1.38-1.6L1.27 9.46c-1.34.52-1.32 1.27-.23 1.6l4.95 1.55 11.5-7.25c.54-.36 1.03-.16.63.2"/></svg>
-                            </span>
-                            <span class="service-chip-name">Telegram</span>
-                            <span class="service-chip-hint">Регистрация и второй аккаунт</span>
-                        </button>
-                        <button type="button" class="service-chip" data-service="whatsapp">
-                            <span class="service-chip-ico wa">
-                                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12.05 21.785h-.004a9.87 9.87 0 0 1-5.031-1.378l-.36-.214-3.741.982 1-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
-                            </span>
-                            <span class="service-chip-name">WhatsApp</span>
-                            <span class="service-chip-hint">Подтверждение нового аккаунта</span>
-                        </button>
-                        <button type="button" class="service-chip" data-service="facebook">
-                            <span class="service-chip-ico fb">
-                                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
-                            </span>
-                            <span class="service-chip-name">Facebook</span>
-                            <span class="service-chip-hint">Регистрация и подтверждение</span>
-                        </button>
+            <div class="rent-picker rent-picker-full" data-rent-picker data-variant="full">
+                <div class="rent-picker-cols">
+                    <div class="rent-picker-col rent-picker-col-svc">
+                        <div class="rent-picker-head">Выберите сервис</div>
+                        <label class="svc-search">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            <input type="text" placeholder="Найти сервис..." data-svc-search aria-label="Поиск сервиса">
+                        </label>
+                        <div class="svc-list" data-svc-list role="listbox" aria-label="Сервисы"></div>
+                    </div>
+                    <div class="rent-picker-col rent-picker-col-ctry">
+                        <div class="rent-picker-head">Выберите страну</div>
+                        <div class="ctry-list" data-country-list role="listbox" aria-label="Страны"></div>
                     </div>
                 </div>
 
-                <div class="builder-row">
-                    <div class="builder-label"><span class="builder-step">2</span> Выберите страну</div>
-                    <div class="country-chips">
-                        <button type="button" class="country-chip active" data-country="us">
-                            <span class="country-chip-flag">
-                                <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="60" fill="#B22234"/><g fill="#fff"><rect y="5" width="60" height="4"/><rect y="14" width="60" height="4"/><rect y="23" width="60" height="4"/><rect y="32" width="60" height="4"/><rect y="41" width="60" height="4"/><rect y="50" width="60" height="4"/></g><rect width="26" height="32" fill="#3C3B6E"/></svg>
-                            </span>
-                            США <span class="country-chip-code">+1</span>
-                        </button>
-                        <button type="button" class="country-chip" data-country="uk">
-                            <span class="country-chip-flag">
-                                <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="60" fill="#012169"/><path d="M0,0 L60,60 M60,0 L0,60" stroke="#fff" stroke-width="12"/><path d="M30,0 v60 M0,30 h60" stroke="#fff" stroke-width="20"/><path d="M30,0 v60 M0,30 h60" stroke="#C8102E" stroke-width="12"/></svg>
-                            </span>
-                            Великобритания <span class="country-chip-code">+44</span>
-                        </button>
+                <div class="rent-order">
+                    <div class="rent-order-head">
+                        <span class="rent-order-icon" data-combo-icon aria-hidden="true">✈️</span>
+                        <span class="rent-order-flag" data-combo-flag aria-hidden="true">🇺🇸</span>
+                        <span class="rent-order-name" data-combo-name>Telegram • США</span>
                     </div>
-                </div>
-
-                <div class="builder-result">
-                    <div class="builder-combo">
-                        <span class="builder-combo-icon" data-builder-service-icon aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.04 14.68 8.7 19.4c.5 0 .72-.21.98-.47l2.36-2.25 4.88 3.57c.9.5 1.55.24 1.78-.83l3.22-15.1c.32-1.39-.5-1.93-1.38-1.6L1.27 9.46c-1.34.52-1.32 1.27-.23 1.6l4.95 1.55 11.5-7.25c.54-.36 1.03-.16.63.2"/></svg>
-                        </span>
-                        <span class="builder-combo-flag" data-builder-flag aria-hidden="true"></span>
-                        <span class="builder-combo-name" data-builder-combo-name>Telegram • США</span>
+                    <div class="rent-order-price-line">
+                        <span class="rent-order-price" data-rent-price>15&nbsp;₽</span>
+                        <span class="rent-order-meta">за один SMS-код</span>
                     </div>
-                    <div class="builder-price-line">
-                        <span class="builder-price" data-builder-price>15&nbsp;₽</span>
-                        <span class="builder-price-meta">за&nbsp;один SMS-код</span>
-                    </div>
-
-                    <form class="builder-form" data-rent-builder-form novalidate>
+                    <form class="builder-form" data-rent-form novalidate>
                         <label class="builder-input">
                             <span class="builder-input-ico">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                             </span>
                             <input type="email" name="email" autocomplete="email" placeholder="Ваш email для получения кода" required>
                         </label>
-                        <button type="submit" class="btn btn-primary btn-block btn-lg" data-builder-cta>Оплатить 15&nbsp;₽</button>
+                        <button type="submit" class="btn btn-primary btn-block btn-lg" data-rent-cta>Оплатить 15&nbsp;₽</button>
                     </form>
-
                     <div class="builder-pay">
                         <span class="builder-pay-label">Безопасная оплата:</span>
                         <span class="pay-badge">VISA</span>
@@ -276,10 +242,6 @@
             </div>
         </div>
     </footer>
-
-    <div class="sticky-cta">
-        <a href="#" class="btn btn-primary" data-rent-sticky>Оплатить 15&nbsp;₽</a>
-    </div>
 
     <script src="script.js"></script>
 </body>

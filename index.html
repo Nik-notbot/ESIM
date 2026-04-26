@@ -132,50 +132,34 @@
             <div class="container">
                 <div class="section-head">
                     <span class="eyebrow">Аренда номера</span>
-                    <h2>SMS для регистрации — от 10 руб.</h2>
-                    <p>Выберите сервис и страну — цена обновится мгновенно.</p>
+                    <h2>SMS для регистрации — от 10&nbsp;₽</h2>
+                    <p>Выберите сервис и страну — получите номер за минуту.</p>
                 </div>
-                <div class="rent-mini" data-rent-mini>
-                    <div class="rent-mini-row">
-                        <span class="rent-mini-label">Сервис</span>
-                        <div class="chip-row">
-                            <button type="button" class="chip active" data-service="telegram">Telegram</button>
-                            <button type="button" class="chip" data-service="whatsapp">WhatsApp</button>
-                            <button type="button" class="chip" data-service="facebook">Facebook</button>
+                <div class="rent-picker rent-picker-mini" data-rent-picker data-variant="mini">
+                    <div class="rent-picker-cols">
+                        <div class="rent-picker-col rent-picker-col-svc">
+                            <div class="rent-picker-head">Сервис</div>
+                            <label class="svc-search">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                                <input type="text" placeholder="Найти сервис..." data-svc-search aria-label="Поиск сервиса">
+                            </label>
+                            <div class="svc-list" data-svc-list role="listbox" aria-label="Сервисы"></div>
+                        </div>
+                        <div class="rent-picker-col rent-picker-col-ctry">
+                            <div class="rent-picker-head">Страна</div>
+                            <div class="ctry-list" data-country-list role="listbox" aria-label="Страны"></div>
                         </div>
                     </div>
-                    <div class="rent-mini-row">
-                        <span class="rent-mini-label">Страна</span>
-                        <div class="chip-row">
-                            <button type="button" class="chip active" data-country="us">
-                                <span class="chip-flag"><svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="60" fill="#B22234"/><g fill="#fff"><rect y="5" width="60" height="4"/><rect y="14" width="60" height="4"/><rect y="23" width="60" height="4"/><rect y="32" width="60" height="4"/><rect y="41" width="60" height="4"/><rect y="50" width="60" height="4"/></g><rect width="26" height="32" fill="#3C3B6E"/></svg></span>
-                                США
-                            </button>
-                            <button type="button" class="chip" data-country="uk">
-                                <span class="chip-flag"><svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="60" fill="#012169"/><path d="M0,0 L60,60 M60,0 L0,60" stroke="#fff" stroke-width="12"/><path d="M30,0 v60 M0,30 h60" stroke="#fff" stroke-width="20"/><path d="M30,0 v60 M0,30 h60" stroke="#C8102E" stroke-width="12"/></svg></span>
-                                Великобритания
-                            </button>
+                    <div class="rent-picker-result">
+                        <div class="rent-picker-combo">
+                            <span class="combo-icon" data-combo-icon aria-hidden="true">✈️</span>
+                            <span class="combo-flag" data-combo-flag aria-hidden="true">🇺🇸</span>
+                            <span class="combo-name" data-combo-name>Telegram • США</span>
                         </div>
+                        <div class="rent-picker-price" data-rent-price>15&nbsp;₽</div>
+                        <a href="rent.html?service=telegram&amp;country=us" class="btn btn-primary btn-lg" data-rent-cta>Получить номер — 15&nbsp;₽</a>
+                        <p class="rent-picker-note">SMS за 10–60 сек · Гарантия возврата</p>
                     </div>
-                    <div class="rent-mini-result">
-                        <div class="rent-mini-combo" data-rent-combo>
-                            <span class="rent-mini-combo-icon" data-rent-service-icon aria-hidden="true">
-                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.04 14.68 8.7 19.4c.5 0 .72-.21.98-.47l2.36-2.25 4.88 3.57c.9.5 1.55.24 1.78-.83l3.22-15.1c.32-1.39-.5-1.93-1.38-1.6L1.27 9.46c-1.34.52-1.32 1.27-.23 1.6l4.95 1.55 11.5-7.25c.54-.36 1.03-.16.63.2"/></svg>
-                            </span>
-                            <span class="rent-mini-combo-flag" data-rent-flag aria-hidden="true"></span>
-                            <span class="rent-mini-combo-name" data-rent-combo-name>Telegram • США</span>
-                        </div>
-                        <div class="rent-mini-price" data-rent-price>15 ₽</div>
-                        <a href="rent.html?service=telegram&amp;country=us" class="btn btn-primary btn-lg" data-rent-cta>Получить номер — 15 ₽</a>
-                        <p class="rent-mini-note">SMS придёт через 10–60 сек</p>
-                    </div>
-                </div>
-                <div class="rent-trust-line">
-                    <span><span class="trust-dot ok">✓</span> Гарантия получения SMS</span>
-                    <span class="rent-trust-sep">•</span>
-                    <span><span class="trust-dot bolt">⚡</span> Моментальная выдача</span>
-                    <span class="rent-trust-sep">•</span>
-                    <span><span class="trust-dot chat">💬</span> Поддержка 24/7</span>
                 </div>
             </div>
         </section>
