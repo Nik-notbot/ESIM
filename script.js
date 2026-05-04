@@ -432,7 +432,7 @@
 
             if (ctaEl) {
                 if (ctaEl.tagName === 'A') {
-                    ctaEl.setAttribute('href', '/rent?service=' + state.service + '&country=' + state.country);
+                    ctaEl.setAttribute('href', 'rent.html?service=' + state.service + '&country=' + state.country);
                     ctaEl.textContent = 'Получить номер — ' + fmtPrice(price);
                 } else {
                     ctaEl.textContent = 'Оплатить ' + fmtPrice(price);
